@@ -1,0 +1,36 @@
+# NASA MOLA terrain data
+data/
+*.tif
+*.tiff
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Development backups
+backup_*/
+release_backups/
+*_backup.py
+*-backup.js
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+.pytest_cache/
+
+# Local configuration and secrets
+*.pem
+*.key
+
+# Historical development backups
+backups/

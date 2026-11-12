@@ -1,0 +1,16 @@
+/* Public-facing ARES polish: additive, no functional element hidden. */
+.ares-orbital-intro{min-height:190px!important;gap:20px!important}
+.ares-orbital-intro>div{position:relative;z-index:1;max-width:70%}
+.ares-public-mars{width:clamp(128px,14vw,190px);height:clamp(128px,14vw,190px);object-fit:contain;flex-shrink:0;margin-right:5%;filter:drop-shadow(0 0 26px rgba(241,105,60,.20));animation:ares-mars-arrive 1s ease-out both}
+@keyframes ares-mars-arrive{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.ares-public-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:6px 0 2px}
+.ares-public-guide article{padding:15px 17px;border:1px solid rgba(118,173,218,.16);border-radius:12px;background:rgba(7,20,36,.62)}
+.ares-public-guide h4{font-size:13px;line-height:1.4;font-weight:750;color:#b6e7ff;margin:0 0 8px;letter-spacing:.01em}
+.ares-public-guide p{font-size:12px!important;line-height:1.75!important;color:#b7cce0!important;margin:0!important;max-width:75ch}
+.ares-orbital .ares-cosmic-disclosure summary{font-weight:700!important;letter-spacing:.01em}
+.ares-public-comparison{margin:22px 0!important;border:1px solid rgba(123,198,230,.27)!important;border-radius:16px!important;background:linear-gradient(135deg,#11283f,#0c192b)!important}
+.ares-public-comparison>div:first-child{color:#a4e3ff!important;letter-spacing:.1em!important}
+.ares-orbital[data-orbital-view="mission"] #ares-phase5,.ares-orbital[data-orbital-view="science"] #ares-phase5{display:none!important}
+@media(max-width:850px){.ares-public-guide{grid-template-columns:1fr}.ares-orbital-intro>div{max-width:76%}.ares-public-mars{margin-right:0}}
+@media(max-width:560px){.ares-orbital-intro{min-height:170px!important}.ares-orbital-intro>div{max-width:75%}.ares-public-mars{width:92px;height:92px}.ares-orbital-intro h1{font-size:25px!important}}
+@media(prefers-reduced-motion:reduce){.ares-public-mars{animation:none}}

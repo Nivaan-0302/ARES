@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARES | Mars Mission Control</title>
+    <link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="ares_3d.css">
+    <link rel="stylesheet" href="mission_control.css">
+    <link rel="stylesheet" href="cosmic.css">
+    <link rel="stylesheet" href="orbital_workspace.css">
+    <link rel="stylesheet" href="public_polish.css">
+    <link rel="stylesheet" href="mission_brief.css">
+    <link rel="stylesheet" href="supreme_navigation.css">
+</head>
+<body>
+
+    <div class="dashboard">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <h1>ARES</h1>
+            <p>MISSION CONTROL</p>
+
+            <nav>
+                <a href="#overview">Mission Overview</a>
+                <a href="#terrain">Terrain Explorer</a>
+                <a href="#navigation">Route Planning</a>
+                <a href="#science">Scientific Data</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                ARES | MISSION CONTROL
+            </div>
+        </aside>
+
+        <!-- MAIN DASHBOARD -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <h2>MARS MISSION CONTROL</h2>
+                    <p>Autonomous Reconnaissance and Exploration System</p>
+                </div>
+                <span class="status">INTERFACE READY</span>
+            </header>
+
+            <div class="ares-mission-kicker"><span class="ares-kicker-dot"></span> MISSION OPERATIONS <span class="ares-kicker-line"></span> SOL 001 / MARS</div>
+            <section id="overview" class="mission-overview">
+                <h2>Mission telemetry <span class="ares-heading-note">LIVE SYSTEM READOUT</span></h2>
+
+<div class="stats">
+                    <div class="stat-card">
+                        <h3>01 / TARGET BODY</h3>
+                        <p>MARS</p>
+                    </div>
+
+                    
+<div class="stat-card">
+    <h3>02 / TERRAIN INTELLIGENCE</h3>
+    <p id="terrain-status">AWAITING LOCATION</p>
+<div id="terrain-details" hidden>
+    <p id="terrain-elevation"></p>
+    <p id="terrain-slope"></p>
+    <p id="terrain-hazard"></p>
+</div>
+
+</div>
+
+
+                    
+<div class="stat-card">
+    <h3>03 / ROUTE TELEMETRY</h3>
+
+    <p id="route-status">AWAITING MISSION</p>
+
+    <div id="route-details" hidden>
+        <p id="route-distance"></p>
+        <p id="route-efficiency"></p>
+        <p id="route-risk"></p>
+        <p id="route-waypoints"></p><p id="route-hazards"></p>
+    </div>
+</div>
+
+                </div>
+            </section>
+
+
+                <div class="ares-workspace-label"><span>MISSION CONFIGURATION</span><span>01 — COORDINATES</span></div>
+                <form id="coordinate-form" class="ares-coordinate-form" novalidate>
+                    <div class="ares-coordinate-heading"><strong>PRECISE COORDINATE NAVIGATION</strong><span>Latitude −90° to 90° · Longitude −180° to 180° · East-positive</span></div>
+                    <div class="ares-coordinate-fields">
+                        <label>Start latitude <input id="start-lat" type="number" step="any" min="-90" max="90" placeholder="Enter start latitude" required></label>
+                        <label>Start longitude <input id="start-lon" type="number" step="any" min="-180" max="180" placeholder="Enter start longitude" required></label>
+                        <label>End latitude <input id="end-lat" type="number" step="any" min="-90" max="90" placeholder="Enter destination latitude" required></label>
+                        <label>End longitude <input id="end-lon" type="number" step="any" min="-180" max="180" placeholder="Enter destination longitude" required></label>
+                    </div>
+                    <div class="ares-coordinate-actions"><button type="submit">Plot coordinates &amp; calculate route</button><span id="coordinate-feedback" role="status" aria-live="polite">Use Select Start / Select Destination on either map, or enter coordinates manually.</span></div>
+                </form>
+
+            <section id="terrain" class="terrain-section">
+                <h2>Planetary navigation <span class="ares-heading-note">MARS / ORBITAL VIEW</span></h2>
+
+                <div class="globe-toolbar">
+    <div><strong>PLANET-WIDE EXPLORATION</strong><span> MOLA elevation-coloured globe · coarse global A*</span></div>
+    <div class="globe-actions"><button type="button" id="hazard-focus" disabled>Focus on hazards</button><button type="button" id="hazard-toggle">Hide hazards</button><button type="button" id="globe-reset">New mission</button><button type="button" id="view-toggle">Switch to 2D map</button></div>
+</div>
+<div class="ares-selection-toolbar" role="group" aria-label="Mars navigation selection mode">
+    <strong>NAVIGATION MODE</strong>
+    <div class="ares-selection-buttons">
+        <button type="button" data-ares-mode="explore" aria-pressed="true">Explore</button>
+        <button type="button" data-ares-mode="start" aria-pressed="false">Select Start</button>
+        <button type="button" data-ares-mode="destination" aria-pressed="false">Select Destination</button>
+    </div>
+    <span id="ares-selection-feedback" role="status" aria-live="polite">Explore mode: map clicks cannot change mission coordinates.</span>
+</div>
+<div id="globe-message" role="status">Loading Mars globe…</div>
+<div class="terrain-viewer">
+    <div class="ares-viewport-label" aria-hidden="true"><span class="ares-viewport-pulse"></span> LIVE PLANETARY VIEWPORT <span class="ares-viewport-right">MARS · MOLA</span></div>
+    <div id="mars-globe"></div>
+    <div id="mars-map" hidden></div>
+</div>
+<div class="ares-region-panel"><strong>3D REGIONAL HAZARD ANALYSIS</strong><p id="region-status">Select a location to analyze a 0.5° MOLA region.</p><p id="region-counts"></p><div class="ares-legend"><span>🟢 Low (≤5°)</span><span>🟡 Moderate (5–15°)</span><span>🟠 High (15–25°)</span><span>🔴 Extreme (>25°)</span></div></div>
+<p class="globe-disclaimer">Choose Select Start or Select Destination to place mission coordinates and analyze MOLA terrain. Explore mode prevents accidental changes. Routes inside the analyzed region use regional A*; distant routes use global coarse A*. MOLA is not rover-scale obstacle data.</p>
+            </section>
+
+            <section id="navigation" class="navigation-section">
+                <h2>Navigation intelligence <span class="ares-heading-note">A* ROUTE ENGINE</span></h2>
+                <div class="ares-intelligence-readouts" aria-live="polite"><div><small>ROUTE LENGTH</small><strong id="ares-live-distance">AWAITING ROUTE</strong></div><div><small>EFFICIENCY</small><strong id="ares-live-efficiency">—</strong></div><div><small>RISK SCORE</small><strong id="ares-live-risk">—</strong></div><div><small>WAYPOINTS</small><strong id="ares-live-waypoints">—</strong></div></div>
+                <section id="ares-mission-brief" aria-live="polite" aria-label="Mission decision brief">
+                    <div class="brief-kicker">ARES / Mission Decision Brief</div>
+                    <h3 id="ares-brief-headline">Awaiting route analysis</h3>
+                    <p id="ares-brief-summary">Select mission coordinates to generate an evidence-based decision brief.</p>
+                    <div class="brief-grid">
+                        <div class="brief-stat"><small>Analysis scale</small><strong id="ares-brief-scope">No route calculated</strong></div>
+                        <div class="brief-stat"><small>High / extreme exposure</small><strong id="ares-brief-exposure">—</strong></div>
+                        <div class="brief-stat" style="grid-column:1/-1"><small>Distance context</small><strong id="ares-brief-distance">—</strong></div>
+                    </div>
+                    <details><summary>How to interpret this mission brief</summary><p id="ares-brief-guidance">Choose a starting point and destination in Planetary Explorer, then calculate a route.</p><p class="brief-note">This brief interprets existing ARES calculations using deterministic rules. It does not introduce new terrain observations or certify rover safety.</p></details>
+                </section>
+                <div class="ares-risk-panel" id="ares-risk-panel" aria-live="polite">
+                    <div class="ares-risk-heading"><strong>ROUTE TERRAIN EXPOSURE</strong><span id="ares-risk-scope">AWAITING ROUTE</span></div>
+                    <p id="ares-risk-empty">Calculate a mission route to inspect its MOLA-derived hazard breakdown.</p>
+                    <div id="ares-risk-content" hidden>
+                        <div class="ares-risk-bar" id="ares-risk-bar" role="img" aria-label="Route hazard distribution"></div>
+                        <div class="ares-risk-legend" id="ares-risk-legend"></div>
+                        <div class="ares-risk-comparison">
+                            <div><small>DIRECT GREAT-CIRCLE DISTANCE</small><strong id="ares-risk-direct">—</strong></div>
+                            <div><small>TERRAIN-AWARE ROUTE DISTANCE</small><strong id="ares-risk-route">—</strong></div>
+                            <div><small>ADDITIONAL DISTANCE</small><strong id="ares-risk-extra">—</strong></div>
+                        </div>
+                        <p id="ares-risk-explanation"></p>
+                        <p class="ares-risk-caveat">Hazard counts are classified route samples/waypoints, not percentages of surface area or a continuous rover-scale safety survey. The great-circle line is a geometric reference, not a validated alternative route.</p>
+                    </div>
+                </div>
+                <p>Select Start and Select Destination on either map, or enter exact coordinates. Nearby destinations within the selected 64 × 64 MOLA region use the original regional terrain-weighted A* algorithm; farther destinations use the global coarse-grid A* algorithm. Both appear directly on the globe.</p>
+            </section>
+
+            <section class="science-section" id="scientific-report" hidden>
+                <h2>Route Scientific Report</h2>
+                <p id="report-scope"></p>
+                <p id="report-route-metrics"></p>
+                <p id="report-hazard-scope"></p>
+                <p id="report-elevation"></p>
+                <p id="report-slope"></p>
+                <svg id="elevation-chart" viewBox="0 0 100 48" preserveAspectRatio="none" role="img" aria-label="Sampled MOLA elevation profile" style="display:block;width:100%;height:160px;background:#101d2b;border-radius:12px"></svg>
+                <p id="report-limits"></p>
+                <p class="globe-disclaimer">Scientific estimates at DEM scale; not a certified traverse or collision-free path.</p>
+            </section>
+
+            <section id="science" class="science-section">
+                <h2>Terrain intelligence <span class="ares-heading-note">MOLA SCIENTIFIC DATA</span></h2>
+                <div class="ares-science-readouts" aria-live="polite"><div><small>ANALYSIS STATUS</small><strong id="ares-live-terrain">AWAITING LOCATION</strong></div><div><small>ELEVATION</small><strong id="ares-live-elevation">—</strong></div><div><small>SLOPE</small><strong id="ares-live-slope">—</strong></div><div><small>HAZARD CLASS</small><strong id="ares-live-hazard">—</strong></div></div>
+                <p>NASA Mars Orbiter Laser Altimeter (MOLA) elevation data integrated. ARES analyses regional elevation, estimates terrain slopes, classifies four hazard levels, and uses terrain-weighted A* pathfinding for regional route planning. Source DEM resolution: approximately 460 metres per pixel near the equator.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="mission_state.js"></script>
+<script defer src="mission_control.js"></script>
+<script defer src="phase4_intelligence.js"></script>
+<script defer src="phase5_comparison.js"></script>
+<script src="script.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}
+</script>
+<script type="module" src="globe.js"></script>
+<script>
+  document.getElementById('view-toggle').addEventListener('click', function () {
+    const globe = document.getElementById('mars-globe');
+    const map = document.getElementById('mars-map');
+    const showMap = map.hidden;
+    map.hidden = !showMap;
+    globe.hidden = showMap;
+    this.textContent = showMap ? 'Switch to 3D globe' : 'Switch to 2D map';
+    if (showMap && typeof marsMap !== 'undefined') setTimeout(() => { marsMap.invalidateSize(); if (window.ARESMission) { const s = window.ARESMission.get(); if (s.start && s.end) { const a=s.start, b=s.end; marsMap.fitBounds([[Math.min(a.lat,b.lat),Math.min(a.lon,b.lon)],[Math.max(a.lat,b.lat),Math.max(a.lon,b.lon)]], {padding:[32,32],maxZoom:6}); } else if(s.start) marsMap.setView([s.start.lat,s.start.lon],Math.max(marsMap.getZoom(),3)); } }, 50);
+  });
+</script>
+    <script defer src="cosmic.js"></script>
+    <script defer src="orbital_workspace.js"></script>
+    <script defer src="public_polish.js"></script>
+    <script defer src="mission_brief.js"></script>
+    <script defer src="supreme_navigation.js"></script>
+</body>
+</html>

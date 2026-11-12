@@ -1,0 +1,41 @@
+/* ARES ORBITAL WORKSPACE — additive layout layer */
+body.ares-orbital{--orbital-line:rgba(129,178,223,.17);--orbital-ice:#a5d9f7;--orbital-bg:#071322;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important}
+.ares-orbital .main-content{max-width:1740px!important;padding-top:18px!important}
+.ares-orbital .topbar{padding:14px 0 18px!important;margin-bottom:0!important}
+.ares-orbital .topbar h2{font-size:clamp(19px,2vw,28px)!important;letter-spacing:.01em!important}
+.ares-orbital .topbar p{font-size:11px!important}
+.ares-orbital .sidebar nav a.ares-orbital-active{color:#e7f6ff!important;background:rgba(96,168,224,.15)!important;border-left:2px solid #76d8f5}
+.ares-orbital-intro{position:relative;display:flex;justify-content:space-between;align-items:center;overflow:hidden;min-height:155px;margin:22px 0 20px;padding:28px clamp(22px,4vw,48px);border:1px solid var(--orbital-line);border-radius:20px;background:radial-gradient(ellipse at 80% 40%,rgba(45,105,153,.21),transparent 55%),linear-gradient(110deg,rgba(13,35,60,.93),rgba(7,17,33,.84));box-shadow:0 20px 80px rgba(0,0,0,.15)}
+.ares-orbital-eyebrow{font-size:10px;font-weight:800;letter-spacing:.24em;color:#8bd5ef}
+.ares-orbital-intro h1{font-size:clamp(28px,3.1vw,49px);font-weight:760;letter-spacing:-.045em;line-height:1.13;margin:10px 0 7px;color:#f5faff}
+.ares-orbital-intro p{font-size:13px;color:#a7bfd7;margin:0}
+.ares-orbital-orbit{font-size:150px;line-height:1;color:rgba(132,196,234,.17);font-weight:100;transform:rotate(-25deg);margin-right:5%;user-select:none}
+#ares-orbital-tabs{position:sticky;top:0;z-index:25;display:flex;gap:8px;padding:10px;margin:0 0 20px;background:rgba(5,13,27,.93);backdrop-filter:blur(20px);border:1px solid var(--orbital-line);border-radius:14px;scroll-margin-top:12px}
+#ares-orbital-tabs button{border:1px solid transparent;background:transparent;color:#93abc4;padding:12px 18px;font-weight:700;font-size:12px;border-radius:10px;cursor:pointer}
+#ares-orbital-tabs button[aria-selected="true"]{background:linear-gradient(110deg,#163653,#1b4560);border-color:rgba(115,203,238,.45);color:#e9faff;box-shadow:inset 0 1px rgba(255,255,255,.08)}
+#ares-orbital-tabs button:focus-visible{outline:2px solid #81dafa;outline-offset:2px}
+.ares-orbital-stage{min-width:0}
+.ares-orbital .terrain-section{padding:0!important;margin:0 0 18px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.ares-orbital .terrain-section>h2{font-size:20px!important;margin:6px 0 15px!important}
+.ares-orbital .terrain-viewer{min-height:420px!important;border-radius:18px!important;overflow:hidden}
+.ares-orbital .ares-coordinate-form{margin:18px 0!important;padding:20px!important}
+.ares-orbital .mission-overview{margin:20px 0!important;padding:0!important}
+.ares-orbital .mission-overview>h2{font-size:17px!important}
+.ares-orbital .stats{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+.ares-orbital .stat-card{min-height:0!important;padding:16px!important}
+.ares-orbital .stat-card>p{font-size:18px!important}
+.ares-orbital .stat-card #route-details p,.ares-orbital .stat-card #terrain-details p{font-size:11px!important;line-height:1.6!important;margin:3px 0!important}
+.ares-orbital-section-label{font-size:10px;letter-spacing:.22em;font-weight:800;color:#85bddc;margin-bottom:10px}
+.ares-orbital .navigation-section,.ares-orbital #science,.ares-orbital #scientific-report{margin:0 0 20px!important}
+.ares-orbital .navigation-section>p{max-width:90ch}
+.ares-orbital .ares-region-panel{margin-top:14px!important}
+.ares-orbital .ares-orbital-note{font-size:11px;color:#7592ac;padding:18px 0 30px;border-top:1px solid var(--orbital-line)}
+.ares-orbital[data-orbital-view="mission"] #navigation,.ares-orbital[data-orbital-view="mission"] #science,.ares-orbital[data-orbital-view="mission"] #scientific-report{display:none!important}
+.ares-orbital[data-orbital-view="routes"] #terrain,.ares-orbital[data-orbital-view="routes"] #coordinate-form,.ares-orbital[data-orbital-view="routes"] #overview,.ares-orbital[data-orbital-view="routes"] #science,.ares-orbital[data-orbital-view="routes"] #scientific-report{display:none!important}
+.ares-orbital[data-orbital-view="science"] #terrain,.ares-orbital[data-orbital-view="science"] #coordinate-form,.ares-orbital[data-orbital-view="science"] #overview,.ares-orbital[data-orbital-view="science"] #navigation{display:none!important}
+.ares-orbital[data-orbital-view="science"] #scientific-report:not([hidden]){display:block!important}
+.ares-orbital[data-orbital-view="science"] #science{display:block!important}
+.ares-orbital .sidebar-footer{font-size:10px!important;letter-spacing:.12em!important}
+@media(max-width:900px){.ares-orbital .stats{grid-template-columns:1fr 1fr!important}.ares-orbital-orbit{display:none}.ares-orbital-intro{min-height:125px}.ares-orbital .terrain-viewer{min-height:330px!important}}
+@media(max-width:600px){.ares-orbital .stats{grid-template-columns:1fr!important}#ares-orbital-tabs{gap:3px}#ares-orbital-tabs button{font-size:10px;padding:10px 8px;flex:1}.ares-orbital-intro{padding:22px 18px}.ares-orbital-intro h1{font-size:29px}.ares-orbital .main-content{padding:14px!important}}
+@media(prefers-reduced-motion:reduce){.ares-orbital *{scroll-behavior:auto!important}}

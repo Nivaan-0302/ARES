@@ -1,0 +1,46 @@
+{
+  "prior_corrected": {
+    "repeats": 10,
+    "warmups": 2,
+    "endpoints": {
+      "/api/elevation?lat=0&lon=0": {
+        "median_ms": 10.352629498811439,
+        "minimum_ms": 9.340328000689624,
+        "maximum_ms": 16.31836399974418
+      },
+      "/api/terrain-region?lat=0&lon=0": {
+        "median_ms": 50.92594999769062,
+        "minimum_ms": 47.77773300156696,
+        "maximum_ms": 53.91461199906189
+      },
+      "/api/mission-route?start_lat=0&start_lon=0&end_lat=.1&end_lon=.1": {
+        "median_ms": 157.9519610004354,
+        "minimum_ms": 150.0017830003344,
+        "maximum_ms": 164.6389969973825
+      }
+    },
+    "peak_process_rss_mib_linux": 80.01953125
+  },
+  "sprint": {
+    "repeats": 10,
+    "warmups": 2,
+    "endpoints": {
+      "/api/elevation?lat=0&lon=0": {
+        "median_ms": 8.058909499595757,
+        "minimum_ms": 7.840754999051569,
+        "maximum_ms": 8.332534001965541
+      },
+      "/api/terrain-region?lat=0&lon=0": {
+        "median_ms": 18.86541249950824,
+        "minimum_ms": 18.222318998596165,
+        "maximum_ms": 21.4587680020486
+      },
+      "/api/mission-route?start_lat=0&start_lon=0&end_lat=.1&end_lon=.1": {
+        "median_ms": 39.62757250155846,
+        "minimum_ms": 33.530437998706475,
+        "maximum_ms": 49.13458400187665
+      }
+    },
+    "peak_process_rss_mib_linux": 80.75390625
+  }
+}

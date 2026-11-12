@@ -1,43 +1,27 @@
-
-from terrain_region import analyze_region
+"""Optional real-MOLA integration checks; explicitly skipped without the DEM."""
+from pathlib import Path
+import unittest
 import numpy as np
-
-print("ARES — REGIONAL TERRAIN HAZARD TEST")
-print("-----------------------------------")
-
-# Test a region near the Martian equator
+from dem_data import DEM_PATH
 
 
-result = analyze_region(
-    latitude=-35.7,
-    longitude=-36.3,
-    radius_degrees=0.25
-)
+@unittest.skipUnless(Path(DEM_PATH).is_file(), "NASA MOLA DEM is not supplied; set ARES_DEM_PATH")
+class RealTerrainRegionTests(unittest.TestCase):
+    def test_hale_region_has_valid_classifications(self):
+        from terrain_region import analyze_region
+        result = analyze_region(-35.7, -36.3, radius_degrees=.25)
+        grid = np.asarray(result["hazard_grid"])
+        self.assertEqual(grid.ndim, 2)
+        self.assertEqual(list(grid.shape), result["shape"])
+        self.assertTrue(all(size >= 2 for size in grid.shape))
+        self.assertTrue(np.isin(grid, [-1, 0, 1, 2, 3]).all())
+        self.assertTrue((grid >= 0).any(), "Real DEM has no usable samples in the selected region")
+        bounds = result["bounds"]
+        self.assertLess(bounds["south"], -35.7)
+        self.assertGreater(bounds["north"], -35.7)
+        self.assertLess(bounds["west"], -36.3)
+        self.assertGreater(bounds["east"], -36.3)
 
 
-
-grid = np.array(result["hazard_grid"])
-
-
-print("Region centre: -35.7° latitude, -36.3° longitude")
-print("Grid dimensions:", result["shape"])
-print("Total pixels:", grid.size)
-print()
-
-
-labels = {
-    -1: "NO DATA",
-    0: "LOW",
-    1: "MODERATE",
-    2: "HIGH",
-    3: "EXTREME"
-}
-
-for value, label in labels.items():
-    count = int(np.sum(grid == value))
-    percentage = 100 * count / grid.size
-
-    print(f"{label}: {count} pixels ({percentage:.2f}%)")
-
-print("-----------------------------------")
-print("Regional terrain analysis complete.")
+if __name__ == "__main__":
+    unittest.main()

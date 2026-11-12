@@ -1,6 +1,12 @@
+(function(){
 /* ARES — Mars Terrain Explorer and Mission Selection */
 
 // Initialize the Mars map
+if (!window.L) {
+    document.getElementById('mars-map').textContent = 'Map library unavailable. Coordinate-based terrain analysis and routing remain available.';
+    console.warn('ARES: Leaflet unavailable');
+    return;
+}
 const marsMap = L.map("mars-map", {
     crs: L.CRS.EPSG4326,
     center: [0, 0],
@@ -24,6 +30,7 @@ const marsImagery = L.tileLayer(
     }
 );
 
+window.aresMap = marsMap;
 marsImagery.addTo(marsMap);
 marsMap.setMaxBounds([[-90, -180], [90, 180]]);
 
@@ -214,23 +221,16 @@ function synchronize2D(event) {
     if (key !== displayedLandingKey) {
         displayedLandingKey = key;
         hazardOverlay.clearLayers();
-        if (start) displayTerrainHazards(start.lat, start.lon);
+
     }
     if (start) landingMarker = L.marker([start.lat, start.lon]).addTo(marsMap)
         .bindPopup(locationPopup('ARES Landing Site', landingSite, 'See terrain telemetry'));
     if (end) destinationMarker = L.marker([end.lat, end.lon]).addTo(marsMap)
         .bindPopup(locationPopup('ARES Destination', destination, 'See terrain telemetry'));
     if (route && Array.isArray(route) && route.length > 1) {
-        // Split across the antimeridian to avoid drawing a false planet-wide chord.
-        let segment = [];
-        for (const point of route) {
-            if (segment.length && Math.abs(point[1] - segment[segment.length - 1][1]) > 180) {
-                if (segment.length > 1) L.polyline(segment, {color:'#00e5ff',weight:4}).addTo(autonomousRouteLayer);
-                segment = [];
-            }
-            segment.push(point);
+        for (const segment of window.ARESGeometry.splitRoute(route)) {
+            L.polyline(segment, {color:'#00e5ff',weight:4}).addTo(autonomousRouteLayer);
         }
-        if (segment.length > 1) L.polyline(segment, {color:'#00e5ff',weight:4}).addTo(autonomousRouteLayer);
     } // No straight-line substitute while a terrain-aware route is calculating.
 }
 window.addEventListener('ares:mission', synchronize2D);
@@ -265,20 +265,7 @@ async function getMarsSlope(latitude, longitude) {
 
 /* ARES — Regional Hazard Map Renderer */
 
-async function displayTerrainHazards(latitude, longitude) {
-    try {
-        console.log("ARES: Loading regional terrain hazards...");
-
-        const response = await fetch(
-            `/api/terrain-region?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`
-        );
-
-        if (!response.ok) {
-            throw new Error("Regional terrain data unavailable");
-        }
-
-        const data = await response.json();
-
+function renderTerrainHazards(data) {
         const grid = data.hazard_grid;
         const bounds = data.bounds;
 
@@ -300,6 +287,7 @@ async function displayTerrainHazards(latitude, longitude) {
         const image = context.createImageData(cols, rows);
 
         const rgbColors = {
+            [-1]: [100, 116, 139],
             0: [34, 197, 94],
             1: [250, 204, 21],
             2: [249, 115, 22],
@@ -345,18 +333,36 @@ async function displayTerrainHazards(latitude, longitude) {
             `ARES: Rendered ${rows * cols} terrain hazard cells`
         );
 
-        marsMap.fitBounds(overlayBounds, {
-            padding: [40, 40],
-            maxZoom: 6
-        });
-
-
-    } catch (error) {
-        console.error("ARES hazard map error:", error);
-    }
+        const mission=window.ARESMission.get();
+        if (!document.getElementById('mars-map').hidden && !mission.end) {
+            marsMap.fitBounds(overlayBounds, {padding:[40,40],maxZoom:6});
+        }
 }
-
-
+// Compatibility entry point; production renderers share the service's cached request.
+async function displayTerrainHazards(latitude,longitude) {
+    const generation=window.ARESService.getState().generation;
+    try {
+        const data=await window.ARESService.getRegion(latitude,longitude);
+        if(generation===window.ARESService.getState().generation)renderTerrainHazards(data);
+    } catch(error) {if(error.name!=='AbortError')console.error('ARES hazard map error:',error);}
+}
+window.addEventListener('ares:region',event=>{
+    hazardOverlay.clearLayers();
+    if(event.detail.data)renderTerrainHazards(event.detail.data);
+});
+window.addEventListener('ares:hazard-visibility',event=>{
+    if(event.detail.visible)hazardOverlay.addTo(marsMap);else marsMap.removeLayer(hazardOverlay);
+});
+window.addEventListener('ares:hazard-focus',event=>{
+    if(document.getElementById('mars-map').hidden)return;
+    const b=event.detail.data.bounds;
+    marsMap.fitBounds([[b.south,b.west],[b.north,b.east]],{padding:[40,40],maxZoom:6});
+});
+window.addEventListener('ares:view',event=>{if(event.detail.map)marsMap.invalidateSize();});
+const existing=window.ARESService.getState();
+if(existing.region)renderTerrainHazards(existing.region);
+if(!existing.hazardsVisible)marsMap.removeLayer(hazardOverlay);
+synchronize2D({detail:window.ARESMission.get()});
 
 async function displayAutonomousRoute(start, end) {
     const version = missionVersion;
@@ -466,3 +472,5 @@ async function displayAutonomousRoute(start, end) {
         }
     }
 }
+
+})();

@@ -1,0 +1,16 @@
+✔ relief texture longitude agrees with sphere coordinates (2.506101ms)
+✔ two-waypoint dateline crossings retain drawable segments in both directions (5.716973ms)
+✔ analysis starts without a map or WebGL and shares region request across endpoint changes (4.324798ms)
+✔ late region and telemetry responses cannot replace a newer mission (67.679125ms)
+✔ new missions clear all route and terrain measurements (2.985518ms)
+✔ shared hazard controls emit actions for either renderer (1.227691ms)
+✔ missing profile readings remain separate segments (1.11916ms)
+✔ busy route reports retryable failure and clears loading state (2.244969ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 156.508386

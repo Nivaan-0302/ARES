@@ -22,7 +22,7 @@
     if (!mission.start || !mission.end) return;
     mission.route = clone(route); emit();
   }
-  function clear() { setPoints(null, null); }
+  function clear() { setPoints(null, null); setSelectionMode('explore'); }
   window.ARESMission = { get, setPoints, selectPoint, setRoute, clear };
 
   // Phase 3: explicit, shared selection mode. Explore is the safe default.
@@ -80,9 +80,11 @@
   function parseField(id, minimum, maximum) {
     const input = document.getElementById(id);
     const raw = input.value.trim();
-    if (!raw) throw new Error('Enter all four coordinates.');
+    input.removeAttribute('aria-invalid');
+    if (!raw) {input.setAttribute('aria-invalid','true');input.focus();throw new Error('Enter all four coordinates.');}
     const value = Number(raw);
     if (!Number.isFinite(value) || value < minimum || value > maximum) {
+      input.setAttribute('aria-invalid','true');input.focus();
       throw new Error(`${id.replace('-', ' ')} must be between ${minimum} and ${maximum} degrees.`);
     }
     return value;
@@ -90,6 +92,7 @@
   form.addEventListener('submit', event => {
     event.preventDefault();
     try {
+      fields.forEach(id=>document.getElementById(id).removeAttribute('aria-invalid'));
       const start = { lat: parseField('start-lat', -90, 90), lon: parseField('start-lon', -180, 180) };
       const end = { lat: parseField('end-lat', -90, 90), lon: parseField('end-lon', -180, 180) };
       setPoints(start, end);

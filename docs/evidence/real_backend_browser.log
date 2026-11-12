@@ -1,0 +1,3 @@
+{"scenario": "normal WebGL +2D", "route_distance_km": 8.667, "waypoints": 16, "profile_samples": 25, "mobile_width": {"width": 390, "scroll": 390, "body": 390}, "page_errors": [], "terrain_api": "actual Flask/Rasterio/sample", "external_basemap": "isolated; not validated"}
+{"scenario": "no-WebGL fallback", "route_distance_km": 8.667, "waypoints": 16, "profile_samples": 25, "mobile_width": {"width": 390, "scroll": 390, "body": 390}, "page_errors": [], "terrain_api": "actual Flask/Rasterio/sample", "external_basemap": "isolated; not validated"}
+PASS actual-backend browser scenarios: 2

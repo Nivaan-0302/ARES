@@ -1,119 +1,58 @@
 # ARES — Mars Terrain Intelligence & Mission Planning
 
-**Interactive Mars Terrain Analysis and Mission Planning System**
-
 **Creator and Project Lead:** Nivaan Raina  
 **Copyright:** © 2026 Nivaan Raina  
 **Project:** NASA Space Apps Challenge 2026  
-**Status:** Functional research and educational prototype
+**Status:** Research and educational prototype with executed real-sample and public-reference validation
 
-## Overview
+ARES combines a Mars globe and map, native DEM elevation/slope sampling, regional hazard grids, terrain-weighted A*, coarse global navigation, sparse local refinement, route comparisons, elevation profiles, dashboards, and deterministic mission briefs. Its output is a terrain-planning research aid, not a rover-certified traverse.
 
-ARES is an interactive Mars terrain-intelligence and mission-planning system that combines planetary elevation data, terrain analysis, and computational pathfinding to support exploration planning.
+## Install and run
 
-The system enables users to explore Mars, examine terrain conditions, evaluate potential routes, and compare navigation strategies through an integrated mission-control interface.
-
-## Core Capabilities
-
-- Interactive 3D Mars globe and planetary mapping
-- NASA MOLA elevation-data integration
-- Elevation and slope analysis
-- Regional terrain hazard classification
-- Terrain-aware A* route planning
-- Coarse global navigation and route refinement
-- Route strategy comparison
-- Elevation profiles and scientific visualizations
-- Mission Decision Brief and mission-control dashboards
-
-## Scientific Methodology
-
-ARES uses elevation information from the Mars Orbiter Laser Altimeter (MOLA), associated with NASA's Mars Global Surveyor mission.
-
-Terrain analysis uses elevation sampling and slope estimation. Regional terrain hazards are classified using slope-based thresholds.
-
-Regional navigation uses the A* search algorithm to evaluate routes with distance and terrain-related traversal costs. Global navigation operates at a coarser resolution, with regional refinement where supported.
-
-These methods demonstrate computational approaches to planetary exploration planning. They are not a substitute for flight-qualified rover navigation.
-
-## Technical Architecture
-
-**Backend:** Python, Flask, NumPy, Rasterio
-
-**Frontend:** HTML, CSS, JavaScript, Leaflet, Three.js
-
-**Core backend modules:** `terrain_api.py`, `terrain_region.py`, `route_planner.py`, `global_navigation.py`, `mission_routing.py`, `route_refinement.py`, `phase5_comparison.py`
-
-## Installation
-
-Install the Python dependencies:
+Python 3.12 is the tested target. Install into an isolated environment:
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-tested.txt
+export ARES_DEM_PATH='/absolute/path/to/your/authorized/mola-dem.tif'
+python terrain_api.py
 ```
 
-Place the NASA MOLA elevation raster at:
+Open `http://127.0.0.1:5001`. The default dataset path, if the environment variable is absent, is `data/mola128_mola64_merge_90Nto90S_SimpleC_clon0.tif`. Keep the original raster unchanged and outside publicly served assets. The DEM and isolated environment are not bundled with this source package.
 
-```text
-data/mola128_mola64_merge_90Nto90S_SimpleC_clon0.tif
-```
+`requirements.txt` contains runtime compatibility ranges. `requirements-production.txt` adds optional Gunicorn. `requirements-tested.txt` pins the exact runtime/production environment exercised in this sprint; `requirements-browser.txt` adds the recorded browser-test packages. System-wide Python was not modified. See [dependencies](docs/DEPENDENCIES.md) and [deployment](DEPLOYMENT.md).
 
-Start ARES:
+The interface can load without a DEM. `/healthz` checks process liveness. `/readyz` checks dataset compatibility and global coverage; a partial sample intentionally returns503 with regional capability available and global capability unavailable. This is not a scientific-accuracy certificate. Missing terrain and dataset failures produce explicit error states, never simulated observations.
 
-```bash
-python3 terrain_api.py
-```
+Leaflet 1.9.4 and Three.js 0.160.1 are vendored locally. NASA Trek background imagery remains an external service; terrain calculations use the configured raster. See `THIRD_PARTY_NOTICES.md` and [asset provenance](ASSET_PROVENANCE.md).
 
-Open `http://127.0.0.1:5001` in your browser, provided the application is configured to use that port.
+## What was validated
 
-The development environment uses Flask 3.1.3, NumPy 2.5.4, and Rasterio 1.5.2.
+The implementation sprint executed **72 named Python tests: 70 passed, 2 full-original-DEM tests skipped**. Eight Node regressions and two real-backend browser scenarios passed, alongside two explicitly synthetic browser scenarios. Rasterio/Flask were actually installed and exercised; these sprint results do not rely on the previous import adapters.
 
-The approximately 2 GB MOLA raster is not included in the source repository. Its authoritative download location and full citation must be documented before publication.
+All 65,536 pixel-centre lookups matched the provided real 256 × 256 sample. A nearest-neighbor virtual warp of a bounded window from the closest public USGS COG reproduced all 65,536 sample values exactly. This identifies a strong source candidate for the tested window; it does not prove the entire local file's identity or scientific ground truth. A separate, pixel-preserving2 MB native PDS 4 ppd reference exercised real global routing without downloading a multi-gigabyte DEM.
 
-## Testing and Validation
+See [the sprint report](docs/SPRINT_REPORT.md), [scientific validation](docs/SCIENTIFIC_VALIDATION.md), [dataset provenance](docs/DATASET_PROVENANCE.md), [bug fixes](docs/BUG_FIXES.md), and [reproduction commands](docs/VALIDATION.md). Passing cases, skipped cases, unavailable evidence, source comparisons, and model limitations are separated explicitly.
 
-ARES has undergone testing of elevation sampling, terrain classification, regional and global navigation, route refinement, and route comparison.
+## Scientific methods and limits
 
-A separate synthetic validation run recorded **15 passing test cases**, providing evidence of the algorithmic behaviors examined.
+- Native samples honor valid-data masks, NoData, scale and offset. Known non-meter elevation units are rejected; absent unit metadata is explicitly flagged as an assumption. Gridded MOLA products can contain interpolated values rather than a direct laser observation at every cell.
+- Point and regional slopes use central axial differences at native pixel centres, requiring the centre plus four axial neighbors. Regions read a one-pixel support halo. Missing support stays unavailable. Native/routing grid coverage is west/north inclusive and east/south exclusive. Equivalent longitudes are normalized without inventing coverage in cropped rasters.
+- Physical slope spacing uses a documented spherical or mean-radius approximation with per-row cosine spacing. Routing distances use a 3389.5 km sphere. Native PDS documentation states planetocentric latitude; the horizontal CRS alone does not establish a planetographic conversion or vertical datum. See the provenance report before interpreting model differences.
+- LOW ≤5°, MODERATE >5° to 15°, HIGH >15° to 25°, EXTREME >25° are chosen DEM-scale categories. Class costs 1, 3, 8, 20 are illustrative penalties. EXTREME remains traversable at high cost; unknown classes/cells and blocked diagonal corners are unavailable.
+- Regional grids are derived from the actual raster spacing; the supplied128ppd sample yields64 × 64 cells for the default 0.5° window. This size is not hard-coded for arbitrary input rasters.
+- The 360 × 180 global model averages elevations onto a coordinate-aligned 1° grid. Registered half-native-pixel extent differences are bounded explicitly. Coarse means may exclude masked native samples; a valid coarse mean does not prove all underlying native cells are known. Unknown coarse cells are blocked. Smaller hazards, narrow gaps and native coverage are not continuously validated.
+- Refinement inspects at most eight selected local windows. Attempted, sampled, skipped, unavailable and modified counts are separate. The coarse risk index is not recomputed into a continuous high-resolution risk assessment.
+- Distance-only Dijkstra and terrain-weighted A* comparisons use the same regional grid and endpoints. Their costs are not measured energy, travel time, or rover failure probability. Risk is a class-count heuristic; route efficiency is geometric length relative to a great-circle reference.
+- No model of wheel-scale rocks, soil strength, slippage, rover geometry, illumination, thermal constraints, dust, communications or mission operations is supplied. No operational safety, global accuracy percentage, competition eligibility, or award is claimed.
 
-The repository includes supporting test scripts and development experiments.
+## Authorship, AI assistance and rights
 
-## Scientific Limitations
+ARES is independently directed by **Nivaan Raina**, its creator and project lead. Preserve `AUTHORS.md`, `COPYRIGHT`, `DEVELOPMENT_HISTORY.md`, and `AGENTS.md`.
 
-ARES is a research and educational prototype. Its analysis is limited by terrain-data resolution, simplified hazard classification, coarse global routing, and the absence of detailed rover-specific mobility and environmental models.
+ChatGPT assisted with implementation, debugging, technical audit, scientific numerical analysis, testing, documentation and interface work. Routes are calculated by explicit terrain algorithms, not generated by a conversational AI model. Maintain accurate assistance disclosures and distinguish project leadership from algorithmic validation.
 
-ARES does not provide flight-qualified navigation or guarantee that a calculated route is safe for a real rover.
+The owner leaves final software licensing undecided. No project license or image was replaced. The source and AI-generation status of `mars_hero.png` remain unresolved; see [asset investigation](docs/ASSET_INVESTIGATION.md). NASA data, external imagery and vendored libraries retain their applicable rights. No publication, deployment or Git push occurred during this sprint.
 
-## Project Authorship
-
-ARES is an independently directed solo project created by **Nivaan Raina**.
-
-The creator established the project's objectives, selected its capabilities, directed design and development decisions, tested its functionality, and evaluated its results.
-
-See `AUTHORS.md`, `COPYRIGHT`, and `DEVELOPMENT_HISTORY.md` for additional project records.
-
-## AI Assistance and Attribution
-
-ChatGPT was used as a development-support tool for code generation and refinement, interface implementation, debugging, technical explanations, and documentation.
-
-The project's objectives, feature selection, development direction, evaluation, and final submission are directed by its creator.
-
-ARES performs terrain analysis and route planning using computational algorithms operating on NASA MOLA elevation data, rather than generating routes through a conversational AI model.
-
-Any AI-generated visual assets must be identified and disclosed according to applicable competition requirements.
-
-## Copyright and Licensing
-
-**Copyright © 2026 Nivaan Raina.**
-
-The original project material is subject to the open-source license selected for distribution. NASA datasets, third-party software, and externally sourced assets retain their respective rights.
-
-A `LICENSE` file will be added after confirming the applicable competition requirements.
-
-## Project Vision
-
-ARES explores how planetary geospatial intelligence and computational navigation can support more informed mission planning and future autonomous exploration systems.
-
----
-
-**ARES — Created by Nivaan Raina**  
-**© 2026 Nivaan Raina**
+The selected Space Apps challenge remains unconfirmed. [Competition readiness](docs/COMPETITION_READINESS.md) distinguishes verified implementation, indexed official evidence, blocked live sources, and missing submission decisions.

@@ -1,9 +1,14 @@
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory, abort, g
 import rasterio
 import numpy as np
 from terrain_region import analyze_region
 from pathlib import Path
+import math
+import os
+from threading import BoundedSemaphore
+from dem_data import (DEM_PATH, validate_dem, validate_global_coverage,
+                      sample_point, slope_at_point, DEMValidationError)
 from route_planner import (
     astar_route,
     grid_route_to_coordinates,
@@ -11,18 +16,106 @@ from route_planner import (
     calculate_route_distance,
 
 )
-app = Flask(__name__, static_folder=".", static_url_path="")
+BASE_DIR = Path(__file__).resolve().parent
+app = Flask(__name__, static_folder=None)
+# Only these reviewed frontend files are public. Never expose the project root,
+# data directory, Python sources, dotfiles, or future configuration files.
+PUBLIC_ASSETS = frozenset({
+    "index.html", "mars_hero.png", "style.css", "ares_3d.css",
+    "mission_control.css", "cosmic.css", "orbital_workspace.css",
+    "public_polish.css", "mission_brief.css", "supreme_navigation.css",
+    "mission_state.js", "mission_service.js", "mission_geometry.js",
+    "globe_bootstrap.js", "mission_control.js", "phase4_intelligence.js",
+    "phase5_comparison.js", "script.js", "globe.js", "cosmic.js",
+    "orbital_workspace.js", "public_polish.js", "mission_brief.js",
+    "supreme_navigation.js",
+})
+_point_paths = {"/api/elevation", "/api/slope", "/api/terrain-region"}
+_route_paths = {
+    "/api/route", "/api/mission-route", "/api/global-route",
+    "/api/refined-route", "/api/route-comparison",
+}
+_expensive_paths = _route_paths | {"/api/terrain-region", "/api/global-relief"}
+_slot_count = int(os.environ.get("ARES_MAX_CONCURRENT_ANALYSES", "4"))
+if not 1 <= _slot_count <= 64:
+    raise RuntimeError("ARES_MAX_CONCURRENT_ANALYSES must be between 1 and 64")
+_analysis_slots = BoundedSemaphore(_slot_count)
 
-DEM_PATH = (
-    Path(__file__).parent
-    / "data"
-    / "mola128_mola64_merge_90Nto90S_SimpleC_clon0.tif"
-)
+
+@app.before_request
+def validate_and_bound_api_work():
+    """Reject malformed coordinates before DEM I/O and bound concurrent work."""
+    keys = ("lat", "lon") if request.path in _point_paths else (
+        ("start_lat", "start_lon", "end_lat", "end_lon")
+        if request.path in _route_paths else ()
+    )
+    if keys:
+        try:
+            values = [float(request.args[key]) for key in keys]
+        except (KeyError, ValueError, TypeError):
+            return jsonify(status="invalid_coordinates", error="Provide valid " + ", ".join(keys)), 400
+        if any(not math.isfinite(v) or abs(v) > (90 if i % 2 == 0 else 180)
+               for i, v in enumerate(values)):
+            return jsonify(status="invalid_coordinates", error="Coordinates must be finite; latitude -90 to 90 and longitude -180 to 180."), 400
+    if request.path in _expensive_paths:
+        if not _analysis_slots.acquire(blocking=False):
+            response = jsonify(status="busy", error="Terrain analysis is busy. Please retry shortly.")
+            response.status_code = 503
+            response.headers["Retry-After"] = "1"
+            return response
+        g.ares_analysis_slot = True
+
+
+@app.teardown_request
+def release_analysis_slot(_error):
+    if g.pop("ares_analysis_slot", False):
+        _analysis_slots.release()
+
+
+@app.after_request
+def response_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "same-origin"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    if request.path.startswith("/api/") or request.path == "/readyz":
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 
 @app.route("/")
 def home():
-    return app.send_static_file("index.html")
+    return send_from_directory(BASE_DIR, "index.html")
+
+
+@app.get("/<path:asset_path>")
+def public_asset(asset_path):
+    if asset_path in PUBLIC_ASSETS:
+        return send_from_directory(BASE_DIR, asset_path)
+    if asset_path.startswith("vendor/"):
+        return send_from_directory(BASE_DIR / "vendor", asset_path[len("vendor/"):])
+    abort(404)
+
+
+@app.get("/healthz")
+def health():
+    return jsonify(status="ok")
+
+
+@app.get("/readyz")
+def readiness():
+    try:
+        with rasterio.open(DEM_PATH) as dem:
+            metadata = validate_dem(dem)
+            try:
+                validate_global_coverage(metadata)
+            except DEMValidationError:
+                return jsonify(status="not_ready",dataset=metadata,
+                    capabilities={"regional":True,"global":False},
+                    error="Dataset supports regional analysis; global planning requires full-planet coverage."),503
+        return jsonify(status="ready", dataset=metadata)
+    except Exception:
+        app.logger.exception("Terrain dataset readiness check failed")
+        return jsonify(status="not_ready", error="MOLA raster is missing or incompatible. Check ARES_DEM_PATH and dataset metadata in the server logs."), 503
 
 
 @app.route("/api/elevation")
@@ -38,31 +131,28 @@ def get_elevation():
             return jsonify({"error": "Invalid longitude"}), 400
 
         with rasterio.open(DEM_PATH) as dem:
-            row, col = dem.index(longitude, latitude)
-
-            if not (0 <= row < dem.height and 0 <= col < dem.width):
-                return jsonify({"error": "Location outside DEM"}), 400
-
-            elevation = int(
-                dem.read(
-                    1,
-                    window=((row, row + 1), (col, col + 1))
-                )[0, 0]
-            )
-
-            if elevation == dem.nodata:
-                return jsonify({"error": "No elevation data"}), 404
+            metadata=validate_dem(dem)
+            elevation = sample_point(dem, latitude, longitude)
+            if elevation is None:
+                return jsonify(status="no_data", error="No elevation data at this coordinate"), 404
 
         return jsonify({
             "latitude": latitude,
             "longitude": longitude,
             "elevation_m": elevation,
-            "source": "NASA MOLA Global DEM"
+            "elevation_units_assumed":metadata['elevation_units_assumed'],
+            "source": "Configured MOLA-derived DEM",
+            "input_provenance": "Local derivative; source product and processing history not yet independently identified"
         })
 
     except (KeyError, ValueError):
         return jsonify({"error": "Provide valid lat and lon"}), 400
 
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Elevation lookup failed")
         return jsonify({"error": "Elevation lookup failed"}), 500
@@ -86,58 +176,11 @@ def get_slope():
             return jsonify({"error": "Invalid coordinates"}), 400
 
         with rasterio.open(DEM_PATH) as dem:
-            row, col = dem.index(longitude, latitude)
-
-            # A 3x3 neighborhood must fit inside the raster
-            if not (1 <= row < dem.height - 1 and
-                    1 <= col < dem.width - 1):
-                return jsonify({
-                    "error": "Location too close to dataset boundary"
-                }), 400
-
-            grid = dem.read(
-                1,
-                window=((row - 1, row + 2), (col - 1, col + 2))
-            ).astype(float)
-
-            if not np.all(np.isfinite(grid)) or np.any(grid == dem.nodata):
-                return jsonify({
-                    "error": "Missing terrain elevation data"
-                }), 404
-
-            pixel_width = (
-                dem.res[0]
-                * np.pi / 180
-                * MARS_RADIUS_METRES
-                * np.cos(np.radians(latitude))
-            )
-
-            pixel_height = (
-                dem.res[1]
-                * np.pi / 180
-                * MARS_RADIUS_METRES
-            )
-
-            if pixel_width <= 0.001:
-                return jsonify({
-                    "error": "Slope calculation unavailable near poles"
-                }), 400
-
-            dz_dx = (
-                grid[1, 2] - grid[1, 0]
-            ) / (2 * pixel_width)
-
-            dz_dy = (
-                grid[2, 1] - grid[0, 1]
-            ) / (2 * pixel_height)
-
-            slope_degrees = float(
-                np.degrees(
-                    np.arctan(
-                        np.hypot(dz_dx, dz_dy)
-                    )
-                )
-            )
+            metadata=validate_dem(dem)
+            elevation = sample_point(dem, latitude, longitude)
+            slope_degrees = slope_at_point(dem, latitude, longitude)
+            if elevation is None or slope_degrees is None:
+                return jsonify(status="no_data", error="Slope unavailable at this dataset boundary or missing-data neighborhood"), 404
 
             # ARES — DEM-scale terrain steepness classification
             if slope_degrees <= 5:
@@ -154,11 +197,14 @@ def get_slope():
             return jsonify({
                 "latitude": latitude,
                 "longitude": longitude,
-                "elevation_m": float(grid[1, 1]),
+                "elevation_m": float(elevation),
                 "slope_degrees": round(slope_degrees, 3),
+                "distance_model":"Mean-radius sphere with latitude-dependent spacing",
+                "elevation_units_assumed":metadata['elevation_units_assumed'],
                 "hazard_level": hazard_level,
-                "method": "Central differences, 3x3 MOLA neighborhood",
-                "source": "NASA MOLA Global DEM",
+                "method": "Central axial differences at native pixel centres; valid centre and four axial neighbours",
+                "source": "Configured MOLA-derived DEM",
+            "input_provenance": "Local derivative; source product and processing history not yet independently identified",
                 "warning": "DEM-scale slope; not a rover-scale obstacle assessment"
             })
 
@@ -167,6 +213,11 @@ def get_slope():
             "error": "Provide valid lat and lon"
         }), 400
 
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Slope calculation failed")
         return jsonify({
@@ -185,12 +236,8 @@ def get_terrain_region():
         if not np.isfinite(latitude) or not np.isfinite(longitude):
             return jsonify({"error": "Invalid coordinates"}), 400
 
-        # Restrict requests to regions that fit inside the DEM
-        if not (-89.75 <= latitude <= 89.75):
-            return jsonify({"error": "Latitude outside supported range"}), 400
-
-        if not (-179.75 <= longitude <= 179.75):
-            return jsonify({"error": "Longitude outside supported range"}), 400
+        if not (-90 <= latitude <= 90 and -180 <= longitude <= 180):
+            return jsonify(status="invalid_coordinates", error="Invalid Mars coordinates"), 400
 
         result = analyze_region(
             latitude=latitude,
@@ -200,9 +247,16 @@ def get_terrain_region():
 
         return jsonify(result)
 
-    except (KeyError, ValueError):
-        return jsonify({"error": "Provide valid lat and lon"}), 400
+    except KeyError:
+        return jsonify(status="invalid_coordinates", error="Provide valid lat and lon"), 400
+    except ValueError as exc:
+        return jsonify(status="outside_coverage", error=str(exc)), 422
 
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Regional terrain analysis failed")
         return jsonify({"error": "Regional analysis failed"}), 500
@@ -278,9 +332,9 @@ def calculate_autonomous_route():
                 "message": "No traversable route found."
             }), 422
 
-        coordinates = grid_route_to_coordinates(
-            route, bounds, shape
-        )
+        centres = grid_route_to_coordinates(route, bounds, shape)
+        coordinates = ([[start_lat, start_lon], [end_lat, end_lon]] if start == goal
+                       else [[start_lat, start_lon]] + centres + [[end_lat, end_lon]])
 
         hazard_counts = {
             "low": 0,
@@ -325,32 +379,8 @@ def calculate_autonomous_route():
 
 
 
-        route_distance_km = calculate_route_distance(coordinates)
-
-       
-        direct_distance_km = calculate_route_distance([
-            coordinates[0],
-            coordinates[-1]
-        ])
-
-        extra_distance_km = round(
-            route_distance_km - direct_distance_km, 3
-        )
-
-        distance_increase_percent = round(
-            (extra_distance_km / direct_distance_km) * 100,
-            2
-        ) if direct_distance_km > 0 else 0.0
-
-        if route_distance_km > 0:
-            route_efficiency_percent = round(
-                min(100.0, direct_distance_km / route_distance_km * 100),
-                2
-            )
-        else:
-            route_efficiency_percent = 100.0
-
-
+        from mission_routing import route_metrics
+        metrics = route_metrics(coordinates, [start_lat, start_lon], [end_lat, end_lon])
 
         return jsonify({
             "status": "success",
@@ -359,14 +389,9 @@ def calculate_autonomous_route():
             "route_type": "regional_dem_scale",
             "start_cell": list(start),
             "goal_cell": list(goal),
-            "waypoint_count": len(coordinates),
-            "route_distance_km": route_distance_km,
-            "route_efficiency_percent": route_efficiency_percent,
+            **metrics,
             "hazard_breakdown": hazard_counts,
             "terrain_risk_score": terrain_risk_score,
-            "direct_distance_km": direct_distance_km,
-            "extra_distance_km": extra_distance_km,
-            "distance_increase_percent": distance_increase_percent,
             "route_coordinates": coordinates,
             "bounds": bounds
         })
@@ -374,6 +399,11 @@ def calculate_autonomous_route():
     except (ValueError, TypeError) as error:
         return jsonify({"error": str(error)}), 400
 
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("ARES route-planning error")
         return jsonify({
@@ -387,28 +417,38 @@ def calculate_autonomous_route():
 @app.route("/api/mission-route")
 def mission_route():
     """The single API used by map clicks and typed coordinates in both views."""
-    from mission_routing import calculate_mission_route
     try:
+        from mission_routing import calculate_mission_route
         keys = ("start_lat", "start_lon", "end_lat", "end_lon")
         coords = [float(request.args[key]) for key in keys]
         result = calculate_mission_route(*coords)
         return jsonify(result), (200 if result.get("status") == "success" else 422)
     except (KeyError, ValueError, TypeError) as exc:
         return jsonify({"status": "invalid_coordinates", "error": str(exc)}), 400
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Mission route calculation failed")
         return jsonify({"status": "error", "error": "Mission routing failed; check server logs."}), 500
 
 @app.route("/api/global-route")
 def global_route():
-    from global_navigation import plan
     try:
+        from global_navigation import plan
         keys = ("start_lat", "start_lon", "end_lat", "end_lon")
         coords = [float(request.args[key]) for key in keys]
         result = plan(*coords)
         return jsonify(result), (200 if result["status"] == "success" else 422)
     except (KeyError, ValueError) as exc:
         return jsonify({"error": str(exc)}), 400
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Global routing failed")
         return jsonify({"error":"Global routing failed"}), 500
@@ -416,14 +456,19 @@ def global_route():
 
 @app.route("/api/refined-route")
 def refined_route():
-    from route_refinement import refine_global_route
     try:
+        from route_refinement import refine_global_route
         keys = ("start_lat", "start_lon", "end_lat", "end_lon")
         coords = [float(request.args[key]) for key in keys]
         result = refine_global_route(*coords)
         return jsonify(result), (200 if result["status"] == "success" else 422)
     except (KeyError, ValueError) as exc:
         return jsonify({"error": str(exc)}), 400
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Sampled global refinement failed")
         return jsonify({"error":"Sampled refinement failed"}), 500
@@ -431,9 +476,14 @@ def refined_route():
 
 @app.route("/api/global-relief")
 def global_relief():
-    from global_navigation import relief
     try:
+        from global_navigation import relief
         return jsonify(relief())
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Global relief failed")
         return jsonify({"error":"Global relief unavailable"}), 500
@@ -444,14 +494,19 @@ def global_relief():
 @app.route("/api/route-comparison")
 def route_comparison():
     """Independent optional Phase 5 comparison; does not alter /api/mission-route."""
-    from phase5_comparison import compare
     try:
+        from phase5_comparison import compare
         keys=("start_lat","start_lon","end_lat","end_lon")
         coords=[float(request.args[key]) for key in keys]
         result=compare(*coords)
         return jsonify(result), (200 if result["status"] in ("success","not_comparable") else 422)
     except (KeyError, ValueError, TypeError) as exc:
         return jsonify({"status":"invalid_coordinates","error":str(exc)}),400
+    except DEMValidationError as exc:
+        return jsonify(status="dataset_unavailable", error=str(exc)), 503
+    except rasterio.errors.RasterioIOError:
+        app.logger.exception("Configured terrain dataset could not be opened")
+        return jsonify(status="dataset_unavailable", error="Configured terrain data is unavailable. Check the dataset configuration."), 503
     except Exception:
         app.logger.exception("Phase 5 comparison failed")
         return jsonify({"status":"error","error":"Comparison failed; check server logs."}),500

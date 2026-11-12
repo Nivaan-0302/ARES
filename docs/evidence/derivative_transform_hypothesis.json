@@ -1,0 +1,35 @@
+{
+  "source_crs": "ESRI:103885",
+  "source_transform": [
+    463.0836,
+    0.0,
+    -10669677.095995119,
+    0.0,
+    -463.08359999999993,
+    5334954.318897561,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "source_bounds": [
+    -10669677.095995119,
+    -5334954.908702438,
+    10669678.27560488,
+    5334954.318897561
+  ],
+  "suggested_destination_crs": "ESRI:104905",
+  "suggested_transform": [
+    0.007812160930515169,
+    0.0,
+    -180.0,
+    0.0,
+    -0.007811889425244856,
+    90.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "width": 46082,
+  "height": 23041,
+  "interpretation": "Reproducible metadata conversion hypothesis; this does not establish the owners actual processing history"
+}

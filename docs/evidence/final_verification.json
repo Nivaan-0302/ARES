@@ -1,0 +1,38 @@
+{
+  "root_tests": {
+    "exit_code": 0,
+    "seconds": 0.46355293299711775,
+    "cases": 42,
+    "skipped": 2
+  },
+  "additional_tests": {
+    "exit_code": 0,
+    "seconds": 13.789629789000173,
+    "cases": 30,
+    "skipped": 0
+  },
+  "frontend_node": {
+    "exit_code": 0,
+    "seconds": 0.20921933799763792
+  },
+  "synthetic_browser": {
+    "exit_code": 0,
+    "seconds": 11.883301550002216
+  },
+  "real_backend_browser": {
+    "exit_code": 0,
+    "seconds": 14.80583708499762
+  },
+  "dependency_check": {
+    "exit_code": 0,
+    "seconds": 0.1890144839999266
+  },
+  "python_syntax": {
+    "files": 32,
+    "passed": true
+  },
+  "javascript_syntax": {
+    "files": 17,
+    "passed": true
+  }
+}

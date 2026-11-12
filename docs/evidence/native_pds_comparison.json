@@ -1,0 +1,55 @@
+{
+  "sample_sha256": "c99f92579062c39934295690bd0a0644d3e73a60a1c7fbf14c93d714d6198981",
+  "method": "PDS pixel-area bin containing each sample pixel centre; big-endian signed16-bit; no fitted offset or resampling",
+  "compared_pixels": 65536,
+  "exact_matches": 10113,
+  "mean_absolute_difference": 3.3025970458984375,
+  "rmse": 5.166902762320328,
+  "maximum_absolute_difference": 84.0,
+  "mean_signed_difference": 0.0998687744140625,
+  "centre_sample_value": -1517,
+  "centre_pds_value": -1515,
+  "references": [
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt44n000hb.img",
+      "label_url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt44n000hb.lbl",
+      "byte_range": [
+        126812160,
+        129738493
+      ],
+      "downloaded_bytes": 2926334,
+      "sha256": "9c1d8fcce0cc6d950c2bbbbe3f0aae838670304c711f5081c97b1ff845b4fdd5"
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt44n270hb.img",
+      "label_url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt44n270hb.lbl",
+      "byte_range": [
+        126834942,
+        129761279
+      ],
+      "downloaded_bytes": 2926338,
+      "sha256": "e57f379fe72ddd69aec0c55538fae03f04a5679245614eb0a41fee60794289b0"
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt00n000hb.img",
+      "label_url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt00n000hb.lbl",
+      "byte_range": [
+        0,
+        2926333
+      ],
+      "downloaded_bytes": 2926334,
+      "sha256": "49bcd4e1368321d5937930588bae8a610f431d4251898a7bb12a229fd211a37f"
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt00n270hb.img",
+      "label_url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt00n270hb.lbl",
+      "byte_range": [
+        22782,
+        2949119
+      ],
+      "downloaded_bytes": 2926338,
+      "sha256": "d0b20fe7ebe2e241f8888f87a31047a3246407d92f023fa197a039fea6817120"
+    }
+  ],
+  "interpretation": "Native reference consistency; not independent observational ground truth or proof of derivative provenance"
+}

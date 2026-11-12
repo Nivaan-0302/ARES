@@ -1,0 +1,23 @@
+{
+  "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/wms_basemaps3/Mars/MOLA/mola128_mola64_merge_90Nto90S_SimpleC_clon0_cog.tif",
+  "method": "Verified HTTPS bounded byte ranges; nearest-neighbour virtual warp from authoritative COG to supplied sample grid",
+  "compared_pixels": 65536,
+  "exact_matches": 65536,
+  "mean_absolute_difference": 0.0,
+  "maximum_absolute_difference": 0.0,
+  "rmse": 0.0,
+  "source_crs": "ESRI:103885",
+  "downloaded_bytes": 737280,
+  "ranges": [
+    {
+      "first": 0,
+      "last": 16383,
+      "bytes": 16384
+    },
+    {
+      "first": 1162739712,
+      "last": 1163460607,
+      "bytes": 720896
+    }
+  ]
+}

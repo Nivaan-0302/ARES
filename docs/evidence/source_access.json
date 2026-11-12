@@ -1,0 +1,35 @@
+{
+  "event_2026.html": {
+    "url": "https://www.spaceappschallenge.org/2026/",
+    "access_date": "2026-11-12",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  "challenges_2026.html": {
+    "url": "https://www.spaceappschallenge.org/2026/challenges/",
+    "access_date": "2026-11-12",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  "legal.html": {
+    "url": "https://www.spaceappschallenge.org/legal/",
+    "access_date": "2026-11-12",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  "candidate_challenge.html": {
+    "url": "https://www.spaceappschallenge.org/2026/challenges/permanent-moon-base-locations-and-mars/",
+    "access_date": "2026-11-12",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  "usgs_product.html": {
+    "url": "https://astrogeology.usgs.gov/search/map/mars_mgs_mola_dem_463m",
+    "access_date": "2026-11-12",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  "nasa_media.html": {
+    "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "access_date": "2026-11-12",
+    "status": 200,
+    "final_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "bytes": 318538,
+    "sha256": "753b3f132784b1233f47ad96f4de5ea755e064e4c31e6fd4b213b0198d343b6c"
+  }
+}

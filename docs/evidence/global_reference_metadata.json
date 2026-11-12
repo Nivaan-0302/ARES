@@ -1,0 +1,13 @@
+{
+  "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg004/megt90n000cb.img",
+  "download_bytes": 2073600,
+  "sha256": "25f16fb7aaf857898dcf98bc4f841341a24f8b9f7e98453ca083bc45d897ca2c",
+  "shape": [
+    720,
+    1440
+  ],
+  "minimum": -8068,
+  "maximum": 21134,
+  "nodata_count": 0,
+  "conversion": "Pixel-preserving big-endian to GeoTIFF temporary reference; not owners full DEM"
+}

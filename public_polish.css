@@ -14,3 +14,25 @@
 @media(max-width:850px){.ares-public-guide{grid-template-columns:1fr}.ares-orbital-intro>div{max-width:76%}.ares-public-mars{margin-right:0}}
 @media(max-width:560px){.ares-orbital-intro{min-height:170px!important}.ares-orbital-intro>div{max-width:75%}.ares-public-mars{width:92px;height:92px}.ares-orbital-intro h1{font-size:25px!important}}
 @media(prefers-reduced-motion:reduce){.ares-public-mars{animation:none}}
+
+/* Focused accessibility and narrow-screen reliability; preserve the visual design. */
+.ares-skip-link{position:fixed;top:8px;left:8px;transform:translateY(-180%);z-index:2000;padding:10px 14px;background:#101d2b;color:#e7f7ff;border:2px solid #88d9ff;border-radius:8px}
+.ares-skip-link:focus{transform:translateY(0)}
+#mission-retry[hidden]{display:none!important}
+.ares-coordinate-fields input[aria-invalid="true"]{border-color:#ff9b91!important;outline:2px solid #ff9b91!important}
+.ares-coordinate-actions>span{min-width:0;overflow-wrap:anywhere;flex:1 1 240px}
+#profile-caption{font-size:12px;line-height:1.6}
+#ares-phase5{max-width:100%;min-width:0;overflow-wrap:anywhere}
+#ares-p5-data{max-width:100%;overflow-x:auto}
+#ares-p5-data table{min-width:330px}
+@media(max-width:600px){
+  .ares-orbital-intro>div{min-width:0}.ares-public-mars{max-width:24vw;height:auto}
+  .globe-actions button,.ares-selection-buttons button,.ares-coordinate-actions button{min-height:44px}
+  .globe-actions,.ares-selection-buttons{max-width:100%}.globe-toolbar>div{min-width:0;max-width:100%}
+  .globe-toolbar strong,.globe-toolbar span,.ares-selection-toolbar>strong,.ares-viewport-label{overflow-wrap:anywhere}
+  .ares-coordinate-heading>strong{overflow-wrap:anywhere}
+  .ares-viewport-label{font-size:8px!important;letter-spacing:.03em!important;gap:5px!important;left:8px!important;right:8px!important}
+  .ares-region-panel{padding:14px!important}.ares-legend{gap:8px!important}
+  .ares-coordinate-actions button{max-width:100%;white-space:normal}
+  #ares-mission-brief{padding:16px!important}.ares-risk-panel{padding:14px!important}
+}

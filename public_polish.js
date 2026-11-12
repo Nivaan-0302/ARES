@@ -11,14 +11,14 @@ function init(){
   ['#navigation > .ares-cosmic-disclosure', 'How route planning works', [
    ['1 · Choose a destination','Open Planetary Explorer. Enter start and destination latitude/longitude, or select the points directly on the 3D globe or 2D map. Use Explore mode when you want to inspect Mars without changing the mission.'],
    ['2 · Calculate a route','Select “Plot coordinates & calculate route.” ARES uses terrain-weighted A* on a regional MOLA grid when both points fit that region. Longer journeys use coarse global A* with selected local refinement.'],
-   ['3 · Understand the result','Open Route Intelligence to read route distance, efficiency, sampled hazard exposure, and the regional Distance A* versus Terrain A* comparison. A longer route can have a lower modeled terrain cost.'],
-   ['What the comparison means','The two A* strategies are compared only when both endpoints fit one regional analysis window. Global routes cannot be compared on that same regional grid.']
+   ['3 · Understand the result','Open Route Intelligence to read route distance, efficiency, sampled hazard exposure, and the regional Distance (Dijkstra) versus Terrain (A*) comparison. A longer route can have a lower modeled terrain cost.'],
+   ['What the comparison means','Distance-optimized Dijkstra and terrain-weighted A* are compared only when both endpoints fit one regional analysis window. Global routes cannot be compared on that same regional grid.']
   ]],
   ['#science > .ares-cosmic-disclosure','About NASA MOLA terrain data',[
-   ['What ARES measures','ARES reads elevation from NASA Mars Orbiter Laser Altimeter (MOLA) data. It estimates local slope from neighboring elevation samples and assigns a terrain hazard class.'],
-   ['Where to see it','In Planetary Explorer, choose a point to inspect its surrounding 64 × 64 regional hazard grid. Open Science Lab to view elevation, estimated slope, hazard class, and the route elevation profile.'],
+   ['What the data represents','ARES reads elevation from NASA Mars Orbiter Laser Altimeter (MOLA) data. It estimates local slope from neighboring elevation samples and assigns a terrain hazard class.'],
+   ['Where to see it','In Planetary Explorer, choose a point to inspect its surrounding regional hazard grid. Open Science Lab to view elevation, estimated slope, hazard class, and the route elevation profile.'],
    ['How to interpret the classes','Low: up to 5°; Moderate: above 5° to 15°; High: above 15° to 25°; Extreme: above 25°. These are ARES planning categories, not validated rover traversability thresholds.'],
-   ['Resolution matters','The MOLA raster is roughly 460 m per pixel near the equator; it cannot detect individual rocks, sand traps, or small obstacles. ARES provides terrain-scale planning evidence, not a safe-driving guarantee.']
+   ['Resolution matters','The supplied MOLA product’s resolution and latitude determine its ground sampling; it cannot identify individual rocks, sand traps, or small obstacles. ARES provides terrain-scale planning evidence, not a safe-driving guarantee.']
   ]],
   ['#terrain .ares-cosmic-disclosure','Map controls and scientific limitations',[
    ['Explore safely','Explore mode lets you rotate and inspect the globe without changing the mission endpoints. Choose Select Start or Select Destination before clicking a new location.'],

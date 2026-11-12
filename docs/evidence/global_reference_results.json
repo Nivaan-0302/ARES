@@ -1,0 +1,60 @@
+{
+  "source": "PDS4ppd reference converted without resampling; not owners full128ppd derivative",
+  "model_shape": [
+    180,
+    360
+  ],
+  "hazards": {
+    "-1": 0,
+    "0": 64771,
+    "1": 29,
+    "2": 0,
+    "3": 0
+  },
+  "cold_model_seconds": 0.09311884999988251,
+  "warm_model_seconds": 9.714399857330136e-05,
+  "routes": [
+    {
+      "coordinates": [
+        0,
+        179,
+        0,
+        -179
+      ],
+      "http_status": 200,
+      "status": "success",
+      "route_distance_km": 118.316,
+      "direct_distance_km": 118.316,
+      "waypoint_count": 2,
+      "seconds": 0.0025609370022721123
+    },
+    {
+      "coordinates": [
+        85,
+        170,
+        85,
+        -170
+      ],
+      "http_status": 200,
+      "status": "success",
+      "route_distance_km": 102.6,
+      "direct_distance_km": 102.6,
+      "waypoint_count": 2,
+      "seconds": 0.0019511529972078279
+    },
+    {
+      "coordinates": [
+        35,
+        10,
+        -35,
+        -170
+      ],
+      "http_status": 200,
+      "status": "success",
+      "route_distance_km": 10683.422,
+      "direct_distance_km": 10648.428,
+      "waypoint_count": 344,
+      "seconds": 0.07765217699852656
+    }
+  ]
+}

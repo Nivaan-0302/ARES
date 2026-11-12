@@ -2,6 +2,19 @@
 import heapq
 import math
 import numpy as np
+from geo_rules import align_longitude, contains_coordinate
+
+
+TERRAIN_COSTS = (1.0, 3.0, 8.0, 20.0)
+
+
+def hazard_cell_mask(hazard_grid):
+    """Only the four exact declared classes are traversable.
+
+    NaN, infinity, missing values, fractional codes and undeclared categories
+    remain unknown. Do not truncate/cast them into an apparently safe class.
+    """
+    return np.isin(np.asarray(hazard_grid), (0, 1, 2, 3))
 
 
 def mars_cell_distance_km(cell_a, cell_b, bounds, grid_shape):
@@ -54,22 +67,19 @@ def astar_route(hazard_grid, start, goal, bounds=None):
     """
 
     grid = np.asarray(hazard_grid)
+    if grid.ndim != 2 or min(grid.shape) == 0:
+        raise ValueError('A hazard grid must be a nonempty two-dimensional array.')
     rows, cols = grid.shape
-
-    # Illustrative terrain costs, not rover-specific limits
-    terrain_costs = {
-        0: 1.0,    # LOW
-        1: 3.0,    # MODERATE
-        2: 8.0,    # HIGH
-        3: 20.0   # EXTREME
-    }
+    available = hazard_cell_mask(grid)
 
     def valid(cell):
         r, c = cell
         return (
-            0 <= r < rows
+            isinstance(r, (int, np.integer))
+            and isinstance(c, (int, np.integer))
+            and 0 <= r < rows
             and 0 <= c < cols
-            and int(grid[r, c]) in terrain_costs
+            and available[r, c]
         )
 
     if not valid(start) or not valid(goal):
@@ -132,7 +142,9 @@ def astar_route(hazard_grid, start, goal, bounds=None):
                 distance = math.hypot(dr, dc)
 
             hazard = int(grid[neighbor])
-            step_cost = distance * terrain_costs[hazard]
+            # Destination-cell penalty is an illustrative, directional cost,
+            # not travel time or a hard rover traversability constraint.
+            step_cost = distance * TERRAIN_COSTS[hazard]
 
             new_cost = current_cost + step_cost
 
@@ -167,10 +179,9 @@ def grid_route_to_coordinates(route, bounds, grid_shape):
         latitude = north - (row + 0.5) * latitude_step
         longitude = west + (col + 0.5) * longitude_step
 
-        coordinates.append([
-            round(latitude, 6),
-            round(longitude, 6)
-        ])
+        # Preserve true centres through geometry/validation. Presentation may
+        # round them, but premature rounding can leave very small pixels.
+        coordinates.append([latitude, longitude])
 
     return coordinates
 
@@ -179,7 +190,10 @@ def coordinates_to_grid(latitude, longitude, bounds, grid_shape):
     """
     Convert Martian latitude/longitude into a terrain grid cell.
 
-    Returns (row, column), or None if outside the region.
+    Returns (row, column), or None if outside the region. Pixel coverage is
+    west <= longitude < east and south < latitude <= north, matching a north-up
+    raster's row/column indexing. Equivalent longitudes align to this window;
+    an actual uncovered longitude gap is never clamped into the last column.
     """
 
     rows, cols = grid_shape
@@ -189,11 +203,16 @@ def coordinates_to_grid(latitude, longitude, bounds, grid_shape):
     west = bounds["west"]
     east = bounds["east"]
 
-    # Reject coordinates outside the analyzed region
-    if not (south <= latitude <= north):
+    if (rows <= 0 or cols <= 0 or not all(math.isfinite(v) for v in
+            (latitude, longitude, north, south, west, east))
+            or not (-90 <= latitude <= 90) or north <= south
+            or not 0 < east-west <= 360):
         return None
 
-    if not (west <= longitude <= east):
+    # Shift by whole turns only. Avoid modulo perturbations that could move an
+    # exact east edge a few floating-point units into the preceding pixel.
+    longitude = align_longitude(longitude, west, east)
+    if not contains_coordinate(latitude, longitude, bounds):
         return None
 
     latitude_fraction = (north - latitude) / (north - south)
@@ -205,13 +224,69 @@ def coordinates_to_grid(latitude, longitude, bounds, grid_shape):
     return (row, col)
 
 
-def calculate_route_distance(coordinates):
+def grid_route_with_endpoints(route, bounds, grid_shape, start, end):
+    """Keep real endpoints without a centre detour inside a single grid cell.
+
+    Other routes retain the screened cell-centre path and its endpoint
+    connectors. Geometry remains a DEM-scale approximation, not a continuous
+    traversability assessment.
+    """
+    if not route:
+        return []
+    if len(route) == 1:
+        return [list(start), list(end)]
+    return ([list(start)] + grid_route_to_coordinates(route, bounds, grid_shape)
+            + [list(end)])
+
+
+def great_circle_interpolate(start, end, fraction):
+    """Position on the shortest spherical arc, with deterministic antipodes.
+
+    Exactly antipodal endpoints have no unique shortest arc. In that case use
+    the tangent toward the Cartesian axis least aligned with the start vector.
+    """
+    if not math.isfinite(fraction) or not 0 <= fraction <= 1:
+        raise ValueError('Interpolation fraction must be between zero and one.')
+    if fraction == 0:
+        return list(start)
+    if fraction == 1:
+        return list(end)
+
+    def unit(point):
+        latitude, longitude = map(math.radians, point)
+        return np.array([math.cos(latitude) * math.cos(longitude),
+                         math.cos(latitude) * math.sin(longitude),
+                         math.sin(latitude)], dtype=float)
+
+    a, b = unit(start), unit(end)
+    dot = max(-1., min(1., float(np.dot(a, b))))
+    angle = math.acos(dot)
+    tangent = b - dot * a
+    magnitude = float(np.linalg.norm(tangent))
+    if magnitude <= 1e-12:
+        if dot > 0:
+            vector = a
+        else:
+            axis = np.zeros(3)
+            axis[int(np.argmin(np.abs(a)))] = 1.
+            tangent = axis - np.dot(axis, a) * a
+            tangent /= np.linalg.norm(tangent)
+            vector = math.cos(math.pi * fraction) * a + math.sin(math.pi * fraction) * tangent
+    else:
+        tangent /= magnitude
+        vector = math.cos(angle * fraction) * a + math.sin(angle * fraction) * tangent
+    return [math.degrees(math.atan2(vector[2], math.hypot(vector[0], vector[1]))),
+            math.degrees(math.atan2(vector[1], vector[0]))]
+
+
+def calculate_route_distance(coordinates, *, round_digits=3):
     """
     Calculate the total surface distance along a route
     using the spherical Mars great-circle formula.
 
     Coordinates are [latitude, longitude] pairs.
-    Returns distance in kilometres.
+    Returns distance in kilometres. The default retains the public three-decimal
+    result; round_digits=None preserves precision for validation and metrics.
     """
 
     import math
@@ -247,6 +322,6 @@ def calculate_route_distance(coordinates):
 
         total_distance += MARS_RADIUS_KM * central_angle
 
-    return round(total_distance, 3)
+    return total_distance if round_digits is None else round(total_distance, round_digits)
 
 

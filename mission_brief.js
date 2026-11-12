@@ -43,8 +43,8 @@
     }
     const extra=safe(route)&&safe(direct)?Math.max(0,route-direct):null;
     let guidance=regional
-      ? 'This is a regional terrain-weighted A* result. Open Route Intelligence for terrain exposure and the separate distance-versus-safety comparison, when available.'
-      : 'This is a coarse global planning result, not a rover-ready traverse. Regional distance-versus-safety comparisons are not directly applicable to this global route.';
+      ? 'This is a regional terrain-weighted A* result. Open Route Intelligence for terrain exposure and the separate distance-versus-terrain-cost comparison, when available.'
+      : 'This is a coarse global planning result, not a rover-ready traverse. Regional distance-versus-terrain-cost comparisons are not directly applicable to this global route.';
     if (extra !== null) guidance+=` The calculated path is ${fmt(extra)} km longer than the geometric great-circle reference; that reference is not a traversable alternative.`;
     if (safe(risk)) guidance+=` Reported terrain risk index: ${fmt(risk)} / 100 (model-specific score, not a probability of failure).`;
     guidance+=' NASA MOLA elevation data cannot resolve every rover-scale obstacle.';
@@ -54,6 +54,11 @@
   window.addEventListener('ares:mission',event=>{
     const state=event.detail||{};
     if (!state.route) empty(state.start&&state.end?'Calculating a new route…':'Select mission coordinates to generate an evidence-based decision brief.');
+  });
+  window.addEventListener('ares:route-error',event=>{
+    empty(event.detail.message);
+    set('ares-brief-headline',event.detail.code==='busy'?'Terrain service busy':'Route analysis unavailable');
+    set('ares-brief-guidance','Review the error in Planetary Explorer, then retry or select new coordinates. Unknown terrain must not be interpreted as low risk.');
   });
   empty('Select mission coordinates to generate an evidence-based decision brief.');
 })();

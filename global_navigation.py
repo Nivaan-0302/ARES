@@ -5,11 +5,15 @@ The output is a *regional-scale illustrative corridor*, not a rover-safe route.
 import heapq
 import math
 from functools import lru_cache
+from threading import Lock
 import numpy as np
 import rasterio
 from rasterio.enums import Resampling
-from terrain_region import DEM_PATH
+from rasterio.vrt import WarpedVRT
+from affine import Affine
+from dem_data import DEM_PATH, DEMValidationError, validate_dem, validate_global_coverage, read_elevation, classify_slopes
 from route_planner import calculate_route_distance
+from geo_rules import align_longitude
 
 R = 3389.5
 WIDTH, HEIGHT = 360, 180
@@ -25,35 +29,61 @@ def great_circle(a, b):
     return 2*R*math.asin(min(1, math.sqrt(max(0, x))))
 
 
-@lru_cache(maxsize=1)
+_MODEL_LOCK = Lock()
+
+
 def global_model():
-    with rasterio.open(DEM_PATH) as ds:
-        arr = ds.read(1, out_shape=(HEIGHT, WIDTH), resampling=Resampling.average, masked=True)
-        elevations = np.ma.filled(arr.astype(np.float32), np.nan)
-    # Preserve unknown regions as unavailable; avoid NaN propagation to adjacent cells.
+    """Share one bounded model per current dataset identity, including cold loads."""
+    try:
+        info = DEM_PATH.stat()
+    except OSError as exc:
+        raise DEMValidationError('Configured DEM is unavailable; set ARES_DEM_PATH to a readable Mars raster.') from exc
+    identity = (str(DEM_PATH.resolve()), info.st_size, info.st_mtime_ns)
+    with _MODEL_LOCK:
+        return _cached_global_model(identity)
+
+
+@lru_cache(maxsize=1)
+def _cached_global_model(identity):
+    with rasterio.open(identity[0]) as ds:
+        meta = validate_dem(ds)
+        bounds = meta['geographic_bounds']
+        coverage=validate_global_coverage(meta)
+        west=coverage['canonical_west']
+        if meta['kind']=='geographic':
+            x0,y0,dx,dy=west,90.,1.,1.
+        else:
+            factor=meta['radius_m']*math.pi/180
+            dx=factor*math.cos(math.radians(meta['lat_ts']));dy=factor
+            x0=meta['x_0']+(west-meta['lon_0'])*dx
+            y0=meta['y_0']+(90-meta['lat_0'])*dy
+        target=Affine(dx,0,x0,0,-dy,y0)
+        # Warp by actual geographic coordinates onto the canonical 1-degree
+        # grid. Resizing the native envelope would shift/stretch the owner's
+        # subpixel-offset derivative. Original pixels are never changed.
+        with WarpedVRT(ds,crs=ds.crs,transform=target,width=WIDTH,height=HEIGHT,
+                       resampling=Resampling.average,dtype='float64',nodata=np.nan) as vrt:
+            raw=np.ma.masked_invalid(vrt.read(1,masked=True))
+            elevations=np.ma.filled(raw*meta['elevation_scale']+meta['elevation_offset'],np.nan)
+        if west==0:
+            elevations = np.roll(elevations, WIDTH//2, axis=1)
     latitudes = 90-(np.arange(HEIGHT)+0.5)*180/HEIGHT
-    dlat_m = math.pi*R*1000/HEIGHT
-    dx = np.maximum(1000, (2*math.pi*R*1000/WIDTH)*np.cos(np.deg2rad(latitudes)))[:, None]
-    valid = np.isfinite(elevations)
-    filled = np.where(valid, elevations, 0)
-    left = np.roll(filled, 1, axis=1)
-    right = np.roll(filled, -1, axis=1)
-    grad_x = (right-left)/(2*dx)
-    grad_y = np.gradient(filled, dlat_m, axis=0)
-    slopes = np.degrees(np.arctan(np.hypot(grad_x, grad_y)))
-    good = valid & np.roll(valid, 1, axis=1) & np.roll(valid, -1, axis=1)
-    good[1:-1] &= valid[:-2] & valid[2:]
-    hazard = np.full((HEIGHT, WIDTH), -1, dtype=np.int8)
-    hazard[good & (slopes <= 5)] = 0
-    hazard[good & (slopes > 5) & (slopes <= 15)] = 1
-    hazard[good & (slopes > 15) & (slopes <= 25)] = 2
-    hazard[good & (slopes > 25)] = 3
+    dy = math.pi*meta['radius_m']/HEIGHT
+    dx = (2*math.pi*meta['radius_m']/WIDTH)*np.cos(np.deg2rad(latitudes))
+    _,hazard = classify_slopes(elevations, dx, dy, wrap_longitude=True)
     return elevations, hazard
+
+
+global_model.cache_clear = _cached_global_model.cache_clear
 
 
 def cell_for(lat, lon):
     if not all(map(math.isfinite, (lat, lon))) or not (-90 <= lat <= 90 and -180 <= lon <= 180):
         raise ValueError('Coordinates must be finite and within Mars latitude/longitude bounds')
+    lon=align_longitude(lon,-180.,180.)
+    # Exact poles use the adjoining coarse latitude band; longitude is physically
+    # degenerate there. This global spherical convention does not clamp a cropped
+    # native raster's east/south edges or supply a missing native elevation.
     return (min(HEIGHT-1, max(0, int((90-lat)*HEIGHT/180))),
             min(WIDTH-1, max(0, int((lon+180)*WIDTH/360))))
 
@@ -63,10 +93,25 @@ def position(cell):
     return [90-(row+0.5)*180/HEIGHT, -180+(col+0.5)*360/WIDTH]
 
 
+def _low_corridor_between(a,b,hazard):
+    """Conservative coarse-grid cover between adjacent geodesic samples.
+
+    At high latitude even a short physical step crosses many longitude cells.
+    Screen the wrapped bounding cells and one-cell halo, rather than skipping
+    unknown terrain between the fixed geodesic samples. This is coarse screening,
+    not a claim of native-resolution continuous safety.
+    """
+    r0,c0=cell_for(*a);r1,c1=cell_for(*b)
+    dc=(c1-c0+WIDTH//2)%WIDTH-WIDTH//2
+    rows=range(max(0,min(r0,r1)-1),min(HEIGHT,max(r0,r1)+2))
+    cols=[c%WIDTH for c in range(min(c0,c0+dc)-1,max(c0,c0+dc)+2)]
+    return bool(np.all(hazard[np.ix_(list(rows),cols)]==0))
+
+
 def plan(start_lat, start_lon, end_lat, end_lon):
-    _, hazard = global_model()
     start = cell_for(start_lat, start_lon)
     goal = cell_for(end_lat, end_lon)
+    _, hazard = global_model()
     if hazard[start] < 0 or hazard[goal] < 0:
         return {'status':'no_data', 'message':'Coarse MOLA coverage unavailable at an endpoint.'}
     # A* on a longitude-wrapped global grid. Each edge is a physical great-circle distance.
@@ -99,6 +144,7 @@ def plan(start_lat, start_lon, end_lat, end_lon):
                 va,vb = unit(lat_a,lon_a),unit(lat_b,lon_b)
                 angle = math.acos(max(-1,min(1,sum(x*y for x,y in zip(va,vb)))))
                 clear = True
+                previous_sample = None
                 for i in range(101):
                     t = i/100
                     if angle < 1e-10:
@@ -109,13 +155,16 @@ def plan(start_lat, start_lon, end_lat, end_lon):
                         v = tuple(x*a+y*b for a,b in zip(va,vb))
                     lat = math.degrees(math.atan2(v[2],math.hypot(v[0],v[1])))
                     lon = math.degrees(math.atan2(v[1],v[0]))
-                    if int(hazard[cell_for(lat,lon)]) != 0:
+                    sample=(lat,lon)
+                    if (int(hazard[cell_for(lat,lon)]) != 0 or
+                        (previous_sample is not None and not _low_corridor_between(previous_sample,sample,hazard))):
                         clear = False
                         break
+                    previous_sample=sample
                 if clear:
                     coords = [[start_lat,start_lon],[end_lat,end_lon]]
-            distance = round(calculate_route_distance(coords), 3)
-            direct = round(great_circle((start_lat,start_lon),(end_lat,end_lon)), 3)
+            distance = calculate_route_distance(coords, round_digits=None)
+            direct = great_circle((start_lat,start_lon),(end_lat,end_lon))
             # Geometry is an illustrative corridor through interior cell centres.
             # End cells are screened by the coarse hazard model, not continuously surveyed.
             counts = {name:0 for name in ('low','moderate','high','extreme')}
@@ -126,7 +175,7 @@ def plan(start_lat, start_lon, end_lat, end_lon):
             return {'status':'success','algorithm':'Global coarse-grid A*', 'route_type':'global_coarse_dem_scale',
                     'data_source':'NASA MOLA', 'grid_resolution_degrees':1,
                     'route_coordinates':coords, 'waypoint_count':len(coords),
-                    'route_distance_km':distance,'direct_distance_km':direct,
+                    'route_distance_km':round(distance,3),'direct_distance_km':round(direct,3),
                     'extra_distance_km':round(distance-direct,3),
                     'distance_increase_percent':round(100*(distance-direct)/direct,2) if direct else 0.,
                     'route_efficiency_percent':round(100*direct/distance,2) if distance else 100.,

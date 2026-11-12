@@ -3,11 +3,15 @@
 MOLA-scale screening only. No guarantee of traversability or rover safety.
 """
 import math
+import logging
 import numpy as np
+import rasterio
 from global_navigation import great_circle
-from route_planner import astar_route, coordinates_to_grid, grid_route_to_coordinates, calculate_route_distance
+from route_planner import (astar_route, coordinates_to_grid, grid_route_with_endpoints,
+                           calculate_route_distance)
 from terrain_region import analyze_region
 from route_refinement import refine_global_route, elevation_profile
+from dem_data import DEMValidationError
 
 HAZARD_NAMES = ('low', 'moderate', 'high', 'extreme')
 
@@ -26,7 +30,7 @@ def route_metrics(coords, start, end):
         raise ValueError('A route must contain at least two points.')
     if great_circle(coords[0], start) > 1e-5 or great_circle(coords[-1], end) > 1e-5:
         raise ValueError('Route geometry does not match the requested endpoints.')
-    distance = calculate_route_distance(coords)
+    distance = calculate_route_distance(coords, round_digits=None)
     direct = great_circle(start, end)
     if distance + 1e-5 < direct:
         raise ValueError('Route geometry is shorter than the great-circle distance.')
@@ -34,13 +38,13 @@ def route_metrics(coords, start, end):
             'direct_distance_km': round(direct, 3),
             'extra_distance_km': round(max(0., distance-direct), 3),
             'distance_increase_percent': round(100 * max(0., distance-direct) / direct, 2) if direct else 0.,
-            'route_efficiency_percent': round(100 * direct / distance, 2) if distance else 100.,
+            'route_efficiency_percent': round(min(100., 100 * direct / distance), 2) if distance else 100.,
             'waypoint_count': len(coords)}
 
 
 def regional_route(start, end, region):
     bounds = region['bounds']
-    hazard = np.asarray(region['hazard_grid'], dtype=np.int8)
+    hazard = np.asarray(region['hazard_grid'])
     s = coordinates_to_grid(*start, bounds, hazard.shape)
     g = coordinates_to_grid(*end, bounds, hazard.shape)
     if s is None or g is None:
@@ -48,19 +52,18 @@ def regional_route(start, end, region):
     cells = astar_route(hazard, s, g, bounds=bounds)
     if not cells:
         return {'status': 'no_route', 'message': 'No regional route through available MOLA terrain cells.'}
-    centres = grid_route_to_coordinates(cells, bounds, hazard.shape)
-    # The original API used cell-centre endpoints; this created an inflated efficiency score.
-    # Connect the actual user-selected endpoints to the computed cell-centre path.
-    coords = [list(start), list(end)] if start == end else [list(start)] + centres + [list(end)]
+    coords = grid_route_with_endpoints(cells, bounds, hazard.shape, start, end)
     counts = {name: sum(int(hazard[r, c]) == i for r, c in cells)
               for i, name in enumerate(HAZARD_NAMES)}
     risk = round(100 * (counts['moderate'] + 3*counts['high'] + 6*counts['extreme']) / (6*len(cells)), 2)
     return {'status': 'success', 'algorithm': 'Regional terrain-weighted A*',
             'route_type': 'regional_dem_scale', 'data_source': 'NASA MOLA',
             'route_coordinates': coords, 'terrain_risk_score': risk,
+            'terrain_metadata': region.get('terrain_metadata', {}),
             'hazard_breakdown': counts,
             'hazard_metric_scope': 'Regional A* path cells; heuristic classification, not measured rover risk',
-            'refinement': {'sampled_windows': 1, 'modified_windows': 0, 'total_coarse_segments': 0,
+            'refinement': {'attempted_windows': 1, 'sampled_windows': 1, 'modified_windows': 0,
+                           'skipped_windows': 0, 'unavailable_windows': 0, 'total_coarse_segments': 0,
                            'scope': 'One 0.5-degree regional window; path computed on DEM-derived hazard grid'},
             'warning': 'Regional MOLA-scale screening only. No rover-scale obstacle detection.'}
 
@@ -70,9 +73,10 @@ def make_scientific_report(result, coords):
     try:
         samples = elevation_profile(coords, samples=25)
         elevations = [x['elevation_m'] for x in samples if x['elevation_m'] is not None]
-    except (OSError, ValueError, IndexError) as exc:
+    except (OSError, ValueError, IndexError, DEMValidationError, rasterio.errors.RasterioError) as exc:
         samples, elevations = [], []
-        profile_error = str(exc)
+        logging.getLogger(__name__).warning('Optional elevation profile failed',exc_info=True)
+        profile_error = 'native terrain data could not be read; see server logs'
     else:
         profile_error = None
     slopes = [x['slope_degrees'] for x in samples if x.get('slope_degrees') is not None]
@@ -90,12 +94,15 @@ def make_scientific_report(result, coords):
         'route_efficiency_percent': result['route_efficiency_percent'],
         'hazard_breakdown': result['hazard_breakdown'],
         'terrain_risk_score': result['terrain_risk_score'],
+        'terrain_metadata': result.get('terrain_metadata', {}),
         'hazard_metric_scope': result.get('hazard_metric_scope', 'Coarse 1-degree A* cells, not the full refined line'),
-        'route_geometry': 'Exactly the polyline returned in route_coordinates',
+        'route_geometry': 'Shortest spherical arcs joining the returned route_coordinates',
         'sampled_route_coverage': result.get('refinement', {}).get('scope', 'Regional path cells'),
-        'limitations': ('NASA MOLA elevations at approximately 463 m/pixel near the equator; '
+        'limitations': ('Native elevation and slope samples use the configured DEM resolution and valid data masks; '
+                        'gridded MOLA products can contain interpolated elevations rather than a direct shot at every cell. '
                         '1-degree global planning averages out smaller hazards. Regional refinement samples only '
                         'selected windows. Slope categories are DEM-scale heuristics, not rover certification. '
+                        'Coarse means may exclude masked native samples; unknown coarse cells are blocked, while continuous native coverage is unverified. '
                         'Risk is a waypoint-weighted index, not a probability of failure. '
                         + (f'Elevation profile unavailable: {profile_error}.' if profile_error else '')),
     }
@@ -113,10 +120,10 @@ def calculate_mission_route(start_lat, start_lon, end_lat, end_lon):
         try:
             region = analyze_region(a, b)
             result = regional_route(start, end, region)
-        except (ValueError, IndexError, OSError):
+        except (ValueError, IndexError, OSError, rasterio.errors.RasterioError):
             pass
     if result is None:
-        result = refine_global_route(a, b, c, d)
+        result = refine_global_route(a, b, c, d, include_profile=False)
     if result.get('status') != 'success':
         return result
     coords = result['route_coordinates']

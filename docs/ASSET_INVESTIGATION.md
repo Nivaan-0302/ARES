@@ -40,6 +40,5 @@ Two guessed NASA resource slugs, `/resource/mars-full-globe/` and `/resource/mar
 - Supply any original image download URL, original file, creator correspondence, generation record, or license/permission.
 - If it was AI generated, record the actual tool and material assistance; do not infer them from missing metadata.
 - Decide whether to retain the image after rights are established or approve a documented replacement.
-- Keep software licensing undecided until separately authorized. Image credit does not select a software license.
-
+- The owner has separately authorized MIT licensing for original ARES software; see ../LICENSE.
 The broader register is [../ASSET_PROVENANCE.md](../ASSET_PROVENANCE.md). No image replacement, software-license change, public upload, or deployment occurred as part of this investigation.

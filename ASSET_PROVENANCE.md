@@ -4,7 +4,9 @@
 
 | Material | Current evidence | Required follow-up |
 | --- | --- | --- |
-| Original ARES code/interface/documentation | Creator attribution remains Nivaan Raina; material ChatGPT development/engineering assistance is disclosed | Owner explicitly leaves software licensing undecided; no `LICENSE` added or changed; review current external submission terms before submitting |
+
+| Original ARES code/interface/documentation | Creator attribution remains Nivaan Raina; material ChatGPT development/engineering assistance is disclosed | Original ARES software and documentation are distributed under the MIT License; see `LICENSE`. This license does not override third-party rights, dataset terms, or unresolved asset provenance. |
+
 | `mars_hero.png` | Original ZIP bytes retained; 600 × 600 RGBA; only IHDR/IDAT/IEND; no creator/source text; SHA-256 `9e0a81561e1b10c8115df2a2e31fa9ee7f4935e6beec9cbfa6c392970409e16a` | Origin, creator, AI status, and reuse rights remain unknown; obtain evidence or approve a documented replacement |
 | Owner's full MOLA GeoTIFF | File absent here; exact metadata was supplied by the owner in the master directive | Full-file identity, processing history, original URL and vertical reference remain unresolved; preserve the original |
 | Supplied real 256 × 256 MOLA sample | Actual Rasterio/sample tests executed; all 65,536 pixels matched a nearest-neighbor virtual warp of a public USGS COG window | This does not prove the absent full file's identity or entire processing history; retain comparison evidence and distinguish the derivative from native PDS products |
@@ -18,4 +20,4 @@ See [the detailed hero investigation](docs/ASSET_INVESTIGATION.md) for measured 
 
 Scientific references and the supplied sample have now been used in actual validation; the full original raster is still unavailable. Refer to the scientific input/provenance documentation and comparison evidence rather than treating a filename as a citation.
 
-The [competition assessment](docs/COMPETITION_READINESS.md) distinguishes failed live access from indexed official-domain material. The owner must review the actual current publication/submission terms and third-party permissions before an external submission. Local licensing remains explicitly undecided.
+The [competition assessment](docs/COMPETITION_READINESS.md) distinguishes failed live access from indexed official-domain material. The owner must review the actual current publication/submission terms and third-party permissions before an external submission. Original ARES software licensing is documented in LICENSE.

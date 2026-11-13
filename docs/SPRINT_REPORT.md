@@ -49,7 +49,7 @@ The original full local derivative was not accessed. No original DEM was overwri
 - Native PDS and indexed USGS areoid descriptions differ. The local derivative's exact vertical model and latitude interpretation require source-history confirmation. Horizontal CRS text is not proof of a vertical reference or a planetographic conversion.
 - No independent rover-scale/field ground truth, vehicle mobility calibration, environmental models, or continuous high-resolution corridor validation is supplied. Global means can obscure native hazards and partial native coverage.
 - Real high-resolution global rerouting on the owner's full source was not demonstrated. Coarse real-reference and synthetic local-refinement checks validate separate portions of the pipeline.
-- The source and AI-generation status of `mars_hero.png` remain unknown. The image is unchanged. Final licensing remains undecided. No new LICENSE was added.
+- The image is unchanged. After this sprint, the owner selected the MIT License for original ARES software; see ../LICENSE.
 - The exact selected challenge, live current rules and applicable submission rights still need confirmation. No automatic public submission, deployment or Git push occurred.
 - External NASA Trek basemap service availability was isolated in browser tests and is not certified by those tests.
 

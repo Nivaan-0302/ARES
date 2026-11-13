@@ -30,7 +30,7 @@ The real-backend checks exercised normal WebGL and a no-WebGL 2D fallback, block
 - Official dataset/product citations, labels, coordinate/reference assumptions, derivative-history uncertainties, and independent comparison method.
 - A clear account of what Nivaan Raina directed and what AI tools assisted with; original creator attribution and history remain intact.
 - Resolved hero-image rights or an explicitly approved replacement; source list and third-party notices.
-- Owner-reviewed software distribution decision and current submission agreement. Local licensing remains undecided; no license was changed here.
+Original ARES software is licensed under MIT; see ../LICENSE. Third-party asset rights require separate review.
 - The required pitch/video/project fields only after their actual format and rights conditions are verified.
 
 Do not fabricate user feedback, impact metrics, scientific accuracy, challenge selection, eligibility, development dates, or awards. Keep failures/skips and dataset limitations visible beside successes.

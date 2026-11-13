@@ -22,7 +22,7 @@ The response body reported an upstream connection failure, rather than providing
 
 The indexed event page describes registration, team formation, and submission through a project's Team page. Confirm the current workflow and local-event deadlines directly before relying on them. Exact required pitch/video length, submission fields, judging weights, and applicable event-specific instructions were not verified.
 
-The indexed legal page reports requirements to address an official challenge, cite sources, document third-party rights, and make original content unrestricted or OSI licensed. It also reports an Apache 2.0 default if no specific license is chosen. **Current live terms and their applicability were not verified.** The owner explicitly left local licensing undecided; no license was added or changed. Review the actual current submission terms and decide distribution rights before any submission, since leaving a local license undecided does not establish what an external submission agreement would do.
+The indexed legal page reports requirements to address an official challenge, cite sources, document third-party rights, and make original content unrestricted or OSI licensed. It also reports an Apache 2.0 default if no specific license is chosen. **Current live terms and their applicability were not verified.** The owner subsequently selected the MIT License for original ARES software and documentation; see ../LICENSE. Review the actual current submission terms and decide distribution rights before any submission, since leaving a local license undecided does not establish what an external submission agreement would do.
 
 ## Candidate challenge: conditional fit, not selection
 

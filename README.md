@@ -25,7 +25,8 @@ Open `http://127.0.0.1:5001`. The default dataset path, if the environment varia
 
 The interface can load without a DEM. `/healthz` checks process liveness. `/readyz` checks dataset compatibility and global coverage; a partial sample intentionally returns503 with regional capability available and global capability unavailable. This is not a scientific-accuracy certificate. Missing terrain and dataset failures produce explicit error states, never simulated observations.
 
-Leaflet 1.9.4 and Three.js 0.160.1 are vendored locally. NASA Trek background imagery remains an external service; terrain calculations use the configured raster. See `THIRD_PARTY_NOTICES.md` and [asset provenance](ASSET_PROVENANCE.md).
+
+**Mars hero image:** NASA/JPL-Caltech, Viking Orbiter mosaic. Source: [NASA Science — Mars Planet Globe](https://science.nasa.gov/resource/mars-planet-globe/). Resized to 600 × 600 pixels and converted from JPEG to PNG. NASA does not endorse ARES.
 
 ## What was validated
 

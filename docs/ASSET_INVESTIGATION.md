@@ -42,3 +42,21 @@ Two guessed NASA resource slugs, `/resource/mars-full-globe/` and `/resource/mar
 - Decide whether to retain the image after rights are established or approve a documented replacement.
 - The owner has separately authorized MIT licensing for original ARES software; see ../LICENSE.
 The broader register is [../ASSET_PROVENANCE.md](../ASSET_PROVENANCE.md). No image replacement, software-license change, public upload, or deployment occurred as part of this investigation.
+
+
+## Image replacement — 13 November 2026
+
+The original `mars_hero.png` of unresolved provenance was replaced with a resized NASA/JPL-Caltech Viking Orbiter Mars mosaic.
+
+Source page: https://science.nasa.gov/resource/mars-planet-globe/
+
+Source image: https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/downloadable_items/3/7/37983_mars-globe-valles-marineris-enhanced.jpg
+
+Transformation: JPEG converted to a 600 × 600 PNG.
+
+Replacement SHA-256:
+`642e81d8ebd94c3bee23cfe81c9847ab2f11d801d8d531e73cb4f467a7a8a481`
+
+Credit: NASA/JPL-Caltech.
+
+The image is credited separately from the MIT-licensed original ARES software. NASA endorsement is neither claimed nor implied.

@@ -34,6 +34,20 @@ east 179.99609389834364, north 90 degrees. These values are retained as
 reported, including their small departure from nominal global bounds; they
 must not be silently replaced with an ideal 46,080 × 23,040 grid.
 
+
+### Local full-file integrity verification — 13 November 2026
+
+The project owner executed `collect_dem_metadata.py --sha256` against the original local GeoTIFF without modifying it.
+
+- Filename: `mola128_mola64_merge_90Nto90S_SimpleC_clon0.tif`
+- Size: 2,123,874,317 bytes
+- Dimensions: 46,081 × 23,041 pixels
+- Coordinate reference system: `ESRI:104905`
+- SHA-256: `c1ca69ee8fa552f126cdcf51644e31e0e1b56cf2968f1d0b2e20c89546daf793`
+
+These results establish a reproducible local file identity and confirm the reported dimensions and CRS. They do not independently establish the original download source, transformation history, vertical datum, or terrain accuracy.
+
+
 The supplied `mola_sample_256.tif` is a window near 0° latitude, 0° longitude,
 reported extracted without intentional resampling. Its SHA-256 is:
 

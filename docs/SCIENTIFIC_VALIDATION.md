@@ -10,6 +10,28 @@ The same run completed eight Node frontend checks, two browser scenarios using c
 
 These were actual executions with the isolated Python 3.12.14 environment, Flask 3.1.3, NumPy 2.5.4, Rasterio 1.5.2, GDAL 3.12.2 and PROJ 9.8.1. Earlier read-only work used thin adapters where packages were unavailable; those earlier checks are not being presented as Rasterio or Flask integration tests. The sprint's named regression suites and real-data API tests used the actual installed dependencies. Version evidence is in [dependencies.json](evidence/dependencies.json).
 
+
+## Additional full-resolution DEM verification — 13 November 2026
+
+The project owner subsequently verified the original local MOLA-derived GeoTIFF:
+
+- Dimensions: 46,081 × 23,041 pixels
+- CRS: ESRI:104905
+- File size: 2,123,874,317 bytes
+- SHA-256: `c1ca69ee8fa552f126cdcf51644e31e0e1b56cf2968f1d0b2e20c89546daf793`
+
+Two previously skipped real-DEM integration tests were executed locally using the original full-resolution raster:
+
+1. `test_terrain_region.RealTerrainRegionTests` — passed.
+2. `test_route_planner.RealRoutePlannerTests` — passed.
+
+Result: 2 tests passed, 0 failures, 0 skipped, in 0.337 seconds.
+
+These results verify the tested regional terrain-analysis and route-connectivity behaviors on the owner's actual dataset. They do not establish full-planet scientific accuracy, independent ground truth, or certified rover traversability.
+
+The earlier sprint's test totals remain historical results from that separate execution environment.
+
+
 ## Supplied real sample
 
 The supplied `mola_sample_256.tif` has SHA-256:

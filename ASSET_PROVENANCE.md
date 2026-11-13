@@ -17,7 +17,7 @@
 | Three.js 0.160.1 and OrbitControls | Existing dependency vendored; MIT license retained | Retain `THIRD_PARTY_NOTICES.md`, upstream license and `vendor/SHA256SUMS` |
 | Globe surface | DEM-derived elevation-colored canvas, or an identified fallback | Label rendering as a visualization, not a photograph or live orbital observation |
 
-See [the detailed hero investigation](docs/ASSET_INVESTIGATION.md) for measured file evidence, actual NASA-source access outcomes, and an owner-approved replacement option. The image was not replaced. Metadata absence and appearance do not establish NASA or AI origin.
+See [the detailed hero investigation](docs/ASSET_INVESTIGATION.md) for measured file evidence, actual NASA-source access outcomes, and an owner-approved replacement option. The original image was subsequently replaced with the NASA/JPL-Caltech image documented above.
 
 Scientific references and the supplied sample have now been used in actual validation; the full original raster is still unavailable. Refer to the scientific input/provenance documentation and comparison evidence rather than treating a filename as a citation.
 

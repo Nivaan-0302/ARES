@@ -267,11 +267,21 @@ def classify_slopes(elevation, dx, dy, wrap_longitude=False):
     support_y[-1] = valid[-1] & valid[-2]
     spacing = np.asarray(dx, dtype=float)
     if spacing.ndim == 1:
-        spacing = spacing[:,None]
-    with np.errstate(divide='ignore',invalid='ignore'):
-        gx = gx/spacing
-        slope = np.degrees(np.arctan(np.hypot(gx,gy)))
+        spacing = spacing[:, None]
+
+    with np.errstate(divide='ignore', invalid='ignore'):
+        gx = gx / spacing
+        slope = np.degrees(np.arctan(np.hypot(gx, gy)))
+
     good = valid & support_x & support_y & np.isfinite(slope) & (spacing > .001)
-    hazard = np.full(z.shape,-1,dtype=np.int8)
-    hazard[good] = np.digitize(slope[good], [5.,15.,25.], right=True)
+
+    hazard = np.full(z.shape, -1, dtype=np.int8)
+
+    thresholds = np.array([5., 15., 25.])
+    hazard[good] = np.digitize(
+        np.round(slope[good], decimals=12),
+        thresholds,
+        right=True
+    )
+
     return slope, hazard

@@ -1,4 +1,4 @@
-/* Phase 4: read-only route intelligence; does not initiate routes or change mission state. */
+/* Read-only route intelligence; does not initiate routes or change mission state. */
 (function(){'use strict';
   const byId=id=>document.getElementById(id);
   const classes=[['low','Low','#38dca0'],['moderate','Moderate','#ffcc55'],['high','High','#ff844e'],['extreme','Extreme','#e84767']];

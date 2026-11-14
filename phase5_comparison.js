@@ -1,4 +1,4 @@
-/* Phase 5 comparison is read-only: it does not change map routes or mission state. */
+/* Route strategy comparison is read-only: it does not change map routes or mission state. */
 (function(){'use strict';
 const root=document.createElement('section');root.id='ares-phase5';root.style.cssText='margin:18px 0;padding:18px;border:1px solid #385065;border-radius:14px;background:#101c2b;color:#e5effa;font:14px system-ui';
 root.innerHTML='<div style="font-weight:700;letter-spacing:.08em;color:#8ddcf5">ROUTE STRATEGY COMPARISON</div><p id="ares-p5-status">Calculate a mission route to compare distance-optimized Dijkstra and terrain-weighted A* where regional data is available.</p><div id="ares-p5-data" style="display:none"></div><p style="font-size:12px;color:#9fb4c6">Comparison is independent of the displayed mission route. Regional MOLA-scale heuristic analysis only; not rover safety certification.</p>';

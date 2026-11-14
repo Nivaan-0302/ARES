@@ -2,7 +2,8 @@
 
 **Creator and Project Lead:** Nivaan Raina  
 **Copyright:** © 2026 Nivaan Raina  
-**Project:** NASA Space Apps Challenge 2026  
+**Project:** NASA Space Apps Challenge
+
 **Status:** Research and educational prototype with executed real-sample and public-reference validation
 
 ARES combines a Mars globe and map, native DEM elevation/slope sampling, regional hazard grids, terrain-weighted A*, coarse global navigation, sparse local refinement, route comparisons, elevation profiles, dashboards, and deterministic mission briefs. Its output is a terrain-planning research aid, not a rover-certified traverse.

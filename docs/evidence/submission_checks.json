@@ -1,0 +1,270 @@
+{
+  "scope": "Fresh local software checks for submission-readiness work. Historical evidence files are unchanged. Passing tests do not establish independent physical terrain truth or operational safety.",
+  "recorded_at_utc": "2026-11-14T13:14:56.290223+00:00",
+  "audit_base_commit": "ac6910c55b48cef39198cd7cfaaf2658e69c3ad2",
+  "checkout_commit_at_execution": "05913f819114b80150130e1cf8c48c0218be7a31",
+  "working_tree_note": "Documentation and screenshot work was in progress. Numerical/application implementations were unchanged; standalone experiment label may be corrected separately.",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "node": "v24.22.1",
+    "tested_manifest_versions": {
+      "affine": "3.0.1",
+      "attrs": "26.1.0",
+      "blinker": "1.9.0",
+      "certifi": "2026.10.23",
+      "click": "8.5.1",
+      "Flask": "3.1.3",
+      "gunicorn": "25.3.0",
+      "itsdangerous": "2.2.0",
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.4",
+      "numpy": "2.5.4",
+      "packaging": "26.3",
+      "pyparsing": "3.3.3",
+      "rasterio": "1.5.2",
+      "Werkzeug": "3.1.9"
+    },
+    "gdal": "3.12.2",
+    "proj": "9.8.1",
+    "venv": "Separate workspace virtual environment. All requirements-tested.txt pins were installed locally. system-site-packages is enabled to reuse preinstalled Playwright; other preinstalled packages are also visible. pip check passed in this combined environment.",
+    "playwright": "1.62.0"
+  },
+  "inputs": {
+    "original_dem": {
+      "available": false,
+      "test_configuration": "ARES_DEM_PATH points to a deliberately absent original-raster path, preventing the separate coarse reference from being mistaken for original-file verification"
+    },
+    "historical_256_sample": {
+      "available": false,
+      "test_configuration": "ARES_SAMPLE_PATH unset"
+    },
+    "global_reference": {
+      "available": true,
+      "source_url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg004/megt90n000cb.img",
+      "source_sha256": "25f16fb7aaf857898dcf98bc4f841341a24f8b9f7e98453ca083bc45d897ca2c",
+      "source_bytes": 2073600,
+      "prepared_geotiff_sha256": "73eac7fa356a3dc90432ed01d2dfe62718eece84a77bad78d3dfc6e3b45143b6",
+      "conversion": "Existing scripts/prepare_global_reference.py: signed big-endian array to GeoTIFF without resampling",
+      "metadata": {
+        "width": 1440,
+        "height": 720,
+        "dtype": "int16",
+        "nodata": -32768.0,
+        "units": [
+          "m"
+        ],
+        "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+        "transform": [
+          0.25,
+          0.0,
+          0.0,
+          0.0,
+          -0.25,
+          90.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "tags": {
+          "CONVERSION": "Big-endian array to GeoTIFF; no resampling",
+          "LATITUDE_CONVENTION": "planetocentric",
+          "SOURCE_PRODUCT": "MGS-M-MOLA-5-MEGDR-L3-V1.0 MEGT90N000CB.IMG",
+          "AREA_OR_POINT": "Area"
+        }
+      }
+    }
+  },
+  "environment_variables": {
+    "ARES_DEM_PATH": "/external/absent-original-dem.tif (deliberately missing)",
+    "ARES_SAMPLE_PATH": null,
+    "ARES_GLOBAL_REFERENCE_PATH": "/external/pds_megdr_4ppd_reference.tif",
+    "GDAL_PAM_ENABLED": "NO",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "checks": {
+    "root_tests": {
+      "command": [
+        "python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "docs/evidence/submission_root_tests.log",
+      "named_cases": 42,
+      "skips": [
+        {
+          "test": "test_real_route_is_connected_and_inside_region (test_route_planner.RealRoutePlannerTests.test_real_route_is_connected_and_inside_region)",
+          "reason": "NASA MOLA DEM is not supplied; set ARES_DEM_PATH"
+        },
+        {
+          "test": "test_hale_region_has_valid_classifications (test_terrain_region.RealTerrainRegionTests.test_hale_region_has_valid_classifications)",
+          "reason": "NASA MOLA DEM is not supplied; set ARES_DEM_PATH"
+        }
+      ],
+      "skip_count": 2,
+      "status_line": "OK (skipped=2)"
+    },
+    "additional_tests": {
+      "command": [
+        "python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "docs/evidence/submission_additional_tests.log",
+      "named_cases": 30,
+      "skips": [
+        {
+          "test": "test_actual_metadata_and_raw_values (test_sprint_validation.RealSampleTests.test_actual_metadata_and_raw_values)",
+          "reason": "Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample"
+        },
+        {
+          "test": "test_exhaustive_pixel_indexing_and_point_lookups (test_sprint_validation.RealSampleTests.test_exhaustive_pixel_indexing_and_point_lookups)",
+          "reason": "Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample"
+        },
+        {
+          "test": "test_independent_surface_normals_and_hazard_counts (test_sprint_validation.RealSampleTests.test_independent_surface_normals_and_hazard_counts)",
+          "reason": "Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample"
+        },
+        {
+          "test": "test_real_flask_terrain_routing_comparison_and_readiness (test_sprint_validation.RealSampleTests.test_real_flask_terrain_routing_comparison_and_readiness)",
+          "reason": "Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample"
+        }
+      ],
+      "skip_count": 4,
+      "status_line": "OK (skipped=4)"
+    },
+    "node_tests": {
+      "command": [
+        "node",
+        "--test",
+        "tests/frontend_regressions.cjs"
+      ],
+      "exit_code": 0,
+      "log": "docs/evidence/submission_node_tests.log",
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0
+    },
+    "pip_check": {
+      "command": [
+        "python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "docs/evidence/submission_pip_check.log"
+    }
+  },
+  "summary": {
+    "python_named_cases": 72,
+    "python_passed": 66,
+    "python_skipped": 6,
+    "python_failures": 0,
+    "additional_legacy_top_level_astar_assertions": 3,
+    "node_cases_passed": 8,
+    "python_files_parsed": 32,
+    "javascript_files_syntax_checked": 14,
+    "pip_check": "passed"
+  },
+  "javascript_syntax_checks": [
+    {
+      "file": "cosmic.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "globe.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "globe_bootstrap.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "mission_brief.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "mission_control.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "mission_geometry.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "mission_service.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "mission_state.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "orbital_workspace.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "phase4_intelligence.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "phase5_comparison.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "public_polish.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "script.js",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "file": "supreme_navigation.js",
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "browser_scope": "Browser checks and genuine gallery capture are recorded separately in gallery_capture.json; they must not be inferred from these numerical/Node results.",
+  "path_reporting": "External raster paths in this report and logs are normalized to /external; actual input was the separately prepared workspace reference identified by its hashes. The absent original path is deliberate.",
+  "final_syntax_and_preservation": {
+    "checked_at_utc": "2026-11-14T13:22:04.183038+00:00",
+    "python_files_parsed": 33,
+    "first_party_javascript_syntax_checked": 14,
+    "new_capture_script_included": true,
+    "protected_files_and_existing_evidence_unchanged": true,
+    "application_and_scientific_sources_unchanged": true,
+    "only_existing_source_difference": "experiment10_hale.py printed diagnostic algorithm name corrected to Dijkstra",
+    "vendored_sha256_files_verified": 11
+  }
+}

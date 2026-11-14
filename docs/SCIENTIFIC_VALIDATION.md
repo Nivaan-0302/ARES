@@ -1,5 +1,7 @@
 # Scientific validation
 
+> **Historical evidence with a later owner addendum.** The original sprint results below remain unchanged. The subsequent full-resolution verification section records the owner’s file hash and two local regional integration passes; it does not replace the earlier run or establish a new full-DEM execution in this workspace. See [scientific inputs](SCIENTIFIC_INPUTS.md) for the current evidence map and [submission readiness](SUBMISSION_READINESS.md) for checks performed during this review.
+
 Validation date: 12 November 2026. This report describes the completed local implementation sprint. It separates measured input values, calculated results, synthetic regressions, and remaining assumptions. ARES is a research and educational prototype; these results do not establish operational rover safety.
 
 ## Recorded verification outcome

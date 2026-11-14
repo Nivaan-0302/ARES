@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1430" viewBox="0 0 1080 1430" role="img" aria-labelledby="title desc">
+<title id="title">ARES architecture</title><desc id="desc">NASA MOLA-derived raster through Python processing, regional and global route models, refinement, Flask API, interactive frontend and scientific interpretation.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#65c9d1"/></marker></defs>
+<rect width="1080" height="1430" fill="#0c1623"/>
+<text x="60" y="65" font-family="sans-serif" font-size="18" fill="#69ced2" letter-spacing="3">ARES / SYSTEM ARCHITECTURE</text>
+<text x="60" y="112" font-family="sans-serif" font-size="32" font-weight="bold" fill="#eef6ff">From planetary data to an explainable route</text>
+<rect x="60" y="155" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="155" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="179" font-family="sans-serif" font-size="12" fill="#65c9d1">01 / INPUT</text>
+<text x="86" y="212" font-family="sans-serif" font-size="24" fill="#eef6ff">NASA MOLA-derived elevation raster</text>
+<text x="86" y="241" font-family="sans-serif" font-size="16" fill="#c5d4e4">Configured read-only input · CRS, units, masks and provenance</text>
+<text x="86" y="268" font-family="sans-serif" font-size="13" fill="#8aa4be">dem_data.py</text>
+<path d="M540 295 V313" stroke="#65c9d1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="60" y="321" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="321" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="345" font-family="sans-serif" font-size="12" fill="#65c9d1">02 / PROCESSING</text>
+<text x="86" y="378" font-family="sans-serif" font-size="24" fill="#eef6ff">Python + Rasterio scientific processing</text>
+<text x="86" y="407" font-family="sans-serif" font-size="16" fill="#c5d4e4">Native elevation sampling · central-axial slopes · regional hazards</text>
+<text x="86" y="434" font-family="sans-serif" font-size="13" fill="#8aa4be">dem_data.py · terrain_region.py</text>
+<path d="M540 461 V479" stroke="#65c9d1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="60" y="487" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="487" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="511" font-family="sans-serif" font-size="12" fill="#65c9d1">03 / ROUTE MODELS</text>
+<text x="86" y="544" font-family="sans-serif" font-size="24" fill="#eef6ff">Regional and global planning</text>
+<text x="86" y="573" font-family="sans-serif" font-size="16" fill="#c5d4e4">Terrain-weighted A* · Dijkstra comparison · 1° global A*</text>
+<text x="86" y="600" font-family="sans-serif" font-size="13" fill="#8aa4be">route_planner.py · phase5_comparison.py · global_navigation.py</text>
+<path d="M540 627 V645" stroke="#65c9d1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="60" y="653" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="653" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="677" font-family="sans-serif" font-size="12" fill="#65c9d1">04 / REFINEMENT + REPORT</text>
+<text x="86" y="710" font-family="sans-serif" font-size="24" fill="#eef6ff">Bounded local refinement and metrics</text>
+<text x="86" y="739" font-family="sans-serif" font-size="16" fill="#c5d4e4">Up to eight local windows · sampled profile · scope and uncertainty</text>
+<text x="86" y="766" font-family="sans-serif" font-size="13" fill="#8aa4be">route_refinement.py · mission_routing.py</text>
+<path d="M540 793 V811" stroke="#65c9d1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="60" y="819" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="819" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="843" font-family="sans-serif" font-size="12" fill="#65c9d1">05 / API</text>
+<text x="86" y="876" font-family="sans-serif" font-size="24" fill="#eef6ff">Flask scientific API</text>
+<text x="86" y="905" font-family="sans-serif" font-size="16" fill="#c5d4e4">Validated coordinates · bounded work · explicit failure states</text>
+<text x="86" y="932" font-family="sans-serif" font-size="13" fill="#8aa4be">terrain_api.py</text>
+<path d="M540 959 V977" stroke="#65c9d1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="60" y="985" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="985" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="1009" font-family="sans-serif" font-size="12" fill="#65c9d1">06 / INTERACTION</text>
+<text x="86" y="1042" font-family="sans-serif" font-size="24" fill="#eef6ff">Interactive ARES workspace</text>
+<text x="86" y="1071" font-family="sans-serif" font-size="16" fill="#c5d4e4">Three.js globe · Leaflet map · shared mission state</text>
+<text x="86" y="1098" font-family="sans-serif" font-size="13" fill="#8aa4be">globe.js · script.js · mission_service.js</text>
+<path d="M540 1125 V1143" stroke="#65c9d1" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="60" y="1151" width="960" height="137" rx="14" fill="#15263a" stroke="#2e4d66"/>
+<rect x="60" y="1151" width="5" height="137" fill="#dc8a62"/>
+<text x="86" y="1175" font-family="sans-serif" font-size="12" fill="#65c9d1">07 / INTERPRETATION</text>
+<text x="86" y="1208" font-family="sans-serif" font-size="24" fill="#eef6ff">Scientific reports and decision brief</text>
+<text x="86" y="1237" font-family="sans-serif" font-size="16" fill="#c5d4e4">Class-count exposure · algorithm comparison · deterministic summary</text>
+<text x="86" y="1264" font-family="sans-serif" font-size="13" fill="#8aa4be">phase4_intelligence.js · phase5_comparison.js · mission_brief.js</text>
+<text x="60" y="1355" font-family="sans-serif" font-size="16" fill="#b5c7da">Data dependencies shown. Browser requests enter Flask and return JSON.</text>
+<text x="60" y="1385" font-family="sans-serif" font-size="16" fill="#b5c7da">DEM-scale research prototype · no astronaut or rover safety certification</text>
+</svg>

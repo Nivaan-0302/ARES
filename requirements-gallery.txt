@@ -1,0 +1,3 @@
+# Optional screenshot capture tooling; provision Chromium separately.
+-r requirements-browser.txt
+Pillow==13.0.0

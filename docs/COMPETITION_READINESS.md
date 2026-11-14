@@ -1,7 +1,52 @@
-# Competition-readiness assessment
+# Competition readiness
 
-**Project:** ARES — Mars Terrain Intelligence & Mission Planning  
-**Creator and Project Lead:** Nivaan Raina  
+**Selected challenge:** [Interplanetary Survival Guide: Martian Map](https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/)
+
+**Creator and Project Lead:** Nivaan Raina · independently directed solo project
+
+## Current assessment
+
+ARES demonstrates the terrain-intelligence portion of the selected challenge: a shared Mars map/globe, MOLA-derived elevation and slope analysis, modeled route planning, algorithm comparison, elevation profiles and deterministic decision briefs. The [challenge-alignment matrix](CHALLENGE_ALIGNMENT.md) links these capabilities to source and evidence. It also identifies missing environmental, science-target and human-exploration constraints. ARES is a research and educational prototype, not a complete astronaut survival planner.
+
+The project owner selected this challenge in the final-submission directive. The official-domain search index independently confirms its title and URL. A fresh direct request returned HTTP 503 and the independent reader returned 502. A readable [Sonoma State local-event page](https://edeon.sonoma.edu/nasaspaceapps-26/) reproduces the overview; it supports a provisional summary, not a verified complete official requirement list. Source outcomes are recorded in [challenge_source_review.json](evidence/challenge_source_review.json). Registration, event-specific judging, deadlines, submission fields, development-period rules and eligibility remain unverified. Existing development history must be disclosed accurately; no timestamps have been shifted.
+
+Current rights and evidence records supersede several open items in the historical assessment below:
+
+- Original ARES software/documentation is MIT licensed; see [LICENSE](../LICENSE).
+- The hero image is the documented NASA/JPL-Caltech Viking Orbiter replacement, separately credited in [asset provenance](../ASSET_PROVENANCE.md). This does not grant blanket rights to all third-party content or imply NASA endorsement.
+- The owner recorded a later full-original-DEM hash/metadata check and two passing regional integration tests in [scientific validation](SCIENTIFIC_VALIDATION.md#additional-full-resolution-dem-verification--13-november-2026). That historical owner run does not establish new full-DEM execution in this workspace or full-planet ground truth.
+- Earlier sample/reference and synthetic/browser records remain evidence of their own inputs and environments. Current execution and any screenshot inputs are reported separately in [submission readiness](SUBMISSION_READINESS.md).
+
+| Judging consideration | Evidence to present | Remaining gap |
+| --- | --- | --- |
+| Scientific validity | Explicit finite-difference method, raster masks, numerical/reference comparisons, preserved input/result records | Derivative processing/vertical-reference uncertainty; no physical terrain or mobility ground truth |
+| Technical execution | Regional A*, same-grid Dijkstra comparison, global 1° grid, bounded refinement, synchronized map/globe and error states | Representative full-DEM production load and external service availability |
+| Creativity | One inspectable workflow connecting NASA terrain, route trade-offs, scope-aware reports and rule-based summaries | Standard algorithms and NASA datasets are credited, not claimed as inventions |
+| Challenge relevance | Layered Mars terrain/route exploration, with imagery separate from elevation | Broader multi-mission science/environment integration and astronaut planning remain partial or absent |
+| Presentation | Actual-interface gallery and a reproducible terrain-planning demonstration | Confirm local required format and time limit; collect real user feedback if available |
+
+These considerations are an engineering review framework, not a verified scoring rubric for the owner's local event. No award, eligibility decision, NASA certification or operational safety claim is made.
+
+## Submission completion gates
+
+1. Obtain the complete selected challenge statement and local-event instructions from organizers; verify required fields, timing/time zone, rights and development-period rules against actual prior work.
+2. Use the [demo guide](SUBMISSION_GUIDE.md), [alignment matrix](CHALLENGE_ALIGNMENT.md), and [limitations](LIMITATIONS.md) to keep the pitch tied to functioning terrain features.
+3. Supply source citations, author/AI assistance disclosures, tested setup, input identities and the actual outputs shown. State which dataset and resolution drives each screenshot/demo.
+4. Preserve documented owner verification while completing any required full-DEM/global/production checks on the authorized original input. Do not substitute a smaller reference for it silently.
+5. Submit only through the owner's selected event workflow after its rules and third-party terms are checked. This repository work does not register, deploy or submit the project.
+
+---
+
+## Historical research record — before final challenge selection
+
+The following assessment was prepared for the earlier investigation on 12 November 2026. Its statements about an unselected challenge, an Earth-analog candidate, unresolved licensing/image decisions and then-unavailable full-DEM tests describe that earlier stage. They are preserved as research history and are not the current selection or current rights status. The dated source-access results and actual reported measurements are unchanged.
+
+# Earlier competition-readiness assessment
+
+**Project:** ARES — Mars Terrain Intelligence & Mission Planning
+
+**Creator and Project Lead:** Nivaan Raina
+
 **Research access date:** 12 November 2026
 
 ARES now has executed scientific, API, algorithm, and browser evidence. Competition alignment remains conditional: the owner has not selected a challenge, current official pages could not be read live, the original full DEM is unavailable here, and image rights and software distribution terms remain unresolved. No eligibility, award, or success claim is made.

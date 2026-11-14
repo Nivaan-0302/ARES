@@ -1,5 +1,7 @@
 # ARES dataset provenance
 
+> **Historical provenance research with a later owner addendum.** The initial findings describe the original research environment. The subsequent local full-file verification records the owner’s checksum and metadata; acquisition history and vertical-reference inheritance remain unresolved. Preserve the dated records and use [scientific inputs](SCIENTIFIC_INPUTS.md) for the current evidence map.
+
 Research and numerical comparisons performed on **12 November 2026**. Project
 creator and lead: **Nivaan Raina**. Research, implementation, and reporting were
 AI-assisted. This report distinguishes the supplied sample, owner-reported

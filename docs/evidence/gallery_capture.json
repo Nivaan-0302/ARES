@@ -1,0 +1,1240 @@
+{
+  "captured_at_utc": "2026-11-14T13:19:27.134035+00:00",
+  "backend_url": "http://127.0.0.1:5001",
+  "viewport": {
+    "width": 1440,
+    "height": 2100
+  },
+  "source_product": "MEGT90N000CB.IMG native MOLA MEGDR 4 samples/degree",
+  "source_url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg004/megt90n000cb.img",
+  "source_img_sha256": "25f16fb7aaf857898dcf98bc4f841341a24f8b9f7e98453ca083bc45d897ca2c",
+  "dataset_preparation": "scripts/prepare_global_reference.py; signed big-endian to GeoTIFF, no resampling",
+  "data_class": "Public real-data reference; not owner full-resolution DEM, not synthetic fixture",
+  "regional_start": [
+    21.875,
+    -137.625
+  ],
+  "regional_destination": [
+    22.05,
+    -137.8
+  ],
+  "application_revision": "05913f819114b80150130e1cf8c48c0218be7a31",
+  "runtime": {
+    "python": "3.12.14",
+    "Flask": "3.1.3",
+    "rasterio": "1.5.2",
+    "numpy": "2.5.4",
+    "chromium": "156.0.8078.79"
+  },
+  "browser_page_errors": [],
+  "browser_request_failures": [],
+  "basemap_tiles": [
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/0/1.jpg",
+      "http_status": 200,
+      "bytes": 56154,
+      "sha256": "27601d787632682b0839d3e46b76bfc9ab8ab8e2d716d70a8617de5b6f3318d9",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/0/2.jpg",
+      "http_status": 200,
+      "bytes": 54172,
+      "sha256": "e52e086bedf50522e99ac76bb758ec33ea185a0f45870c9bfd9b43ed38038c7d",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/1/1.jpg",
+      "http_status": 200,
+      "bytes": 57197,
+      "sha256": "3193efc27c01a1d9b7f344c3ef0ce9f2523d3bd8e06477ed52148b44e46164a2",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/1/2.jpg",
+      "http_status": 200,
+      "bytes": 56307,
+      "sha256": "d463ac106e0c0c5b825088cec7a860e0674ea322c2e2fa9607a1d7e1441a1419",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/0/0.jpg",
+      "http_status": 200,
+      "bytes": 51165,
+      "sha256": "bd5abc7f071885910c517dd6c77c83ab0cfa45d3f6556eea9acf8d0b6773b447",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/0/3.jpg",
+      "http_status": 200,
+      "bytes": 51718,
+      "sha256": "62e83400abe24295839aabe63d995a1cce45e976f787e2d2c52def49e2751c02",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/1/0.jpg",
+      "http_status": 200,
+      "bytes": 55850,
+      "sha256": "950826db99ec8b61f3ea46f6b5dd97ed30d91a3d6036e0c4d57ad9adf9117002",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/1/1/3.jpg",
+      "http_status": 200,
+      "bytes": 57398,
+      "sha256": "87adbdd3675e58c19acdb02426c766e147663eae15103153d6d64d5f989c5667",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/23/14.jpg",
+      "http_status": 200,
+      "bytes": 37284,
+      "sha256": "94246e49928abce5279e538d682aace900fc709f363357aa919bd064d6520bd5",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/23/15.jpg",
+      "http_status": 200,
+      "bytes": 54289,
+      "sha256": "c0c39f2c3c428d018f9964a33c273e175c3dc7cb31af2e36c2258ca9399193f6",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/24/14.jpg",
+      "http_status": 200,
+      "bytes": 46596,
+      "sha256": "d32285455014f35f92b1759051505be334d8d1ec9945a8a0156d45e2067c1c7d",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/24/15.jpg",
+      "http_status": 200,
+      "bytes": 50353,
+      "sha256": "655fde157c69bc27963eb332b265342085c435831938780c95dee0df5e3d4f3b",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/22/14.jpg",
+      "http_status": 200,
+      "bytes": 52155,
+      "sha256": "2de2938cc0ae2e9a0e91ca24e507cf7e092050a827d27a5c13d75f34e4998a3d",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/22/15.jpg",
+      "http_status": 200,
+      "bytes": 63302,
+      "sha256": "901398889b870fd7cb49dc1484c7c2e2ca06363be24b46e82c060251e33103ff",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/23/13.jpg",
+      "http_status": 200,
+      "bytes": 43089,
+      "sha256": "93eb0be9cfae020bf0a32d63ce10d6551e77a7d16c3f4d7f2a4176e04c8d6245",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/23/16.jpg",
+      "http_status": 200,
+      "bytes": 52429,
+      "sha256": "57491a77baffc0efda398e7d25095852cba60d300faad82fea015d91b3f47716",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/24/13.jpg",
+      "http_status": 200,
+      "bytes": 54103,
+      "sha256": "425e594853530d7033fabf6a10622b982b324b07caa035d1b171afa28d490aa2",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/24/16.jpg",
+      "http_status": 200,
+      "bytes": 57298,
+      "sha256": "f8d9f128659722b2e8b63be0138c30288824e9205bede4051ed5c309b1de0ba9",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/25/14.jpg",
+      "http_status": 200,
+      "bytes": 47980,
+      "sha256": "315c31998c4e65069c82173e558d6bc4ecb3ef3b643c318231169d124ec20897",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/25/15.jpg",
+      "http_status": 200,
+      "bytes": 45018,
+      "sha256": "af2354b05ba9a2111869d9b478af235ec3fcd0c4d1378b4bd7c51e7172531f3b",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/22/13.jpg",
+      "http_status": 200,
+      "bytes": 58024,
+      "sha256": "6d30f674571370d150b5fc8cceb98a317aac53686e37bc086b75fd0ee2b08845",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/22/16.jpg",
+      "http_status": 200,
+      "bytes": 64436,
+      "sha256": "8c672417ea3f749a0e9881276ae49cb65476e2b00e9c9c59fddf2c7034497237",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/25/13.jpg",
+      "http_status": 200,
+      "bytes": 58158,
+      "sha256": "28e75b730227e731b3401b25435a46099b80d5a1df48f33bc83f212661e163c9",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/25/16.jpg",
+      "http_status": 200,
+      "bytes": 60316,
+      "sha256": "a1e026cec067c4995871744f18dc4bd024de34a4499b23a81e3e6a11a1558c8c",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/23/12.jpg",
+      "http_status": 200,
+      "bytes": 69767,
+      "sha256": "febebab769697d5032a83af3b4e950845cdb2005077c5e279c6f7062713a4054",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/23/17.jpg",
+      "http_status": 200,
+      "bytes": 46707,
+      "sha256": "2aa8605bf2c57a6ce87d1b806229cf23a61384996379c12a46b7e72b8aa86591",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/24/12.jpg",
+      "http_status": 200,
+      "bytes": 70827,
+      "sha256": "e9a85be9614221340593e52ff7195402c34c186071a01e72ea16e0afe8cc6c95",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/24/17.jpg",
+      "http_status": 200,
+      "bytes": 50483,
+      "sha256": "0bb2446a43720eeeb34b3db007f5d5378c4d35c1af558c0a8f96e40a3b5e06ff",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/22/12.jpg",
+      "http_status": 200,
+      "bytes": 73919,
+      "sha256": "993b6301c915a117a6495ae0f77ea52e096d303aa9639c82d75abc1de9862f73",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/22/17.jpg",
+      "http_status": 200,
+      "bytes": 59621,
+      "sha256": "1610ce6c6a9ab811628062edad3d699cc209f6ce1a42365f41db02a53d343b3f",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/25/12.jpg",
+      "http_status": 200,
+      "bytes": 60160,
+      "sha256": "91a1b0e49893c70dbc3716f7fccf789c6b410ae8e87ffab6c78f692a5d096acc",
+      "tls_verified": true
+    },
+    {
+      "url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/6/25/17.jpg",
+      "http_status": 200,
+      "bytes": 54020,
+      "sha256": "abf344b39ae1cd6103f60e6f9d610c52a0c52380062fd4ef18df15b57dd723d5",
+      "tls_verified": true
+    }
+  ],
+  "science_api_responses": [
+    {
+      "url": "http://127.0.0.1:5001/api/global-relief",
+      "http_status": 200,
+      "body": {
+        "height": 180,
+        "rendering": "Elevation-coloured visualization, not photographic imagery",
+        "source": "NASA MOLA",
+        "width": 360
+      },
+      "canonical_json_sha256": "03e2fe6cf8eefbe1fd410b3197b7b9902d163cdae0bdb16c8701f93b3ab03efc",
+      "relief_values_omitted": true
+    },
+    {
+      "url": "http://127.0.0.1:5001/api/elevation?lat=22.05&lon=-137.8",
+      "http_status": 200,
+      "body": {
+        "elevation_m": -1686.0,
+        "elevation_units_assumed": false,
+        "input_provenance": "Local derivative; source product and processing history not yet independently identified",
+        "latitude": 22.05,
+        "longitude": -137.8,
+        "source": "Configured MOLA-derived DEM"
+      },
+      "canonical_json_sha256": "07a9375cc9acd2b9528afd81d41d8f3898dedd7b2284ca7f7c84763990a22e09",
+      "relief_values_omitted": false
+    },
+    {
+      "url": "http://127.0.0.1:5001/api/terrain-region?lat=21.875&lon=-137.625",
+      "http_status": 200,
+      "body": {
+        "bounds": {
+          "east": -137.5,
+          "north": 22.25,
+          "south": 21.75,
+          "west": -138.0
+        },
+        "classification": {
+          "-1": "NO DATA",
+          "0": "LOW",
+          "1": "MODERATE",
+          "2": "HIGH",
+          "3": "EXTREME"
+        },
+        "elevation_grid": [
+          [
+            -1686.0,
+            -1608.0
+          ],
+          [
+            -1484.0,
+            391.0
+          ]
+        ],
+        "hazard_grid": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "latitude": 21.875,
+        "longitude": -137.625,
+        "shape": [
+          2,
+          2
+        ],
+        "terrain_metadata": {
+          "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+          "distance_model": "Mean-radius sphere; source latitude convention must be documented",
+          "elevation_units_assumed": false,
+          "horizontal_model": "geographic",
+          "pixel_height_m": 14817.845349431858,
+          "pixel_width_range_m": [
+            13726.724177483227,
+            13750.944365304786
+          ],
+          "slope_method": "Central axial differences at native pixel centres; one-pixel support halo; unknown support is unavailable",
+          "window_clipped_to_dataset": false
+        }
+      },
+      "canonical_json_sha256": "9a2943c0ff2c38e39c0a10b43ad9f2d03952144ca6f5d07769a6cf52cf88e5ee",
+      "relief_values_omitted": false
+    },
+    {
+      "url": "http://127.0.0.1:5001/api/slope?lat=22.05&lon=-137.8",
+      "http_status": 200,
+      "body": {
+        "distance_model": "Mean-radius sphere with latitude-dependent spacing",
+        "elevation_m": -1686.0,
+        "elevation_units_assumed": false,
+        "hazard_level": "LOW",
+        "input_provenance": "Local derivative; source product and processing history not yet independently identified",
+        "latitude": 22.05,
+        "longitude": -137.8,
+        "method": "Central axial differences at native pixel centres; valid centre and four axial neighbours",
+        "slope_degrees": 0.605,
+        "source": "Configured MOLA-derived DEM",
+        "warning": "DEM-scale slope; not a rover-scale obstacle assessment"
+      },
+      "canonical_json_sha256": "03251e33ca30247ac8468bfcf72fa7d2251c9fa38fff3b45612d03d268e84ea1",
+      "relief_values_omitted": false
+    },
+    {
+      "url": "http://127.0.0.1:5001/api/mission-route?start_lat=21.875&start_lon=-137.625&end_lat=22.05&end_lon=-137.8",
+      "http_status": 200,
+      "body": {
+        "algorithm": "Regional terrain-weighted A*",
+        "data_source": "NASA MOLA",
+        "direct_distance_km": 14.12,
+        "distance_increase_percent": 85.68,
+        "extra_distance_km": 12.098,
+        "hazard_breakdown": {
+          "extreme": 0,
+          "high": 1,
+          "low": 1,
+          "moderate": 0
+        },
+        "hazard_metric_scope": "Regional A* path cells; heuristic classification, not measured rover risk",
+        "refinement": {
+          "attempted_windows": 1,
+          "modified_windows": 0,
+          "sampled_windows": 1,
+          "scope": "One 0.5-degree regional window; path computed on DEM-derived hazard grid",
+          "skipped_windows": 0,
+          "total_coarse_segments": 0,
+          "unavailable_windows": 0
+        },
+        "requested_destination": [
+          22.05,
+          -137.8
+        ],
+        "requested_start": [
+          21.875,
+          -137.625
+        ],
+        "route_coordinates": [
+          [
+            21.875,
+            -137.625
+          ],
+          [
+            21.875,
+            -137.625
+          ],
+          [
+            22.125,
+            -137.875
+          ],
+          [
+            22.05,
+            -137.8
+          ]
+        ],
+        "route_distance_km": 26.217,
+        "route_efficiency_percent": 53.86,
+        "route_type": "regional_dem_scale",
+        "scientific_report": {
+          "destination_coordinates": [
+            22.05,
+            -137.8
+          ],
+          "direct_distance_km": 14.12,
+          "elevation_profile": [
+            {
+              "distance_km": 0.0,
+              "elevation_m": 391.0,
+              "latitude": 21.875,
+              "longitude": -137.625,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 1.09,
+              "elevation_m": 391.0,
+              "latitude": 21.88855,
+              "longitude": -137.63852,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 2.18,
+              "elevation_m": 391.0,
+              "latitude": 21.9021,
+              "longitude": -137.65204,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 3.28,
+              "elevation_m": 391.0,
+              "latitude": 21.91565,
+              "longitude": -137.66556,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 4.37,
+              "elevation_m": 391.0,
+              "latitude": 21.9292,
+              "longitude": -137.67909,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 5.46,
+              "elevation_m": 391.0,
+              "latitude": 21.94274,
+              "longitude": -137.69262,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 6.55,
+              "elevation_m": 391.0,
+              "latitude": 21.95629,
+              "longitude": -137.70615,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 7.65,
+              "elevation_m": 391.0,
+              "latitude": 21.96983,
+              "longitude": -137.71968,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 8.74,
+              "elevation_m": 391.0,
+              "latitude": 21.98337,
+              "longitude": -137.73322,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 9.83,
+              "elevation_m": 391.0,
+              "latitude": 21.99691,
+              "longitude": -137.74676,
+              "slope_degrees": 19.472447408791158
+            },
+            {
+              "distance_km": 10.92,
+              "elevation_m": -1686.0,
+              "latitude": 22.01045,
+              "longitude": -137.7603,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 12.02,
+              "elevation_m": -1686.0,
+              "latitude": 22.02399,
+              "longitude": -137.77384,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 13.11,
+              "elevation_m": -1686.0,
+              "latitude": 22.03753,
+              "longitude": -137.78739,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 14.2,
+              "elevation_m": -1686.0,
+              "latitude": 22.05107,
+              "longitude": -137.80094,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 15.29,
+              "elevation_m": -1686.0,
+              "latitude": 22.06461,
+              "longitude": -137.81449,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 16.39,
+              "elevation_m": -1686.0,
+              "latitude": 22.07814,
+              "longitude": -137.82804,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 17.48,
+              "elevation_m": -1686.0,
+              "latitude": 22.09167,
+              "longitude": -137.8416,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 18.57,
+              "elevation_m": -1686.0,
+              "latitude": 22.10521,
+              "longitude": -137.85516,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 19.66,
+              "elevation_m": -1686.0,
+              "latitude": 22.11874,
+              "longitude": -137.86872,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 20.76,
+              "elevation_m": -1686.0,
+              "latitude": 22.11772,
+              "longitude": -137.86772,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 21.85,
+              "elevation_m": -1686.0,
+              "latitude": 22.10418,
+              "longitude": -137.85417,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 22.94,
+              "elevation_m": -1686.0,
+              "latitude": 22.09064,
+              "longitude": -137.84062,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 24.03,
+              "elevation_m": -1686.0,
+              "latitude": 22.07709,
+              "longitude": -137.82708,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 25.12,
+              "elevation_m": -1686.0,
+              "latitude": 22.06355,
+              "longitude": -137.81354,
+              "slope_degrees": 0.6052680246177462
+            },
+            {
+              "distance_km": 26.22,
+              "elevation_m": -1686.0,
+              "latitude": 22.05,
+              "longitude": -137.8,
+              "slope_degrees": 0.6052680246177462
+            }
+          ],
+          "elevation_sample_count": 25,
+          "hazard_breakdown": {
+            "extreme": 0,
+            "high": 1,
+            "low": 1,
+            "moderate": 0
+          },
+          "hazard_metric_scope": "Regional A* path cells; heuristic classification, not measured rover risk",
+          "limitations": "Native elevation and slope samples use the configured DEM resolution and valid data masks; gridded MOLA products can contain interpolated elevations rather than a direct shot at every cell. 1-degree global planning averages out smaller hazards. Regional refinement samples only selected windows. Slope categories are DEM-scale heuristics, not rover certification. Coarse means may exclude masked native samples; unknown coarse cells are blocked, while continuous native coverage is unverified. Risk is a waypoint-weighted index, not a probability of failure. ",
+          "maximum_elevation_m": 391.0,
+          "maximum_sampled_slope_degrees": 19.472447408791158,
+          "mean_sampled_slope_degrees": 8.152,
+          "minimum_elevation_m": -1686.0,
+          "route_distance_km": 26.217,
+          "route_efficiency_percent": 53.86,
+          "route_geometry": "Shortest spherical arcs joining the returned route_coordinates",
+          "sampled_route_coverage": "One 0.5-degree regional window; path computed on DEM-derived hazard grid",
+          "slope_sample_count": 25,
+          "start_coordinates": [
+            21.875,
+            -137.625
+          ],
+          "terrain_metadata": {
+            "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+            "distance_model": "Mean-radius sphere; source latitude convention must be documented",
+            "elevation_units_assumed": false,
+            "horizontal_model": "geographic",
+            "pixel_height_m": 14817.845349431858,
+            "pixel_width_range_m": [
+              13726.724177483227,
+              13750.944365304786
+            ],
+            "slope_method": "Central axial differences at native pixel centres; one-pixel support halo; unknown support is unavailable",
+            "window_clipped_to_dataset": false
+          },
+          "terrain_risk_score": 25.0
+        },
+        "status": "success",
+        "terrain_metadata": {
+          "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+          "distance_model": "Mean-radius sphere; source latitude convention must be documented",
+          "elevation_units_assumed": false,
+          "horizontal_model": "geographic",
+          "pixel_height_m": 14817.845349431858,
+          "pixel_width_range_m": [
+            13726.724177483227,
+            13750.944365304786
+          ],
+          "slope_method": "Central axial differences at native pixel centres; one-pixel support halo; unknown support is unavailable",
+          "window_clipped_to_dataset": false
+        },
+        "terrain_risk_score": 25.0,
+        "warning": "Regional MOLA-scale screening only. No rover-scale obstacle detection.",
+        "waypoint_count": 4
+      },
+      "canonical_json_sha256": "3f8270d2e91bc9634432b4f73aeca9c6b1ab800c0c1919fe883b5c61417a2b7e",
+      "relief_values_omitted": false
+    },
+    {
+      "url": "http://127.0.0.1:5001/api/route-comparison?start_lat=21.875&start_lon=-137.625&end_lat=22.05&end_lon=-137.8",
+      "http_status": 200,
+      "body": {
+        "comparison": {
+          "distance_difference_km": 0.0,
+          "high_extreme_cells_avoided": 0,
+          "weighted_cost_improvement_percent": 0.0
+        },
+        "destination": [
+          22.05,
+          -137.8
+        ],
+        "distance_optimized": {
+          "hazard_breakdown": {
+            "extreme": 0,
+            "high": 1,
+            "low": 1,
+            "moderate": 0
+          },
+          "high_extreme_cells": 1,
+          "path_cells": 2,
+          "route_coordinates": [
+            [
+              21.875,
+              -137.625
+            ],
+            [
+              21.875,
+              -137.625
+            ],
+            [
+              22.125,
+              -137.875
+            ],
+            [
+              22.05,
+              -137.8
+            ]
+          ],
+          "route_distance_km": 26.217,
+          "weighted_grid_cost_km": 20.168
+        },
+        "limitations": "Both paths use the same regional DEM-scale grid. Hazard classes are slope heuristics; weighted cost is not travel time, energy consumption, or rover failure probability. Multi-cell routes include endpoint-to-centre connectors; same-cell routes connect the requested endpoints directly. Grid cost excludes endpoint connectors.",
+        "scope": "Regional 0.5-degree MOLA hazard grid",
+        "start": [
+          21.875,
+          -137.625
+        ],
+        "status": "success",
+        "terrain_weighted": {
+          "hazard_breakdown": {
+            "extreme": 0,
+            "high": 1,
+            "low": 1,
+            "moderate": 0
+          },
+          "high_extreme_cells": 1,
+          "path_cells": 2,
+          "route_coordinates": [
+            [
+              21.875,
+              -137.625
+            ],
+            [
+              21.875,
+              -137.625
+            ],
+            [
+              22.125,
+              -137.875
+            ],
+            [
+              22.05,
+              -137.8
+            ]
+          ],
+          "route_distance_km": 26.217,
+          "weighted_grid_cost_km": 20.168
+        }
+      },
+      "canonical_json_sha256": "42c3aaa58390363e7314c461bafa401501f85bc2a1cff1a44b6a1a48899153ca",
+      "relief_values_omitted": false
+    }
+  ],
+  "captures": [
+    {
+      "file": "01-mars-globe.webp",
+      "selector": "#terrain",
+      "description": "Interactive Three.js globe, actual MOLA-derived relief from the 4ppd reference; no route yet",
+      "width": 1128,
+      "height": 1245,
+      "bytes": 41326,
+      "sha256": "28510063f6f178faf8bbf9684149fa00f21ed7ed1749783e35ab5aa0d1b5fcdf",
+      "browser_crop": null
+    },
+    {
+      "file": "02-planetary-map.webp",
+      "selector": "#terrain",
+      "description": "Actual Leaflet 2D planetary map with NASA Trek Viking imagery; no route yet",
+      "width": 1128,
+      "height": 1245,
+      "bytes": 164442,
+      "sha256": "379daf85450270e74bae3a1659ea68afe787075a37c99f8da6b84dd229664c18",
+      "browser_crop": null
+    },
+    {
+      "file": "03-regional-hazards.webp",
+      "selector": "#terrain",
+      "description": "Real 2\u00d72 native 4ppd regional grid near Olympus Mons: LOW/MODERATE/HIGH; exact route inputs recorded",
+      "width": 1128,
+      "height": 1273,
+      "bytes": 230826,
+      "sha256": "d832dcf7529fbbb935c6a83e287e726a1289e046ac9e109956f6dcfb9df272b9",
+      "browser_crop": null
+    },
+    {
+      "file": "04-route-intelligence.webp",
+      "selector": "#navigation",
+      "description": "Route Intelligence, real regional result with distance/terrain comparison",
+      "width": 1128,
+      "height": 1537,
+      "bytes": 92472,
+      "sha256": "c155343e3efa592b559bfe98deb3f18e8e4a251e33e5be1671eee350f9557726",
+      "browser_crop": null
+    },
+    {
+      "file": "06-mission-decision-brief.webp",
+      "selector": "#ares-mission-brief",
+      "description": "Deterministic mission brief from the same real route response",
+      "width": 1074,
+      "height": 411,
+      "bytes": 26494,
+      "sha256": "1b31da485347fb4bb3e1250d81cff837fa3d7ad4c27c7f0722d7c508b962734d",
+      "browser_crop": null
+    },
+    {
+      "file": "05-science-lab.webp",
+      "selector": "#science",
+      "description": "Science Lab destination readouts at (22.05, -137.8) from actual PDS reference: -1686 m, approximately 0.605 degrees, LOW",
+      "width": 1128,
+      "height": 259,
+      "bytes": 14624,
+      "sha256": "c51a4b058c500b7b86ec730cba95e7c762b9031e92ce0b38a3548a6874b7f19c",
+      "browser_crop": null
+    },
+    {
+      "file": "07-route-scientific-report.webp",
+      "selector": "#scientific-report",
+      "description": "Route Scientific Report and actual 25-sample profile; repeated native cells remain visible as steps",
+      "width": 1128,
+      "height": 659,
+      "bytes": 50162,
+      "sha256": "5dff168704d9029ee975d3fe9a839c2b670a1d3418c3691e55326abd5d6879ec",
+      "browser_crop": null
+    }
+  ],
+  "imagery_transport": "verified urllib HTTPS bridge, identical NASA Trek image bytes",
+  "image_encoding": "Direct browser PNG capture encoded as WebP quality 88; no compositing, data replacement or scene edits",
+  "input_consistency_checks": {
+    "reference_tiff_sha256": "73eac7fa356a3dc90432ed01d2dfe62718eece84a77bad78d3dfc6e3b45143b6",
+    "canonical_big_endian_pixels_sha256": "25f16fb7aaf857898dcf98bc4f841341a24f8b9f7e98453ca083bc45d897ca2c",
+    "shape": [
+      720,
+      1440
+    ],
+    "transform": [
+      0.25,
+      0.0,
+      0.0,
+      0.0,
+      -0.25,
+      90.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "units": [
+      "m"
+    ],
+    "readyz": {
+      "dataset": {
+        "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+        "elevation_offset": 0.0,
+        "elevation_scale": 1.0,
+        "elevation_units": "metres",
+        "elevation_units_assumed": false,
+        "geographic_bounds": {
+          "east": 360.0,
+          "north": 90.0,
+          "south": -90.0,
+          "west": 0.0
+        },
+        "height": 720,
+        "kind": "geographic",
+        "radius_m": 3396000.0,
+        "width": 1440
+      },
+      "status": "ready"
+    },
+    "native_point_probes": [
+      {
+        "latitude": 21.875,
+        "longitude": -137.625,
+        "reference_native_value_m": 391.0,
+        "backend_elevation_m": 391.0
+      },
+      {
+        "latitude": 22.05,
+        "longitude": -137.8,
+        "reference_native_value_m": -1686.0,
+        "backend_elevation_m": -1686.0
+      },
+      {
+        "latitude": 0.125,
+        "longitude": 0.125,
+        "reference_native_value_m": -1239.0,
+        "backend_elevation_m": -1239.0
+      },
+      {
+        "latitude": -45.125,
+        "longitude": 80.125,
+        "reference_native_value_m": -6148.0,
+        "backend_elevation_m": -6148.0
+      }
+    ],
+    "scope": "Input identity consistency smoke checks; not a server full-file attestation. Caller must start backend with this verified reference."
+  },
+  "regional_result": {
+    "algorithm": "Regional terrain-weighted A*",
+    "data_source": "NASA MOLA",
+    "direct_distance_km": 14.12,
+    "distance_increase_percent": 85.68,
+    "extra_distance_km": 12.098,
+    "hazard_breakdown": {
+      "extreme": 0,
+      "high": 1,
+      "low": 1,
+      "moderate": 0
+    },
+    "hazard_metric_scope": "Regional A* path cells; heuristic classification, not measured rover risk",
+    "refinement": {
+      "attempted_windows": 1,
+      "modified_windows": 0,
+      "sampled_windows": 1,
+      "scope": "One 0.5-degree regional window; path computed on DEM-derived hazard grid",
+      "skipped_windows": 0,
+      "total_coarse_segments": 0,
+      "unavailable_windows": 0
+    },
+    "requested_destination": [
+      22.05,
+      -137.8
+    ],
+    "requested_start": [
+      21.875,
+      -137.625
+    ],
+    "route_coordinates": [
+      [
+        21.875,
+        -137.625
+      ],
+      [
+        21.875,
+        -137.625
+      ],
+      [
+        22.125,
+        -137.875
+      ],
+      [
+        22.05,
+        -137.8
+      ]
+    ],
+    "route_distance_km": 26.217,
+    "route_efficiency_percent": 53.86,
+    "route_type": "regional_dem_scale",
+    "scientific_report": {
+      "destination_coordinates": [
+        22.05,
+        -137.8
+      ],
+      "direct_distance_km": 14.12,
+      "elevation_profile": [
+        {
+          "distance_km": 0,
+          "elevation_m": 391,
+          "latitude": 21.875,
+          "longitude": -137.625,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 1.09,
+          "elevation_m": 391,
+          "latitude": 21.88855,
+          "longitude": -137.63852,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 2.18,
+          "elevation_m": 391,
+          "latitude": 21.9021,
+          "longitude": -137.65204,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 3.28,
+          "elevation_m": 391,
+          "latitude": 21.91565,
+          "longitude": -137.66556,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 4.37,
+          "elevation_m": 391,
+          "latitude": 21.9292,
+          "longitude": -137.67909,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 5.46,
+          "elevation_m": 391,
+          "latitude": 21.94274,
+          "longitude": -137.69262,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 6.55,
+          "elevation_m": 391,
+          "latitude": 21.95629,
+          "longitude": -137.70615,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 7.65,
+          "elevation_m": 391,
+          "latitude": 21.96983,
+          "longitude": -137.71968,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 8.74,
+          "elevation_m": 391,
+          "latitude": 21.98337,
+          "longitude": -137.73322,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 9.83,
+          "elevation_m": 391,
+          "latitude": 21.99691,
+          "longitude": -137.74676,
+          "slope_degrees": 19.472447408791158
+        },
+        {
+          "distance_km": 10.92,
+          "elevation_m": -1686,
+          "latitude": 22.01045,
+          "longitude": -137.7603,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 12.02,
+          "elevation_m": -1686,
+          "latitude": 22.02399,
+          "longitude": -137.77384,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 13.11,
+          "elevation_m": -1686,
+          "latitude": 22.03753,
+          "longitude": -137.78739,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 14.2,
+          "elevation_m": -1686,
+          "latitude": 22.05107,
+          "longitude": -137.80094,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 15.29,
+          "elevation_m": -1686,
+          "latitude": 22.06461,
+          "longitude": -137.81449,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 16.39,
+          "elevation_m": -1686,
+          "latitude": 22.07814,
+          "longitude": -137.82804,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 17.48,
+          "elevation_m": -1686,
+          "latitude": 22.09167,
+          "longitude": -137.8416,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 18.57,
+          "elevation_m": -1686,
+          "latitude": 22.10521,
+          "longitude": -137.85516,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 19.66,
+          "elevation_m": -1686,
+          "latitude": 22.11874,
+          "longitude": -137.86872,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 20.76,
+          "elevation_m": -1686,
+          "latitude": 22.11772,
+          "longitude": -137.86772,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 21.85,
+          "elevation_m": -1686,
+          "latitude": 22.10418,
+          "longitude": -137.85417,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 22.94,
+          "elevation_m": -1686,
+          "latitude": 22.09064,
+          "longitude": -137.84062,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 24.03,
+          "elevation_m": -1686,
+          "latitude": 22.07709,
+          "longitude": -137.82708,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 25.12,
+          "elevation_m": -1686,
+          "latitude": 22.06355,
+          "longitude": -137.81354,
+          "slope_degrees": 0.6052680246177462
+        },
+        {
+          "distance_km": 26.22,
+          "elevation_m": -1686,
+          "latitude": 22.05,
+          "longitude": -137.8,
+          "slope_degrees": 0.6052680246177462
+        }
+      ],
+      "elevation_sample_count": 25,
+      "hazard_breakdown": {
+        "extreme": 0,
+        "high": 1,
+        "low": 1,
+        "moderate": 0
+      },
+      "hazard_metric_scope": "Regional A* path cells; heuristic classification, not measured rover risk",
+      "limitations": "Native elevation and slope samples use the configured DEM resolution and valid data masks; gridded MOLA products can contain interpolated elevations rather than a direct shot at every cell. 1-degree global planning averages out smaller hazards. Regional refinement samples only selected windows. Slope categories are DEM-scale heuristics, not rover certification. Coarse means may exclude masked native samples; unknown coarse cells are blocked, while continuous native coverage is unverified. Risk is a waypoint-weighted index, not a probability of failure. ",
+      "maximum_elevation_m": 391,
+      "maximum_sampled_slope_degrees": 19.472447408791158,
+      "mean_sampled_slope_degrees": 8.152,
+      "minimum_elevation_m": -1686,
+      "route_distance_km": 26.217,
+      "route_efficiency_percent": 53.86,
+      "route_geometry": "Shortest spherical arcs joining the returned route_coordinates",
+      "sampled_route_coverage": "One 0.5-degree regional window; path computed on DEM-derived hazard grid",
+      "slope_sample_count": 25,
+      "start_coordinates": [
+        21.875,
+        -137.625
+      ],
+      "terrain_metadata": {
+        "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+        "distance_model": "Mean-radius sphere; source latitude convention must be documented",
+        "elevation_units_assumed": false,
+        "horizontal_model": "geographic",
+        "pixel_height_m": 14817.845349431858,
+        "pixel_width_range_m": [
+          13726.724177483227,
+          13750.944365304786
+        ],
+        "slope_method": "Central axial differences at native pixel centres; one-pixel support halo; unknown support is unavailable",
+        "window_clipped_to_dataset": false
+      },
+      "terrain_risk_score": 25
+    },
+    "status": "success",
+    "terrain_metadata": {
+      "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+      "distance_model": "Mean-radius sphere; source latitude convention must be documented",
+      "elevation_units_assumed": false,
+      "horizontal_model": "geographic",
+      "pixel_height_m": 14817.845349431858,
+      "pixel_width_range_m": [
+        13726.724177483227,
+        13750.944365304786
+      ],
+      "slope_method": "Central axial differences at native pixel centres; one-pixel support halo; unknown support is unavailable",
+      "window_clipped_to_dataset": false
+    },
+    "terrain_risk_score": 25,
+    "warning": "Regional MOLA-scale screening only. No rover-scale obstacle detection.",
+    "waypoint_count": 4
+  },
+  "regional_terrain": {
+    "bounds": {
+      "east": -137.5,
+      "north": 22.25,
+      "south": 21.75,
+      "west": -138
+    },
+    "classification": {
+      "0": "LOW",
+      "1": "MODERATE",
+      "2": "HIGH",
+      "3": "EXTREME",
+      "-1": "NO DATA"
+    },
+    "elevation_grid": [
+      [
+        -1686,
+        -1608
+      ],
+      [
+        -1484,
+        391
+      ]
+    ],
+    "hazard_grid": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "latitude": 21.875,
+    "longitude": -137.625,
+    "shape": [
+      2,
+      2
+    ],
+    "terrain_metadata": {
+      "crs": "GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST]]",
+      "distance_model": "Mean-radius sphere; source latitude convention must be documented",
+      "elevation_units_assumed": false,
+      "horizontal_model": "geographic",
+      "pixel_height_m": 14817.845349431858,
+      "pixel_width_range_m": [
+        13726.724177483227,
+        13750.944365304786
+      ],
+      "slope_method": "Central axial differences at native pixel centres; one-pixel support halo; unknown support is unavailable",
+      "window_clipped_to_dataset": false
+    }
+  },
+  "real_backend_checks": {
+    "route_type": "regional_dem_scale",
+    "profile_samples": 25,
+    "regional_comparison_visible": true,
+    "hazard_toggle": true,
+    "mobile_widths": {
+      "viewport": 390,
+      "document": 390,
+      "body": 390
+    }
+  }
+}

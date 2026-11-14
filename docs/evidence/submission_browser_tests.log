@@ -1,0 +1,2 @@
+PASS synthetic browser smoke: 3D plus 2D | dateline, shared region, hazard controls, reset; no page errors
+PASS synthetic browser smoke: WebGL unavailable, 2D fallback | dateline, shared region, hazard controls, reset; no page errors

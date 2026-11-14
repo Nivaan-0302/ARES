@@ -1,0 +1,43 @@
+{
+  "review_date": "2026-11-14",
+  "selected_challenge": "Interplanetary Survival Guide: Martian Map",
+  "selection_authority": "Project owner master directive; not independent confirmation of registration or eligibility",
+  "sources": [
+    {
+      "url": "https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/",
+      "direct_https_status": 503,
+      "web_reader_status": 502,
+      "indexed_evidence": "Official-domain indexed title matches selection; detailed statement not returned by official-domain targeted searches"
+    },
+    {
+      "url": "https://edeon.sonoma.edu/nasaspaceapps-26/",
+      "web_reader": "Readable institutional local-event page; lines 56-58 identify challenge and reproduce overview",
+      "evidence_type": "secondary institutional reproduction, not governing complete official brief",
+      "paraphrase": "Combine multiple NASA mission datasets in an integrated layered view of a Mars location or route to assist a human explorer with a Marswalk and science activities."
+    },
+    {
+      "url": "https://nsac.birlainstitute.co.in/problem-statements",
+      "web_reader": "Indexed challenge summary corroborates Sonoma; open returned no readable lines",
+      "evidence_type": "secondary local-event institutional summary"
+    },
+    {
+      "url": "https://science.nasa.gov/universe/nasa-welcomes-all-ages-experience-levels-for-space-apps-challenge/",
+      "web_reader": "Readable NASA Science page; lines 254-256 support broad Mars activity and multi-mission context",
+      "evidence_type": "NASA primary background, not challenge requirements"
+    }
+  ],
+  "not_verified": [
+    "full challenge Background/Objectives/Potential Considerations/Resources tabs",
+    "event-specific judging format, pitch length, deadlines and team registration",
+    "applicable rules on pre-existing development and submission rights"
+  ],
+  "audit_findings": [
+    "README and submission guide incorrectly state challenge unselected",
+    "Competition readiness foregrounds an unselected Earth-analog challenge; retain in clearly historical section",
+    "Competition readiness unresolved MIT/image claims conflict with current LICENSE and NASA image replacement record",
+    "Owner full-DEM verification has since been documented; distinguish owner record from execution in current workspace",
+    "Date review report quotations of historical findings should remain unchanged as audit evidence"
+  ],
+  "interpretation": "Selected title/URL independently indexed; detailed official statement unavailable. Institutional overview used provisionally, not as a complete governing requirement list.",
+  "historical_research": "Original docs/evidence/source_access.json is unchanged; the earlier Earth-analog assessment and its access outcomes are preserved under the historical section of COMPETITION_READINESS.md."
+}

@@ -1,5 +1,7 @@
 # ARES implementation sprint report
 
+> **Historical implementation report.** This document preserves the original sprint’s results, limitations and decisions. Later work recorded the owner’s full-DEM hash and two regional smoke passes, replaced the hero image and selected the Martian Map challenge. Those later facts do not redate this sprint. See [scientific validation](SCIENTIFIC_VALIDATION.md), [asset provenance](../ASSET_PROVENANCE.md), [challenge alignment](CHALLENGE_ALIGNMENT.md) and [submission readiness](SUBMISSION_READINESS.md) for the current context.
+
 **Creator and Project Lead:** Nivaan Raina  
 **Report date:** 12 November 2026  
 **Scope:** Reversible implementation on the accessible updated ARES copy; the user's original ZIP, full original dataset, attribution files, image and licensing were preserved.

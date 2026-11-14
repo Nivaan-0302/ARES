@@ -1,0 +1,94 @@
+{
+  "checked_at_utc": "2026-11-14T13:21:19.455685+00:00",
+  "scope": "Root and docs Markdown local file/fragment targets and HEAD availability of explicit Markdown external links. HEAD status alone does not verify statement content or external fragments. Plain-text historical URLs, code paths, and upstream vendor source links are not rewritten.",
+  "internal_references_checked": 261,
+  "internal_failures": [],
+  "external_head_results": [
+    {
+      "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/wms_basemaps3/Mars/MOLA/mola128_mola64_merge_90Nto90S_SimpleC_clon0_cog.tif",
+      "status": 200
+    },
+    {
+      "url": "https://astrogeology.usgs.gov/search/map/mars_mgs_mola_dem_463m",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://edeon.sonoma.edu/nasaspaceapps-26/",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/Nivaan-0302/ARES/pull/2",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/catalog/dsmap.cat",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/document/egdrsis.htm",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg004/megt90n000cb.img",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg004/megt90n000cb.lbl",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt44n000hb.lbl",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megt44n000hb.xml",
+      "status": 200
+    },
+    {
+      "url": "https://pds-geosciences.wustl.edu/missions/mgs/megdr.html",
+      "status": 200
+    },
+    {
+      "url": "https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=MGS-M-MOLA-5-MEGDR-L3-V1.0",
+      "status": 200
+    },
+    {
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mars_MGS_MOLA_DEM_mosaic_global_463m.tif",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://science.nasa.gov/resource/mars-planet-globe/",
+      "status": 200
+    },
+    {
+      "url": "https://science.nasa.gov/universe/nasa-welcomes-all-ages-experience-levels-for-space-apps-challenge/",
+      "status": 200
+    },
+    {
+      "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "status": 200
+    },
+    {
+      "url": "https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/",
+      "error": "HTTP Error 503: Service Unavailable"
+    },
+    {
+      "url": "https://www.spaceappschallenge.org/2026/local-events/ajmer/",
+      "error": "HTTP Error 503: Service Unavailable"
+    },
+    {
+      "url": "https://www.spaceappschallenge.org/2026/local-events/faisalabad/",
+      "error": "HTTP Error 503: Service Unavailable"
+    }
+  ],
+  "authenticated_verifications": [
+    {
+      "url": "https://github.com/Nivaan-0302/ARES/pull/2",
+      "verification": "Authenticated GitHub connector confirmed PR #2 merged as ac6910c55b48cef39198cd7cfaaf2658e69c3ad2. Anonymous HEAD returns 404 because this repository is private; do not classify as a missing PR."
+    }
+  ]
+}

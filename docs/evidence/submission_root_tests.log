@@ -1,0 +1,82 @@
+test_flat_grid_routes_have_exact_endpoints (test_global_navigation.GlobalNavigationTests.test_flat_grid_routes_have_exact_endpoints) ... ok
+test_missing_endpoint_data_is_not_traversable (test_global_navigation.GlobalNavigationTests.test_missing_endpoint_data_is_not_traversable) ... ok
+test_production_report_uses_illustrative_risk_index (test_hazard_avoidance.HazardAvoidanceTests.test_production_report_uses_illustrative_risk_index) ... ok
+test_weighted_route_avoids_extreme_block_when_detour_exists (test_hazard_avoidance.HazardAvoidanceTests.test_weighted_route_avoids_extreme_block_when_detour_exists) ... ok
+test_direct_route_uses_precision_before_rounding (test_mission_routing.MissionRoutingTests.test_direct_route_uses_precision_before_rounding) ... ok
+test_exact_endpoints_and_efficiency (test_mission_routing.MissionRoutingTests.test_exact_endpoints_and_efficiency) ... ok
+test_full_global_mission_rounding_and_single_profile (test_mission_routing.MissionRoutingTests.test_full_global_mission_rounding_and_single_profile) ... Local refinement data unavailable
+Traceback (most recent call last):
+  File "<ARES>/route_refinement.py", line 48, in refine_segment
+    region = analyze_region(*center)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+ValueError: Synthetic unavailable window
+ok
+test_global_antimeridian_and_exact_endpoints (test_mission_routing.MissionRoutingTests.test_global_antimeridian_and_exact_endpoints) ... ok
+test_global_opposite_hemispheres (test_mission_routing.MissionRoutingTests.test_global_opposite_hemispheres) ... ok
+test_missing_same_cell_still_rejects_route (test_mission_routing.MissionRoutingTests.test_missing_same_cell_still_rejects_route) ... ok
+test_optional_profile_failure_keeps_valid_route_and_discloses_gap (test_mission_routing.MissionRoutingTests.test_optional_profile_failure_keeps_valid_route_and_discloses_gap) ... Optional elevation profile failed
+Traceback (most recent call last):
+  File "<ARES>/mission_routing.py", line 74, in make_scientific_report
+    samples = elevation_profile(coords, samples=25)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+dem_data.DEMValidationError: /private/example/dem.tif changed during sampling
+ok
+test_regional_route_uses_actual_coordinates (test_mission_routing.MissionRoutingTests.test_regional_route_uses_actual_coordinates) ... ok
+test_rejects_invalid_and_nonfinite_coordinates (test_mission_routing.MissionRoutingTests.test_rejects_invalid_and_nonfinite_coordinates) ... ok
+test_same_cell_does_not_add_a_centre_detour (test_mission_routing.MissionRoutingTests.test_same_cell_does_not_add_a_centre_detour) ... ok
+test_same_point_is_zero_distance (test_mission_routing.MissionRoutingTests.test_same_point_is_zero_distance) ... ok
+test_outside_region_is_rejected (test_route_planner.CoordinateConversionTests.test_outside_region_is_rejected) ... ok
+test_production_cell_centres_round_trip (test_route_planner.CoordinateConversionTests.test_production_cell_centres_round_trip) ... ok
+test_real_route_is_connected_and_inside_region (test_route_planner.RealRoutePlannerTests.test_real_route_is_connected_and_inside_region) ... skipped 'NASA MOLA DEM is not supplied; set ARES_DEM_PATH'
+test_all_missing_window_is_unavailable (test_route_refinement.RefinementTests.test_all_missing_window_is_unavailable) ... ok
+test_antipodal_interpolation_is_finite_and_on_sphere (test_route_refinement.RefinementTests.test_antipodal_interpolation_is_finite_and_on_sphere) ... ok
+test_comparison_same_cell_matches_mission_geometry (test_route_refinement.RefinementTests.test_comparison_same_cell_matches_mission_geometry) ... ok
+test_dateline_interpolation (test_route_refinement.RefinementTests.test_dateline_interpolation) ... ok
+test_failed_or_skipped_windows_do_not_overstate_coverage (test_route_refinement.RefinementTests.test_failed_or_skipped_windows_do_not_overstate_coverage) ... ok
+test_global_report_and_bounded_windows (test_route_refinement.RefinementTests.test_global_report_and_bounded_windows) ... ok
+test_grid_line_endpoints (test_route_refinement.RefinementTests.test_grid_line_endpoints) ... ok
+test_interpolation_follows_geodesic_at_high_latitude (test_route_refinement.RefinementTests.test_interpolation_follows_geodesic_at_high_latitude) ... ok
+test_profile_rejects_invalid_sample_counts (test_route_refinement.RefinementTests.test_profile_rejects_invalid_sample_counts) ... ok
+test_profile_samples_the_geodesic_and_uses_dem_helpers (test_route_refinement.RefinementTests.test_profile_samples_the_geodesic_and_uses_dem_helpers) ... ok
+test_segment_refinement_avoids_hazard (test_route_refinement.RefinementTests.test_segment_refinement_avoids_hazard) ... ok
+test_clipped_raster_bounds_match_returned_grid (test_terrain_processing.TerrainProcessingTests.test_clipped_raster_bounds_match_returned_grid) ... ok
+test_dateline_wrap_only_for_full_world_coverage (test_terrain_processing.TerrainProcessingTests.test_dateline_wrap_only_for_full_world_coverage) ... ok
+test_geographic_domain_and_spacing (test_terrain_processing.TerrainProcessingTests.test_geographic_domain_and_spacing) ... ok
+test_global_coverage_rejects_partial_and_noncanonical_extents (test_terrain_processing.TerrainProcessingTests.test_global_coverage_rejects_partial_and_noncanonical_extents) ... ok
+test_global_polar_support_and_longitude_wrap (test_terrain_processing.TerrainProcessingTests.test_global_polar_support_and_longitude_wrap) ... ok
+test_missing_center_and_derivative_support_remain_unknown (test_terrain_processing.TerrainProcessingTests.test_missing_center_and_derivative_support_remain_unknown) ... ok
+test_per_row_spacing_changes_classification (test_terrain_processing.TerrainProcessingTests.test_per_row_spacing_changes_classification) ... ok
+test_projected_transform_round_trip (test_terrain_processing.TerrainProcessingTests.test_projected_transform_round_trip) ... ok
+test_rejects_earth_rotated_and_unsupported_crs (test_terrain_processing.TerrainProcessingTests.test_rejects_earth_rotated_and_unsupported_crs) ... ok
+test_scales_offsets_and_masks (test_terrain_processing.TerrainProcessingTests.test_scales_offsets_and_masks) ... ok
+test_threshold_boundaries_are_consistent (test_terrain_processing.TerrainProcessingTests.test_threshold_boundaries_are_consistent) ... ok
+test_unknown_units_are_disclosed_instead_of_fabricated (test_terrain_processing.TerrainProcessingTests.test_unknown_units_are_disclosed_instead_of_fabricated) ... ok
+test_hale_region_has_valid_classifications (test_terrain_region.RealTerrainRegionTests.test_hale_region_has_valid_classifications) ... skipped 'NASA MOLA DEM is not supplied; set ARES_DEM_PATH'
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.434s
+
+OK (skipped=2)
+ARES — A* ALGORITHM VALIDATION
+--------------------------------
+TEST 1 PASSED: Shortest diagonal route on flat terrain
+TEST 2 PASSED: Avoided expensive terrain
+TEST 3 PASSED: Correctly rejected blocked route
+--------------------------------
+ALL ARES A* VALIDATION TESTS PASSED

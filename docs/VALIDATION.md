@@ -1,6 +1,27 @@
 # Reproducing validation
 
-Use Python 3.12 and the isolated environment from the README. The final recorded results are in [scientific validation](SCIENTIFIC_VALIDATION.md) and [machine-readable outcomes](evidence/final_verification.json).
+Use Python 3.12 and the isolated environment from the README. Historical results are in [scientific validation](SCIENTIFIC_VALIDATION.md) and [the original machine-readable outcomes](evidence/final_verification.json). Fresh submission-readiness checks are in [submission_checks.json](evidence/submission_checks.json); browser/gallery evidence is separate in [gallery_capture.json](evidence/gallery_capture.json).
+
+## Current execution and missing inputs
+
+The submission-readiness run executed **72 named Python cases: 66 passed, six skipped, zero failures**, plus three legacy top-level A* assertions. Eight Node regressions passed; all first-party Python/JavaScript sources passed syntax checks and `pip check` passed. The six skips are two original-DEM tests and four historical-sample tests, because neither input is present in this checkout. Real global-reference tests used the separate hash-verified 4 ppd native PDS product. These totals do not replace the earlier 70-pass/two-skip record or the later owner-side full-DEM tests.
+
+The isolated environment installed the exact `requirements-tested.txt` pins. It reuses the preinstalled Playwright through system-site packages; exact versions and commands are recorded in the fresh JSON. No system Python packages were changed.
+
+To reproduce a reference-only run without implying original-file coverage:
+
+```bash
+python scripts/prepare_global_reference.py --output /tmp/ares-reference-new
+export ARES_GLOBAL_REFERENCE_PATH='/tmp/ares-reference-new/pds_megdr_4ppd_reference.tif'
+export ARES_DEM_PATH='/absolute/path/to/absent-original-dem.tif'
+unset ARES_SAMPLE_PATH
+export GDAL_PAM_ENABLED=NO
+PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s . -p 'test_*.py' -v
+PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s tests -p 'test_*.py' -v
+node --test tests/frontend_regressions.cjs
+```
+
+`ARES_DEM_PATH` deliberately names a missing original in this mode. Do not point the original-file smoke tests at the coarse reference and report them as original-DEM verification. Set it to the authorized original only when actually available. The public reference is not committed or substituted into default production configuration.
 
 ## Backend and numerical tests
 
@@ -15,9 +36,9 @@ PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s . -p 'test_*.py' -v
 PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-The original full DEM is not required for these supplied-sample and reference tests. Two older smoke tests require the actual full dataset and skip when its default/configured path is absent. They must not be pointed at an unrelated sample and described as full-data validation. Other sample/reference tests skip explicitly when their environment paths are absent. The reference preparation script downloads the documented2,073,600-byte public PDS product, verifies its hash, converts byte order/format without resampling, and refuses existing output files.
+The original full DEM is not required for these sample and reference tests, but the historical sample must be supplied separately to reproduce its four named cases. Two older smoke tests require the actual full dataset and skip when its default/configured path is absent. They must not be pointed at an unrelated sample and described as full-data validation. Other sample/reference tests skip explicitly when their environment paths are absent. The reference preparation script downloads the documented2,073,600-byte public PDS product, verifies its hash, converts byte order/format without resampling, and refuses existing output files.
 
-The root discovery command also executes three existing top-level A* assertions, separately from the42 named unittest cases. The tests folder runs30 named cases when the real sample and reference paths are supplied. Final outcome:70 passed and2 full-original-DEM skips across72 named cases. No final failed suite was hidden. Some warning logs deliberately exercise missing-data and private-error branches; those branches are expected assertions, not passing scientific observations.
+The root discovery command also executes three existing top-level A* assertions, separately from the42 named unittest cases. The tests folder runs30 named cases when the real sample and reference paths are supplied. Historical sample-plus-reference outcome: 70 passed and two full-original-DEM skips across 72 named cases. The fresh run above has additional explicit sample skips. No final failed suite was hidden. Some warning logs deliberately exercise missing-data and private-error branches; those branches are expected assertions, not passing scientific observations.
 
 ## Frontend tests
 

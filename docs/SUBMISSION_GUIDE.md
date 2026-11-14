@@ -1,36 +1,57 @@
-# Evidence-backed submission and demo guide
+# Submission and demonstration guide
 
-**Creator and Project Lead:** Nivaan Raina. The actual Space Apps challenge remains unselected. This guide proposes presentation content; it is not an eligibility decision, a required video format, or a claim of competition success.
+**Creator and Project Lead:** Nivaan Raina · solo project
 
-## Resolve the challenge before finalizing the pitch
+**Selected challenge:** [Interplanetary Survival Guide: Martian Map](https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/)
 
-Read [COMPETITION_READINESS.md](COMPETITION_READINESS.md) for the actual official-source access results: live event/challenges/legal/candidate fetches failed, while a search service returned indexed official-domain text. Obtain the current challenge statement, required submission fields, deadline/time zone, judging instructions, and governing terms from the actual event before submission.
+This guide proposes a presentation structure. Required duration, slide count, submission fields, event-specific deadlines and eligibility have not been independently verified. The [alignment document](CHALLENGE_ALIGNMENT.md) separates the selected title, institutional overview and missing official brief. Prior Earth-analog candidate research remains in the explicitly historical portion of [competition readiness](COMPETITION_READINESS.md#historical-research-record--before-final-challenge-selection).
 
-The candidate Earth-analog challenge requires terrestrial analog identification and characterization. ARES currently supplies Mars terrain/routing capabilities and no Earth-analog workflow. Either select a verified challenge matching this implemented scope or explicitly plan a small comparative analog study; do not label a Mars-only demo a complete analog-finding solution.
+## One question for the demonstration
 
-Record the official challenge title/URL, target user, specific task, requirement-to-feature mapping, contribution beyond ordinary A*, evidence of utility, remaining limits, and required artifacts. Exact slide count, video length, scoring weights, and submission deadlines were not independently verified.
+**How does DEM-scale terrain affect a modeled Mars route, and what can the available data actually tell us?**
 
-## A proposed short demo, using actual executed cases
+Introduce ARES as the Autonomous Reconnaissance and Exploration System, created and independently directed by Nivaan Raina. Explain that its integrated map/globe, terrain analysis, established search algorithms and interpretable reports contribute the terrain-planning part of a layered Martian map. It is not a complete astronaut survival or operational navigation system.
 
-The narrative is: **“A planner can inspect how DEM-scale topography affects an illustrative Mars route, compare objectives, and see where the data cannot support a conclusion.”** Do not claim rover certification, live mission telemetry, travel time, energy, or failure probability.
+## Prepare an honest application state
 
-1. **Explain the data and question.** Name Nivaan Raina as creator/project lead. Distinguish the real equatorial sample, public reference products, estimated slopes, class assumptions, and simulated tests. State that the original full raster is unavailable in this execution environment.
-2. **Show regional exploration.** Configure the supplied 256 × 256 sample. From [0°,0°] to [0.1°,0.1°], the executed real-Flask browser checks produced **8.667 km, 16 waypoints, and 25 valid elevation-profile samples**. Show consistent map/globe endpoints, the profile, estimated classes, and the actual comparison if available. Do not promise hazard avoidance where no measured comparison establishes it.
-3. **Interpret scope.** Explain that classes are illustrative DEM-scale slope thresholds and EXTREME has a finite routing penalty. Distances are calculated surface geometry; the risk index is not failure probability. A regional sample correctly leaves full-app `/readyz` at 503 with regional capability.
-4. **Show scale changes honestly.** Use the separately prepared public 4 samples/degree PDS reference for a global experiment. The executed dateline case [0,179] → [0,−179] returned **118.316 km**. Label this different input and the 1° averaged planning grid. Selected local refinement windows do not continuously certify the route.
-5. **Show a failure case.** With the regional sample, a distant destination [50°,50°] was exercised as unavailable; the UI exposed retry and cleared stale route guidance. Demonstrate missing-data/error interpretation, not a fabricated successful fallback route.
-6. **Close with evidence and limits.** Show actual test/comparison results, source citations, and the remaining full-DEM/provenance/challenge/rights work. Credit material AI assistance accurately. Use captions, readable units, keyboard operation, and a concise explanation of the user's decision.
+- Start the actual Flask application with an identified, authorized raster. Retain its product name, resolution, checksum and conversion method beside the demonstration.
+- The original full owner raster, historical 256 × 256 sample and separate native 4 samples/degree public reference are different inputs. Use the [gallery](SCREENSHOT_GALLERY.md) and current [readiness record](SUBMISSION_READINESS.md) for the inputs actually available in this workspace.
+- Use only coordinates inside the selected raster's valid coverage. Check `/healthz` and `/readyz`; a regional raster may support regional analysis while `/readyz` correctly reports global coverage unavailable.
+- State whether external NASA Trek tiles loaded. Their imagery is separate from elevation calculations, and a blocked basemap is not proof that the DEM failed.
+- Do not display recorded historical numbers as though they were a fresh execution. Keep synthetic fixtures explicitly labeled; do not present them as NASA observations.
 
-The real-backend checks exercised normal WebGL and a no-WebGL 2D fallback, blocked external basemap requests, and checked 390 px mobile width and keyboard tabs. These are evidence of those interactions, not proof that every device or the external NASA tile service works.
+## Suggested demonstration sequence
+
+1. **Planetary Explorer.** Rotate the actual 3D globe, then switch to 2D. Explain whether the surface is DEM-derived color or a fallback visualization. Select Start and Destination, or enter coordinates explicitly.
+2. **Terrain and hazards.** Show elevation, estimated slope and the regional grid. Describe LOW ≤5°, MODERATE >5° to 15°, HIGH >15° to 25° and EXTREME >25° as illustrative screening categories. Unknown terrain is unavailable; small boulders and wheel/foot-scale features are beyond coarse DEM evidence.
+3. **Route Intelligence.** Show the actual calculated route length and waypoint/exposure counts. Explain that weighted A* trades distance against selected class penalties, while the great-circle line is only a geometric reference.
+4. **Algorithm comparison.** Where regional data is available, compare distance-oriented Dijkstra with terrain-weighted A* on the same grid. Paths may be identical in low-relief terrain. Show the observed comparison without promising avoided hazards or a shorter path.
+5. **Science Lab and Route Scientific Report.** Read the analysis scope, elevation profile and missing-data limits. Profile points sample a route; they do not measure continuous rover-safe or astronaut-safe clearance.
+6. **Mission Decision Brief.** Show how deterministic rules explain route metrics and limitations. Material ChatGPT assistance in developing ARES is disclosed; the brief is not a conversational model inventing route observations.
+7. **A truthful failure and closing scope.** If time permits, show a missing-data or invalid-coordinate response, then return to the valid state. End with the selected-challenge matrix, source credits, demonstrated integration and remaining multi-mission/environment/EVA gaps.
+
+Keep the actual local format concise and accessible: readable units, captions, keyboard navigation and one clear decision question. Do not claim live mission telemetry, energy use, travel time, failure probability, NASA endorsement or certified traversability.
+
+## Historical results available as supporting evidence
+
+These measurements belong to prior recorded inputs/executions and are retained without relabeling them as current results:
+
+| Recorded input | Supporting result | Scope |
+| --- | --- | --- |
+| Supplied 256 × 256 real MOLA-derived sample, [0°,0°] → [0.1°,0.1°] | 8.667 km, 16 waypoints, 25 valid profile samples in real-backend browser checks | Regional calculated route; external basemap isolated |
+| Separate native public 4-ppd PDS reference, [0,179] → [0,−179] | 118.316 km | Global coarse-grid experiment with a distinct input |
+| Supplied sample compared to a bounded USGS window | 65,536/65,536 values matched under documented nearest-neighbor virtual warp | Product/window consistency, not independent physical ground truth |
+| Owner's full original DEM | Two regional integration tests subsequently recorded as passed | Owner's separate local execution; not a full-planet safety validation |
+
+See [scientific validation](SCIENTIFIC_VALIDATION.md), [global reference results](evidence/global_reference_results.json), [USGS comparison](evidence/usgs_sample_comparison.json) and the [current check record](SUBMISSION_READINESS.md). Earlier real-backend checks exercised normal WebGL and no-WebGL fallback, 390 px mobile width, keyboard tabs and error recovery; those observations do not prove every device or external service works.
 
 ## Submission packet
 
-- Current selected challenge statement and a one-page requirement-to-evidence mapping.
-- Reproducible source/setup, tested dependencies, exact demo inputs and checksums, and actual scientific/API/browser verification outputs.
-- Official dataset/product citations, labels, coordinate/reference assumptions, derivative-history uncertainties, and independent comparison method.
-- A clear account of what Nivaan Raina directed and what AI tools assisted with; original creator attribution and history remain intact.
-- Resolved hero-image rights or an explicitly approved replacement; source list and third-party notices.
-Original ARES software is licensed under MIT; see ../LICENSE. Third-party asset rights require separate review.
-- The required pitch/video/project fields only after their actual format and rights conditions are verified.
+- Verified final challenge/local-event instructions, required fields, time limit and deadline/time zone; preserve actual prior development dates and check their treatment under applicable rules.
+- README and source, setup commands, tested dependencies, exact demonstration input identity and current verification outputs.
+- Challenge-to-feature evidence matrix and understandable limitations; separate implemented features from future ideas.
+- Genuine screenshots with input/fixture captions; pitch/video only in the confirmed event format.
+- Dataset/product citations, derivative-processing uncertainties, NASA imagery credits, upstream notices and the [MIT License](../LICENSE) for original ARES material.
+- Nivaan Raina's creator/project-lead attribution, accurate material AI-assistance disclosure and intact development history.
 
-Do not fabricate user feedback, impact metrics, scientific accuracy, challenge selection, eligibility, development dates, or awards. Keep failures/skips and dataset limitations visible beside successes.
+Do not fabricate user feedback, impact percentages, scientific accuracy, competition results or awards. Repository preparation does not itself register, publish, deploy or submit ARES.

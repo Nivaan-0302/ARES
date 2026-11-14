@@ -1,7 +1,9 @@
 /* Public-facing ARES polish: additive, no functional element hidden. */
 .ares-orbital-intro{min-height:190px!important;gap:20px!important}
 .ares-orbital-intro>div{position:relative;z-index:1;max-width:70%}
-.ares-public-mars{width:clamp(128px,14vw,190px);height:clamp(128px,14vw,190px);object-fit:contain;flex-shrink:0;margin-right:5%;filter:drop-shadow(0 0 26px rgba(241,105,60,.20));animation:ares-mars-arrive 1s ease-out both}
+
+.ares-public-mars{width:clamp(128px,14vw,190px);height:clamp(128px,14vw,190px);object-fit:contain;flex-shrink:0;margin-right:5%;filter:drop-shadow(0 0 26px rgba(241,105,60,.20));animation:ares-mars-arrive 1s ease-out both;mix-blend-mode:screen;border-radius:50%}
+
 @keyframes ares-mars-arrive{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
 .ares-public-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:6px 0 2px}
 .ares-public-guide article{padding:15px 17px;border:1px solid rgba(118,173,218,.16);border-radius:12px;background:rgba(7,20,36,.62)}

@@ -74,7 +74,7 @@ def compare(grid,bounds,a,b,heading):
     weighted=astar_route(grid,start,goal,bounds=bounds)
     bm=metrics(grid,baseline,bounds)
     wm=metrics(grid,weighted,bounds)
-    print_metrics('Distance-only A*',bm)
+    print_metrics('Distance-only Dijkstra',bm)
     print_metrics('Terrain-weighted A*',wm)
     if bm is None or wm is None:
         print('  INCONCLUSIVE: route unavailable')

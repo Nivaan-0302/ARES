@@ -1,0 +1,63 @@
+test_analysis_slot_is_released_after_success_and_failure (test_api_contract.APIContractTests.test_analysis_slot_is_released_after_success_and_failure) ... [2026-11-14 13:14:06,007] ERROR in terrain_api: Global relief failed
+Traceback (most recent call last):
+  File "<ARES>/terrain_api.py", line 481, in global_relief
+    return jsonify(relief())
+                   ^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+OSError: synthetic read failure
+ok
+test_backend_and_private_paths_are_not_public_assets (test_api_contract.APIContractTests.test_backend_and_private_paths_are_not_public_assets) ... ok
+test_busy_analysis_does_not_block_health (test_api_contract.APIContractTests.test_busy_analysis_does_not_block_health) ... ok
+test_busy_server_returns_retryable_response (test_api_contract.APIContractTests.test_busy_server_returns_retryable_response) ... ok
+test_invalid_coordinates_are_rejected_before_terrain_work (test_api_contract.APIContractTests.test_invalid_coordinates_are_rejected_before_terrain_work) ... ok
+test_liveness_does_not_open_the_dataset (test_api_contract.APIContractTests.test_liveness_does_not_open_the_dataset) ... ok
+test_missing_coordinates_return_json_errors (test_api_contract.APIContractTests.test_missing_coordinates_return_json_errors) ... ok
+test_public_interface_is_served (test_api_contract.APIContractTests.test_public_interface_is_served) ... ok
+test_readiness_fails_cleanly_without_dataset (test_api_contract.APIContractTests.test_readiness_fails_cleanly_without_dataset) ... [2026-11-14 13:14:06,076] ERROR in terrain_api: Terrain dataset readiness check failed
+Traceback (most recent call last):
+  File "<ARES>/terrain_api.py", line 107, in readiness
+    with rasterio.open(DEM_PATH) as dem:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+OSError: /private/path/dem.tif missing
+ok
+test_readiness_rejects_partial_raster_for_global_features (test_api_contract.APIContractTests.test_readiness_rejects_partial_raster_for_global_features) ... ok
+test_readiness_returns_validated_metadata (test_api_contract.APIContractTests.test_readiness_returns_validated_metadata) ... ok
+test_astar_matches_dijkstra_with_physical_distances (test_cross_module_regressions.RegionalRoutingInvariants.test_astar_matches_dijkstra_with_physical_distances) ... ok
+test_geodesic_subdivision_preserves_precise_distance (test_cross_module_regressions.RegionalRoutingInvariants.test_geodesic_subdivision_preserves_precise_distance) ... ok
+test_missing_cells_block_diagonal_corner_cutting (test_cross_module_regressions.RegionalRoutingInvariants.test_missing_cells_block_diagonal_corner_cutting) ... ok
+test_production_cell_centres_round_trip (test_cross_module_regressions.RegionalRoutingInvariants.test_production_cell_centres_round_trip) ... ok
+test_actual_rasterio_mask_and_shared_point_regional_stencil (test_sprint_validation.BoundaryAndMissingDataTests.test_actual_rasterio_mask_and_shared_point_regional_stencil) ... ok
+test_canonical_global_warp_does_not_stretch_offset_bounds (test_sprint_validation.BoundaryAndMissingDataTests.test_canonical_global_warp_does_not_stretch_offset_bounds) ... ok
+test_owner_reported_full_extent_accepts_registration_not_partial_data (test_sprint_validation.BoundaryAndMissingDataTests.test_owner_reported_full_extent_accepts_registration_not_partial_data) ... ok
+test_pixel_edges_and_equivalent_longitudes (test_sprint_validation.BoundaryAndMissingDataTests.test_pixel_edges_and_equivalent_longitudes) ... ok
+test_polar_direct_shortcut_does_not_skip_unknown_coarse_cells (test_sprint_validation.BoundaryAndMissingDataTests.test_polar_direct_shortcut_does_not_skip_unknown_coarse_cells) ... ok
+test_read_only_metadata_cache_cannot_be_changed_by_a_caller (test_sprint_validation.BoundaryAndMissingDataTests.test_read_only_metadata_cache_cannot_be_changed_by_a_caller) ... ok
+test_unknown_codes_are_never_truncated_into_traversable_classes (test_sprint_validation.BoundaryAndMissingDataTests.test_unknown_codes_are_never_truncated_into_traversable_classes) ... ok
+test_verified_usgs_projected_header_extent_is_supported (test_sprint_validation.BoundaryAndMissingDataTests.test_verified_usgs_projected_header_extent_is_supported) ... ok
+test_real_flask_mission_refinement_and_profile (test_sprint_validation.RealGlobalReferenceTests.test_real_flask_mission_refinement_and_profile) ... ok
+test_real_global_dateline_and_high_latitude_routes (test_sprint_validation.RealGlobalReferenceTests.test_real_global_dateline_and_high_latitude_routes) ... ok
+test_real_global_model_and_full_readiness (test_sprint_validation.RealGlobalReferenceTests.test_real_global_model_and_full_readiness) ... ok
+test_actual_metadata_and_raw_values (test_sprint_validation.RealSampleTests.test_actual_metadata_and_raw_values) ... skipped 'Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample'
+test_exhaustive_pixel_indexing_and_point_lookups (test_sprint_validation.RealSampleTests.test_exhaustive_pixel_indexing_and_point_lookups) ... skipped 'Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample'
+test_independent_surface_normals_and_hazard_counts (test_sprint_validation.RealSampleTests.test_independent_surface_normals_and_hazard_counts) ... skipped 'Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample'
+test_real_flask_terrain_routing_comparison_and_readiness (test_sprint_validation.RealSampleTests.test_real_flask_terrain_routing_comparison_and_readiness) ... skipped 'Set ARES_SAMPLE_PATH to the supplied real 256-pixel sample'
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.755s
+
+OK (skipped=4)

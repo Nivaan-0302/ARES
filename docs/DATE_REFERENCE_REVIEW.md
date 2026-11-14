@@ -22,7 +22,7 @@ No existing history, evidence, attribution or license file was edited. Phase-bea
 
 ## Every retained explicit date/year reference
 
-Locations refer to the reviewed branch; each row reproduces the complete matching line, including multiple references on that line. Date-based dependency versions are included. Years embedded in citations and source URLs remain part of those citations.
+Locations refer to the original reviewed snapshot `fa25f33`; each row reproduces the complete matching line, including multiple references on that line. Date-based dependency versions are included. Years embedded in citations and source URLs remain part of those citations.
 
 | Location | Retained reference in context | Reason |
 | --- | --- | --- |
@@ -67,7 +67,6 @@ Locations refer to the reviewed branch; each row reproduces the complete matchin
 | `docs/evidence/source_access.json:19` |     "access_date": "2026-11-12", | Year-specific Space Apps source or dated access evidence; preserve compliance context and limits of verification. |
 | `docs/evidence/source_access.json:24` |     "access_date": "2026-11-12", | Year-specific Space Apps source or dated access evidence; preserve compliance context and limits of verification. |
 | `docs/evidence/source_access.json:29` |     "access_date": "2026-11-12", | Year-specific Space Apps source or dated access evidence; preserve compliance context and limits of verification. |
-| `mission_service.js:141` |       const path=document.createElementNS('http://www.w3.org/2000/svg',segment.length>1?'polyline':'circle'); | Dated test/development record or distinction between execution stages; preserve factual results and chronology. |
 | `requirements-tested.txt:5` | certifi==2026.10.23 | Exact date-based package version; required for reproducing the tested environment. |
 | `vendor/leaflet-1.9.4/LICENSE:3` | Copyright (c) 2010-2023, Volodymyr Agafonkin | Copyright / upstream licensing notice; preserve rights and attribution. |
 | `vendor/leaflet-1.9.4/LICENSE:4` | Copyright (c) 2010-2011, CloudMade | Copyright / upstream licensing notice; preserve rights and attribution. |
@@ -162,4 +161,8 @@ All six tracked PNGs were inspected for `tIME`, `tEXt`, `zTXt`, `iTXt` and `eXIf
 - Compared every pre-existing file outside the four intended edits with the review base; unchanged, including scientific code, evidence, licenses, history and images.
 - Historical scientific/Python test results were not regenerated or relabeled. Full DEM inputs are not present in this checkout; this comment/documentation change does not require recalculating scientific results.
 
-This report records the reviewed base and does not recursively inventory its own quotations of retained dates. The pull request is left unmerged.
+This report records the reviewed base and does not recursively inventory its own quotations of retained dates. At initial delivery the pull request was left unmerged. The subsequent master directive authorizes merging PR #2 after review and passing checks; no earlier timestamps or results are changed.
+
+## Follow-up review corrections
+
+Removed the README hard-break backslash and used a normal paragraph boundary. Removed the `mission_service.js:141` XML namespace from the explicit-date inventory: `2000/svg` identifies a standard, not a calendar reference. The corrected inventory has 50 retained date-bearing lines. Original reviewed locations above remain tied to `fa25f33`, not future README layouts.

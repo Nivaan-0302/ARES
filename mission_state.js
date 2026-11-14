@@ -25,7 +25,7 @@
   function clear() { setPoints(null, null); setSelectionMode('explore'); }
   window.ARESMission = { get, setPoints, selectPoint, setRoute, clear };
 
-  // Phase 3: explicit, shared selection mode. Explore is the safe default.
+  // Explicit, shared selection mode. Explore is the safe default.
   let selectionMode = 'explore';
   const allowedModes = new Set(['explore', 'start', 'destination']);
   function getSelectionMode() { return selectionMode; }

@@ -66,7 +66,7 @@ NASA Mars Trek Viking MDIM21 **basemap imagery** and the NASA/JPL-Caltech Viking
 
 1. Validate supported raster geometry, masks, scale/offset and elevation units. Missing unit metadata is disclosed; known incompatible inputs are rejected.
 2. Sample elevation at the native cell containing the requested coordinate. Estimate slope from the centre and four axial neighbors, with latitude-dependent physical spacing and a documented spherical/mean-radius approximation.
-3. Classify valid slopes using the existing screening categories below. Missing centre/support data stays unknown.
+3. At raster edges, extend a clipped one-cell window inward when the requested diameter spans two native cells. Classify supported slopes using the categories below and leave missing centre or derivative support unknown.
 4. Plan on the regional grid or the coarse global model, retaining explicit scope and unavailable-data states.
 5. Return geometric route metrics, sampled reports and limitations to the shared browser workspace.
 

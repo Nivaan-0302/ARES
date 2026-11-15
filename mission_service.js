@@ -77,7 +77,7 @@
     byId('hazard-focus').disabled=false;
     const totals=[0,0,0,0,0];
     for(const row of grid)for(const value of row)totals[value>=0&&value<=3?value:4]++;
-    set('region-status',`Regional MOLA analysis: ${grid.length} × ${grid[0].length} cells. Focus on hazards to inspect the grid.`);
+    set('region-status',`Coarse-resolution MOLA slope screening: ${grid.length} × ${grid[0].length} cells. Focus on hazards to inspect the grid.`);
     const meta=data.terrain_metadata;
     const spacing=meta?.pixel_width_range_m;
     const scale=Array.isArray(spacing)&&spacing.every(Number.isFinite)&&Number.isFinite(meta.pixel_height_m)
@@ -184,7 +184,7 @@ function updateCard(data){const ids={'route-distance':`Distance: ${data.route_di
     if(regionKey!==nextRegionKey){regionController?.abort();if(regionKey)regions.delete(regionKey);regionKey=null;regionController=null;}
     const token=generation;
     clearReadouts();setPending(Boolean(end));byId('hazard-focus').disabled=true;
-    set('region-status',start?'Loading regional MOLA hazard grid…':'Select a location to analyze a 0.5° MOLA region.');
+    set('region-status',start?'Loading regional MOLA hazard grid…':'Select a location for coarse-resolution MOLA slope screening.');
     set('region-counts','');emit('ares:region',{data:null,generation});
     if(!start){status('Explore Mars freely, or choose Select Start to place a landing site.');return;}
     status(end?'Analyzing terrain and calculating route…':'Landing site selected. Select a destination.');

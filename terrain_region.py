@@ -34,7 +34,19 @@ def analyze_region(latitude, longitude, radius_degrees=0.25):
             window = requested.intersection(Window(0,0,dem.width,dem.height))
         except rasterio.errors.WindowError as exc:
             raise ValueError('No terrain data in selected region') from exc
-        if min(window.width,window.height) < 2:
+        # Keep the minimum two-cell footprint when clipping at a raster edge.
+        # The outermost cell can still lack central-difference support.
+        # Latitude is limited to the poles before window construction, so use
+        # the unclipped diameter to check whether two rows were requested.
+        y_per_degree = 1. if meta['kind'] == 'geographic' else meta['radius_m'] * math.pi / 180
+        nominal_rows = math.floor(2 * radius_degrees * y_per_degree / abs(dem.transform.e) + .5)
+        if min(window.width, window.height) < 2 <= min(requested.width, nominal_rows):
+            width, height = max(2, window.width), max(2, window.height)
+            if width <= dem.width and height <= dem.height:
+                window = Window(min(window.col_off, dem.width - width),
+                                min(window.row_off, dem.height - height),
+                                width, height)
+        if min(window.width, window.height) < 2:
             raise ValueError('Selected region contains too few pixels to calculate slope')
         # Read one native pixel of derivative support beyond the displayed
         # region. Boundless support is masked at the true dataset edge.
